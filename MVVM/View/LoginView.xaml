@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Linux_Mint.MVVM.view.LoginView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:X="clr-namespace:Linux_Mint.MVVM.Model"
+    Title="Linux Minut"
+    BackgroundColor="#E8FAEA">
+
+    <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+        <Grid.RowDefinitions>
+            <RowDefinition Height=".2*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height=".3*" />
+        </Grid.RowDefinitions>
+
+        <!--  Logo  -->
+        <Image
+            Grid.Row="0"
+            HeightRequest="163"
+            HorizontalOptions="Center"
+            Source="linuxmint_logo.png"
+            VerticalOptions="End"
+            WidthRequest="163" />
+
+        <VerticalStackLayout
+            Grid.Row="1"
+            Margin="20,20,20,0"
+            Padding="10"
+            MaximumWidthRequest="420"
+            Spacing="10"
+            VerticalOptions="Center">
+            <!--  Login or Signup  -->
+            <HorizontalStackLayout
+                HorizontalOptions="Center"
+                Spacing="10"
+                VerticalOptions="Center">
+                <Label
+                    Padding="14,10,14,10"
+                    FontAttributes="Bold"
+                    FontSize="20"
+                    Text="Login"
+                    TextColor="{StaticResource Tertiary}"
+                    VerticalOptions="Center" />
+                <Label
+                    FontSize="20"
+                    Text=" | "
+                    TextColor="{StaticResource Tertiary}"
+                    VerticalOptions="Center" />
+                <Button
+                    x:Name="btnSignUp"
+                    BackgroundColor="Transparent"
+                    BorderWidth="0"
+                    Clicked="btnSignUp_Clicked"
+                    FontSize="20"
+                    Text="Sign up"
+                    TextColor="{StaticResource Tertiary}" />
+                <AbsoluteLayout />
+            </HorizontalStackLayout>
+
+            <!--  Username and Password Fields  -->
+            <Entry
+                x:Name="userEntry"
+                BackgroundColor="{StaticResource Secondary}"
+                FontSize="20"
+                HeightRequest="51"
+                Placeholder="Username"
+                PlaceholderColor="{StaticResource Tertiary}"
+                Text="{Binding InputUser}"
+                TextColor="{StaticResource Tertiary}" />
+            <Entry
+                x:Name="passEntry"
+                BackgroundColor="{StaticResource Secondary}"
+                FontSize="20"
+                HeightRequest="51"
+                IsPassword="True"
+                Placeholder="Password"
+                PlaceholderColor="{StaticResource Tertiary}"
+                Text="{Binding InputPass}"
+                TextColor="{StaticResource Tertiary}" />
+
+            <!--  Login Button  -->
+            <Button
+                BackgroundColor="{StaticResource Quadra}"
+                Command="{Binding LoginCommand}"
+                CornerRadius="10"
+                FontAttributes="Bold"
+                FontSize="25"
+                HeightRequest="51"
+                Text="Login"
+                TextColor="{StaticResource Primary}" />
+            <HorizontalStackLayout Grid.Row="1">
+                <CheckBox
+                    x:Name="showPassword"
+                    CheckedChanged="showPassword_CheckedChanged"
+                    HorizontalOptions="Center"
+                    ToolTipProperties.Text="Show pasword"
+                    VerticalOptions="Center"
+                    Color="{StaticResource Quadra}" />
+                <Label
+                    FontSize="15"
+                    Text="Show password"
+                    TextColor="{StaticResource Tertiary}"
+                    VerticalOptions="Center" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+
+        <AbsoluteLayout
+            Grid.Row="2"
+            Padding="0"
+            HorizontalOptions="End"
+            VerticalOptions="End"
+            ZIndex="0">
+            <Path
+                AbsoluteLayout.LayoutBounds="0,0,440,361"
+                AbsoluteLayout.LayoutFlags="None"
+                Fill="#6DD19C"
+                Stroke="#46B47F"
+                StrokeThickness="1">
+                <Path.Data>
+                    <PathGeometry>
+                        <PathFigure StartPoint="-291,419.062">
+                            <LineSegment Point="-36.4841,364.523" />
+                            <LineSegment Point="448.858,232.867" />
+                            <LineSegment Point="610.963,94.9409" />
+                            <LineSegment Point="657.502,8.32585" />
+                            <LineSegment Point="682.319,-30.1978" />
+                            <LineSegment Point="661,30.5618" />
+                            <LineSegment Point="653.479,51.9961" />
+                            <LineSegment Point="636.111,73.5439" />
+                            <LineSegment Point="610.963,94.9409" />
+                            <LineSegment Point="535.255,235.842" />
+                            <LineSegment Point="402.067,504.006" />
+                            <LineSegment Point="316.5,679.062" />
+                            <LineSegment Point="-25.5,679.062" />
+                            <LineSegment Point="-278.5,437.062" />
+                            <LineSegment Point="-291,419.062" />
+                        </PathFigure>
+                    </PathGeometry>
+                </Path.Data>
+            </Path>
+        </AbsoluteLayout>
+
+        <!--  Tux Image  -->
+        <Image
+            Grid.Row="2"
+            HeightRequest="316"
+            HorizontalOptions="End"
+            Source="tux.png"
+            WidthRequest="316" />
+    </Grid>
+</ContentPage>

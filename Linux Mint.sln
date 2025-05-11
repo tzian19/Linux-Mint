@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35825.156 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linux Mint", "Linux Mint.csproj", "{306D9B7C-9E34-439C-A81E-3157042A410F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{306D9B7C-9E34-439C-A81E-3157042A410F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{306D9B7C-9E34-439C-A81E-3157042A410F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{306D9B7C-9E34-439C-A81E-3157042A410F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{306D9B7C-9E34-439C-A81E-3157042A410F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {819E871D-2979-430A-BE2C-25728EE12CEB}
+	EndGlobalSection
+EndGlobal

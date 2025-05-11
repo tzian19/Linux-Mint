@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Linux_Mint.MVVM.View.SignUpView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:Linux_Mint.MVVM.Model"
+    Title="Sign Up"
+    BackgroundColor="#E8FAEA">
+
+    <ScrollView>
+        <Grid HorizontalOptions="Fill" VerticalOptions="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height=".3*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Image
+                Grid.Row="0"
+                HeightRequest="163"
+                HorizontalOptions="Center"
+                Source="linuxmint_logo.png"
+                VerticalOptions="End"
+                WidthRequest="163" />
+
+            <VerticalStackLayout
+                Grid.Row="1"
+                Margin="20,20,20,0"
+                Padding="10"
+                MaximumWidthRequest="500"
+                Spacing="10"
+                VerticalOptions="Center">
+
+                <!--  Navigation Buttons  -->
+                <HorizontalStackLayout
+                    HorizontalOptions="Center"
+                    Spacing="10"
+                    VerticalOptions="Center">
+                    <Button
+                        x:Name="btnLogin"
+                        BackgroundColor="Transparent"
+                        Clicked="btnLogin_Clicked"
+                        FontSize="20"
+                        Text="Log in"
+                        TextColor="{StaticResource Tertiary}" />
+                    <Label
+                        FontSize="20"
+                        Text=" | "
+                        TextColor="{StaticResource Tertiary}"
+                        VerticalOptions="Center" />
+                    <Label
+                        Padding="14,10,14,10"
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        Text="Sign up"
+                        TextColor="{StaticResource Tertiary}"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <!--  Form Fields  -->
+                <Grid ColumnSpacing="10" RowSpacing="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=".5*" />
+                        <ColumnDefinition Width=".5*" />
+                        <ColumnDefinition Width=".5*" />
+                        <ColumnDefinition Width=".5*" />
+                        <ColumnDefinition Width=".5*" />
+                        <ColumnDefinition Width=".5*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--  First & Last Name  -->
+                    <Entry
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        BackgroundColor="{StaticResource Secondary}"
+                        FontSize="20"
+                        HeightRequest="51"
+                        Placeholder="First Name"
+                        PlaceholderColor="{StaticResource Tertiary}"
+                        Text="{Binding FirstName}"
+                        TextColor="{StaticResource Tertiary}" />
+                    <Entry
+                        Grid.Row="0"
+                        Grid.Column="3"
+                        Grid.ColumnSpan="3"
+                        BackgroundColor="{StaticResource Secondary}"
+                        FontSize="20"
+                        HeightRequest="51"
+                        Placeholder="Last Name"
+                        PlaceholderColor="{StaticResource Tertiary}"
+                        Text="{Binding LastName}"
+                        TextColor="{StaticResource Tertiary}" />
+
+                    <!--  Birthdate & Age  -->
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        FontSize="20"
+                        HorizontalOptions="Center"
+                        Text="Birth Date:"
+                        TextColor="{StaticResource Tertiary}"
+                        VerticalTextAlignment="Center" />
+                    <BoxView
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="2"
+                        BackgroundColor="{StaticResource Secondary}"
+                        CornerRadius="10" />
+                    <DatePicker
+                        x:Name="BirthDatePicker"
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="2"
+                        Date="{Binding BirthDate}"
+                        DateSelected="OnDateSelected"
+                        FontSize="20"
+                        HeightRequest="51"
+                        HorizontalOptions="Fill"
+                        TextColor="{StaticResource Tertiary}" />
+
+                    <!--  Add event handler  -->
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="4"
+                        FontSize="20"
+                        HorizontalOptions="Center"
+                        Text="Age:"
+                        TextColor="{StaticResource Tertiary}"
+                        VerticalTextAlignment="Center" />
+                    <BoxView
+                        Grid.Row="1"
+                        Grid.Column="5"
+                        BackgroundColor="{StaticResource Secondary}"
+                        CornerRadius="10" />
+                    <Entry
+                        x:Name="entryAge"
+                        Grid.Row="1"
+                        Grid.Column="5"
+                        FontSize="20"
+                        HeightRequest="51"
+                        HorizontalOptions="Center"
+                        IsEnabled="False"
+                        IsReadOnly="True"
+                        PlaceholderColor="{StaticResource Tertiary}"
+                        Text="{Binding Age}"
+                        TextColor="{StaticResource Tertiary}" />
+                    <!--  Email, Username, Password  -->
+                    <VerticalStackLayout
+                        Grid.Row="2"
+                        Grid.ColumnSpan="6"
+                        Spacing="10">
+                        <Entry
+                            BackgroundColor="{StaticResource Secondary}"
+                            FontSize="20"
+                            HeightRequest="51"
+                            Placeholder="Username"
+                            PlaceholderColor="{StaticResource Tertiary}"
+                            Text="{Binding Username}"
+                            TextColor="{StaticResource Tertiary}" />
+                        <Entry
+                            BackgroundColor="{StaticResource Secondary}"
+                            FontSize="20"
+                            HeightRequest="51"
+                            Placeholder="Email"
+                            PlaceholderColor="{StaticResource Tertiary}"
+                            Text="{Binding Email}"
+                            TextColor="{StaticResource Tertiary}" />
+                        <Entry
+                            x:Name="entryPassword"
+                            BackgroundColor="{StaticResource Secondary}"
+                            FontSize="20"
+                            HeightRequest="51"
+                            IsPassword="True"
+                            Placeholder="Password"
+                            PlaceholderColor="{StaticResource Tertiary}"
+                            TextColor="{StaticResource Tertiary}" />
+                        <Label
+                            x:Name="lblPassNotMacthedNotice1"
+                            FontSize="9"
+                            IsVisible="False"
+                            Text="Password not matched"
+                            TextColor="Red" />
+                        <Entry
+                            x:Name="entryReenterPassword"
+                            BackgroundColor="{StaticResource Secondary}"
+                            FontSize="20"
+                            HeightRequest="51"
+                            IsPassword="True"
+                            Placeholder="Re-enter password"
+                            PlaceholderColor="{StaticResource Tertiary}"
+                            PropertyChanged="entryReenterPassword_PropertyChanged"
+                            Text="{Binding Password}"
+                            TextColor="{StaticResource Tertiary}" />
+                        <Label
+                            x:Name="lblPassNotMacthedNotice2"
+                            FontSize="9"
+                            IsVisible="False"
+                            Text="Re-entered password not matched"
+                            TextColor="Red" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <!--  Sign Up Button  -->
+                <Button
+                    x:Name="btnSignUp"
+                    BackgroundColor="{StaticResource Quadra}"
+                    Command="{Binding SignUpCommand}"
+                    CornerRadius="10"
+                    FontAttributes="Bold"
+                    FontSize="25"
+                    HeightRequest="51"
+                    Text="Sign up"
+                    TextColor="{StaticResource Primary}" />
+
+                <!--  Show Password Checkbox  -->
+                <HorizontalStackLayout Grid.Row="1" Spacing="10">
+                    <CheckBox
+                        x:Name="showPassword"
+                        CheckedChanged="OnShowPasswordCheckedChanged"
+                        Color="{StaticResource Quadra}" />
+                    <Label
+                        FontSize="15"
+                        Text="Show password"
+                        TextColor="{StaticResource Tertiary}"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

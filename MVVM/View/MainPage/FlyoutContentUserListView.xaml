@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Linux_Mint.MVVM.View.MainPage.FlyoutContentUserListView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="{Binding DynamicNameTitle}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height=".05*" />
+            <RowDefinition Height=".90*" />
+            <RowDefinition Height=".01*" />
+        </Grid.RowDefinitions>
+        <Grid.GestureRecognizers>
+            <SwipeGestureRecognizer
+                Command="{Binding OnSwiped}"
+                CommandParameter="Right"
+                Direction="Right" />
+        </Grid.GestureRecognizers>
+
+        <Label
+            Grid.Row="0"
+            Margin="20,0,0,0"
+            Padding="0,10,0,10"
+            FontAttributes="Bold"
+            FontSize="24"
+            HorizontalOptions="Start"
+            Text="Users"
+            TextColor="{StaticResource Tertiary}" />
+
+        <ScrollView
+            Grid.Row="1"
+            Padding="20,0,20,0"
+            IsClippedToBounds="True">
+            <Frame Padding="0" CornerRadius="10">
+
+                <VerticalStackLayout Padding="0,0,0,0">
+                    <ListView
+                        BackgroundColor="{StaticResource Secondary}"
+                        HasUnevenRows="True"
+                        ItemsSource="{Binding Users}"
+                        SeparatorVisibility="None"
+                        VerticalOptions="Fill">
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Frame
+                                        Margin="5"
+                                        Padding="10"
+                                        BackgroundColor="{StaticResource Quadra}"
+                                        BorderColor="Gray"
+                                        CornerRadius="10">
+                                        <StackLayout Spacing="10">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="18"
+                                                Text="{Binding FirstName, StringFormat='First Name: {0}'}"
+                                                TextColor="White" />
+                                            <Label
+                                                FontSize="16"
+                                                Text="{Binding LastName, StringFormat='Last Name: {0}'}"
+                                                TextColor="White" />
+                                            <Label
+                                                FontSize="14"
+                                                Text="{Binding Username, StringFormat='UserName: {0}'}"
+                                                TextColor="White" />
+                                            <Label
+                                                FontSize="14"
+                                                Text="{Binding Email, StringFormat='Email: {0}'}"
+                                                TextColor="White" />
+                                            <Label
+                                                FontSize="14"
+                                                Text="{Binding BirthDate, StringFormat='Birth Date: {0:yyyy-MM-dd}w'}"
+                                                TextColor="White" />
+                                            <Label
+                                                FontSize="14"
+                                                Text="{Binding Age, StringFormat='Age: {0}'}"
+                                                TextColor="White" />
+                                        </StackLayout>
+                                    </Frame>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </VerticalStackLayout>
+            </Frame>
+        </ScrollView>
+    </Grid>
+</ContentPage>
