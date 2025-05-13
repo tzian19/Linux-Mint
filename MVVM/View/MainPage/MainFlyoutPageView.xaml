@@ -174,7 +174,7 @@
 
                         <!--  Menu buttons  -->
                         <Button
-                            Command="{Binding ClickUsersTab}"
+                            Command="{Binding ClickProfileTab}"
                             Style="{StaticResource BaseButtonStyle}"
                             Text="View Profile" />
                         <Button

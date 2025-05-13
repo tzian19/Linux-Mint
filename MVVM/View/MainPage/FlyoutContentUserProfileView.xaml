@@ -3,7 +3,7 @@
     x:Class="Linux_Mint.MVVM.View.MainPage.FlyoutContentUserProfileView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="FlyoutContentUserProfileView">
+    Title="Profile">
     <VerticalStackLayout>
         <Label
             HorizontalOptions="Center"

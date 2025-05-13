@@ -49,8 +49,8 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage
                 {
                     PostId = u.UId ,
                     FullName = $"{u.FirstName} {u.LastName}" ,
-                    ImageUrl = u.UserAvatar ,
-                    DatePosted = DateTime.Now.ToString( "MMMM dd, yyyy" ) ,
+                    PostImage = u.UserAvatar ,
+                    PostCreated = DateTime.Now.ToString( "MMMM dd, yyyy" ) ,
                     LikeCount = new Random().Next( 1 , 100 ) // Mocked like count
                 } ) );
             }

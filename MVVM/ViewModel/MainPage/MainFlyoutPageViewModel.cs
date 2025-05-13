@@ -8,7 +8,7 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage
 {
     public class MainFlyoutPageViewModel : ViewModelBase
     {
-        public ICommand ClickUsersTab { get; }
+        public ICommand ClickProfileTab { get; }
         public ICommand ClickTimelineTab { get; }
         public ICommand ClickUpdateUserTab { get; }
         public ICommand ClickLogOut { get; }
@@ -21,7 +21,7 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage
         public MainFlyoutPageViewModel( UserProfile user )
         {
             FlyoutPageOnLoad = new Command( async () => await NavigateToPage( new FlyoutContentUserListView() ) );
-            ClickUsersTab = new Command( async () => await NavigateToPage( new FlyoutContentUserListView() ) );
+            ClickProfileTab = new Command( async () => await NavigateToPage( new FlyoutContentUserProfileView() ) );
             ClickLogOut = new Command<object>( async ( param ) => await ParameterizedCommand( param ) );
             ClickTimelineTab = new Command( async () => await NavigateToPage( new FlyoutContentTimelineView( _currentUser ) ) );
             ClickUpdateUserTab = new Command( async () => await NavigateToPage( new FlyoutContentNewPostView() ) );

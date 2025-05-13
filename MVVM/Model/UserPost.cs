@@ -2,11 +2,11 @@
 {
     public class UserPost : UserProfile
     {
-        public string UserID { get; set; }
+        public string UserId { get; set; }
         public string PostId { get; set; }
         public string FullName { get; set; }
-        public string DatePosted { get; set; }
-        public string ImageUrl { get; set; }
+        public string PostCreated { get; set; }
+        public string PostImage { get; set; }
         public string PostText { get; set; }
         public int LikeCount { get; set; }
 
