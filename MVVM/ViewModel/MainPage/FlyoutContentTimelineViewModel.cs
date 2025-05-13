@@ -1,98 +1,76 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-
 using Linux_Mint.MVVM.Model;
-using Linux_Mint.Service;
+using System.Threading.Tasks;
 
-namespace Linux_Mint.MVVM.ViewModel.MainPage
+namespace Linux_Mint.MVVM.ViewModel
 {
     public class FlyoutContentTimelineViewModel : ViewModelBase
     {
-        private readonly UserService _userService;
-        private ObservableCollection<UserPost> _posts;
-        private UserProfile _currentUser;
+        private readonly PostService _postService;
 
-        public ObservableCollection<UserPost> Posts
+        public ObservableCollection<UserPost> Posts { get; set; } = new();
+
+        private bool _isRefreshing;
+        public bool IsRefreshing
         {
-            get => _posts;
-            set { _posts = value; OnPropertyChanged(); }
+            get => _isRefreshing;
+            set => SetProperty(ref _isRefreshing, value);
         }
 
-        public UserProfile CurrentUser
+        public ICommand RefreshCommand { get; }
+        public ICommand LikeCommand { get; }
+        public ICommand EditPostCommand { get; }
+        public ICommand DeletePostCommand { get; }
+
+        public FlyoutContentTimelineViewModel()
         {
-            get => _currentUser;
-            set { _currentUser = value; OnPropertyChanged(); }
+            _postService = new PostService();
+
+            RefreshCommand = new Command(async () => await LoadPostsAsync());
+            LikeCommand = new Command<UserPost>(LikePost);
+            EditPostCommand = new Command<UserPost>(EditPost);
+            DeletePostCommand = new Command<UserPost>(DeletePost);
+
+            // Load on startup
+            Task.Run(LoadPostsAsync);
         }
 
-        public ICommand OnSwiped { get; }
-        public ICommand ClickLike { get; }
-        public ICommand EditDeletePostPopUp { get; }
-
-        public FlyoutContentTimelineViewModel( UserProfile currentUser )
+        private async Task LoadPostsAsync()
         {
-            _userService = new UserService();
-            CurrentUser = currentUser;
-            OnSwiped = new Command<string>( async ( direction ) => await HandleSwipe( direction ) );
-            ClickLike = new Command<UserPost>( async ( post ) => await LikePost( post ) );
-            EditDeletePostPopUp = new Command<UserPost>( async ( post ) => await ShowPostEditDeleteOptions( post ) );
+            IsRefreshing = true;
 
-            LoadPosts();
-        }
+            var posts = await _postService.GetPostsAsync();
 
-        private async void LoadPosts()
-        {
-            try
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                // Simulate loading posts from the service or mock data
-                var userPosts = await _userService.GetUsersAsync(); // Assume this method retrieves posts related to the user
-                Posts = new ObservableCollection<UserPost>( userPosts.Select( u => new UserPost
-                {
-                    PostId = u.UId ,
-                    FullName = $"{u.FirstName} {u.LastName}" ,
-                    PostImage = u.UserAvatar ,
-                    PostCreated = DateTime.Now.ToString( "MMMM dd, yyyy" ) ,
-                    LikeCount = new Random().Next( 1 , 100 ) // Mocked like count
-                } ) );
-            }
-            catch ( Exception ex )
-            {
-                // Handle loading error
-                Console.WriteLine( $"Error loading posts: {ex.Message}" );
-            }
+                Posts.Clear();
+                foreach (var post in posts.OrderByDescending(p => DateTime.Parse(p.PostCreated)))
+                    Posts.Add(post);
+
+                IsRefreshing = false;
+            });
         }
 
-        private async Task HandleSwipe( string direction )
+        private void LikePost(UserPost post)
         {
-            if ( direction == "Right" )
-            {
-                // Handle right swipe (for example, navigate to a different page or show a context menu)
-                Console.WriteLine( "Right swipe detected" );
-                await Task.CompletedTask;
-            }
-        }
+            if (post == null) return;
 
-        private async Task LikePost( UserPost post )
-        {
-            // Simulate the action of liking a post
             post.LikeCount++;
-            await Task.Delay( 500 ); // Simulate delay for the like action
-            OnPropertyChanged( nameof( Posts ) ); // Refresh the list to update like count
+            // Here you could call the PostService to persist the like change if needed.
         }
 
-        private async Task ShowPostEditDeleteOptions( UserPost post )
+        private void EditPost(UserPost post)
         {
-            // Simulate showing a pop-up to edit or delete the post
-            bool action = await Application.Current.MainPage.DisplayAlert("Edit or Delete", "Do you want to edit or delete this post?", "Edit", "Delete");
-            if ( action )
-            {
-                // Handle post edit action
-                Console.WriteLine( $"Editing post: {post.FullName}" );
-            }
-            else
-            {
-                // Handle post delete action
-                Console.WriteLine( $"Deleting post: {post.FullName}" );
-            }
+            // Handle post editing logic
+        }
+
+        private void DeletePost(UserPost post)
+        {
+            if (post == null) return;
+
+            Posts.Remove(post);
+            // Here you could also call PostService to delete from backend if needed.
         }
     }
 }

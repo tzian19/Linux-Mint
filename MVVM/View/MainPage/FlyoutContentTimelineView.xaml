@@ -96,8 +96,6 @@
                     </Grid>
                 </Border>
 
-
-
                 <ListView
                     BackgroundColor="{StaticResource Secondary}"
                     HasUnevenRows="True"

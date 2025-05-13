@@ -31,9 +31,16 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage
 
         private async Task ParameterizedCommand( object param )
         {
-            if ( param is string action2 && action2 == "Home" )
+            //if ( param is string action2 && action2 == "Home" )
+            //{
+            //    NavigateToPage( new FlyoutContentTimelineView( _currentUser ) );
+            //    MinimizeMenu();
+            //    return;
+            //}
+
+            if (param is string action2 && action2 == "Home")
             {
-                NavigateToPage( new FlyoutContentTimelineView( _currentUser ) );
+                NavigateToPage(new FlyoutContentUserListView());
                 MinimizeMenu();
                 return;
             }
