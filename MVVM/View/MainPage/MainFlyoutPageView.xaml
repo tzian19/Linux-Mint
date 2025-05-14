@@ -182,7 +182,7 @@
                             Style="{StaticResource BaseButtonStyle}"
                             Text="Timeline Feed" />
                         <Button
-                            Command="{Binding ClickUpdateUserTab}"
+                            Command="{Binding ClickNewPostTab}"
                             Style="{StaticResource BaseButtonStyle}"
                             Text="Add New post" />
                     </VerticalStackLayout>

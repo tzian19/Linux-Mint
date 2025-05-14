@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Linux_Mint.MVVM.ViewModel.MainPage
+﻿namespace Linux_Mint.MVVM.ViewModel.MainPage
 {
-    internal class FlyoutContentNewPostViewModel
+    public class FlyoutContentNewPostViewModel : ViewModelBase
     {
+        public FlyoutContentNewPostViewModel()
+        {
+
+        }
     }
 }

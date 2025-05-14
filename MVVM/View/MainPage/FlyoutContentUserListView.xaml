@@ -71,7 +71,7 @@
                                                 TextColor="White" />
                                             <Label
                                                 FontSize="14"
-                                                Text="{Binding BirthDate, StringFormat='Birth Date: {0:yyyy-MM-dd}w'}"
+                                                Text="{Binding BirthDate, StringFormat='Birth Date: {0:yyyy-MM-dd}'}"
                                                 TextColor="White" />
                                             <Label
                                                 FontSize="14"
