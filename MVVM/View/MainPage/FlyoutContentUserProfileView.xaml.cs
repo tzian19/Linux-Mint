@@ -14,4 +14,16 @@ public partial class FlyoutContentUserProfileView : ContentPage
     {
 
     }
+
+    private void TimelineButton(object sender, EventArgs e)
+    {
+        TimelineContainer.IsVisible = true;
+        AboutContainer.IsVisible = false;
+    }
+
+    private void AboutButton(object sender, EventArgs e)
+    {
+        TimelineContainer.IsVisible = false;
+        AboutContainer.IsVisible = true;
+    }
 }
