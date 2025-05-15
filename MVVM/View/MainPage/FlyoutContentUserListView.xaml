@@ -7,7 +7,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height=".05*" />
+            <RowDefinition Height=".07*" />
             <RowDefinition Height=".90*" />
             <RowDefinition Height=".01*" />
         </Grid.RowDefinitions>
@@ -71,7 +71,7 @@
                                                 TextColor="White" />
                                             <Label
                                                 FontSize="14"
-                                                Text="{Binding BirthDate, StringFormat='Birth Date: {0:yyyy-MM-dd}w'}"
+                                                Text="{Binding BirthDate, StringFormat='Birth Date: {0:yyyy-MM-dd}'}"
                                                 TextColor="White" />
                                             <Label
                                                 FontSize="14"

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Linux_Mint.MVVM.ViewModel.MainPage
 {
-    internal class FlyoutContentNewPostViewModel
+    public class FlyoutContentNewPostViewModel
     {
     }
 }

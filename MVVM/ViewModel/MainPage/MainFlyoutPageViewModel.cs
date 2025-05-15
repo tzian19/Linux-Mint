@@ -21,7 +21,7 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage
         public MainFlyoutPageViewModel( UserProfile user )
         {
             FlyoutPageOnLoad = new Command( async () => await NavigateToPage( new FlyoutContentUserListView() ) );
-            ClickProfileTab = new Command( async () => await NavigateToPage( new FlyoutContentUserProfileView() ) );
+            ClickProfileTab = new Command(async () => await NavigateToPage(new FlyoutContentUserProfileView()));
             ClickLogOut = new Command<object>( async ( param ) => await ParameterizedCommand( param ) );
             ClickTimelineTab = new Command( async () => await NavigateToPage( new FlyoutContentTimelineView( _currentUser ) ) );
             ClickUpdateUserTab = new Command( async () => await NavigateToPage( new FlyoutContentNewPostView() ) );

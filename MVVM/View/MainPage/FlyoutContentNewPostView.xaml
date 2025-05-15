@@ -3,11 +3,118 @@
     x:Class="Linux_Mint.MVVM.View.MainPage.FlyoutContentNewPostView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="FlyoutContentNewPostView">
-    <VerticalStackLayout>
-        <Label
+    BackgroundColor="#D6F7E2"
+    Title="New Post">
+
+    <VerticalStackLayout Padding="20,40,20,0" Spacing="20">
+        <!-- Header -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button
+                Grid.Column="1"
+                Text="Post"
+                FontSize="16"
+                BackgroundColor="#46B47F"
+                TextColor="White"
+                CornerRadius="5"
+                Padding="20,5"
+                VerticalOptions="Center"
+                HorizontalOptions="End"
+                Margin="0,0,0,0"/>
+        </Grid>
+
+        <!-- Divider -->
+        <BoxView HeightRequest="1" BackgroundColor="#A0C4B0" />
+
+        <!-- User Info Card -->
+        <Frame
+            BackgroundColor="#E6F9ED"
+            CornerRadius="20"
+            HasShadow="False"
+            Padding="10"
+            Margin="0,0,0,0">
+            <Grid ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    Stroke="#46B47F"
+                    StrokeThickness="0"
+                    BackgroundColor="#46B47F"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="100"/>
+                    </Border.StrokeShape>
+                    <Image Source="user_icon.png" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" HorizontalOptions="Center"/>
+                </Border>
+                <Label
+                    Grid.Column="1"
+                    Text="Christian Quizam"
+                    FontSize="18"
+                    VerticalOptions="Center"
+                    TextColor="Black"/>
+            </Grid>
+        </Frame>
+
+        <!-- Post Text Placeholder -->
+        <Entry
+            Placeholder="What’s on your mind?"
+            VerticalTextAlignment="Start"
+            FontSize="18"
+            TextColor ="Black"
+            HeightRequest="100"
+            Margin="0,0,0,0"/>
+
+
+        <!-- Add Photo Button -->
+        <Button
+            BackgroundColor="#46B47F"
+            TextColor="White"
+            CornerRadius="10"
+            FontSize="20"
+            HeightRequest="50"
             HorizontalOptions="Center"
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" />
+            VerticalOptions="End"
+            Padding="0"
+            Text="Add Photo"
+            WidthRequest="300"/>
+
+        <StackLayout Orientation="Horizontal" Spacing="10">
+            <Border
+                x:Name="RemovableImageBorder"
+                WidthRequest="100"
+                HeightRequest="100"
+                Stroke="#46B47F"
+                StrokeThickness="0"
+                BackgroundColor="#46B47F"
+                HorizontalOptions="Start">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+
+                </Border.StrokeShape>
+                <Grid>
+                    <Image Source="user_icon.png" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" HorizontalOptions="Center"/>
+                    <Button
+                        Text="✕"
+                        BackgroundColor="Transparent"
+                        TextColor="White"
+                        FontSize="18"
+                        Padding="0"
+                        WidthRequest="30"
+                        HeightRequest="30"
+                        HorizontalOptions="End"
+                        VerticalOptions="Start"
+                        Clicked="OnRemoveImageClicked"/>
+                </Grid>
+            </Border>
+        </StackLayout>
+
     </VerticalStackLayout>
 </ContentPage>
