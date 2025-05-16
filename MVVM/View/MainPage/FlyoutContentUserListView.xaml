@@ -7,7 +7,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height=".05*" />
+            <RowDefinition Height=".07*" />
             <RowDefinition Height=".90*" />
             <RowDefinition Height=".01*" />
         </Grid.RowDefinitions>
