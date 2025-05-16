@@ -10,7 +10,7 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage
     {
         public ICommand ClickProfileTab { get; }
         public ICommand ClickTimelineTab { get; }
-        public ICommand ClickUpdateUserTab { get; }
+        public ICommand ClickNewPostTab { get; }
         public ICommand ClickLogOut { get; }
         public ICommand FlyoutPageOnLoad { get; }
         public ICommand ClickMinimizeMenu { get; }
@@ -24,7 +24,7 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage
             ClickProfileTab = new Command(async () => await NavigateToPage(new FlyoutContentUserProfileView()));
             ClickLogOut = new Command<object>( async ( param ) => await ParameterizedCommand( param ) );
             ClickTimelineTab = new Command( async () => await NavigateToPage( new FlyoutContentTimelineView( _currentUser ) ) );
-            ClickUpdateUserTab = new Command( async () => await NavigateToPage( new FlyoutContentNewPostView() ) );
+            ClickNewPostTab = new Command( async () => await NavigateToPage( new FlyoutContentNewPostView( _currentUser ) ) );
             ClickMinimizeMenu = new Command( async () => await MinimizeMenu() );
             ClickHomeIcon = new Command<object>( async ( param ) => await ParameterizedCommand( param ) );
         }
@@ -38,9 +38,9 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage
             //    return;
             //}
 
-            if (param is string action2 && action2 == "Home")
+            if ( param is string action2 && action2 == "Home" )
             {
-                NavigateToPage(new FlyoutContentUserListView());
+                NavigateToPage( new FlyoutContentUserListView() );
                 MinimizeMenu();
                 return;
             }

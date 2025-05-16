@@ -1,7 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Linux_Mint.MVVM.Model;
-using System.Threading.Tasks;
 
 namespace Linux_Mint.MVVM.ViewModel
 {
@@ -15,7 +13,11 @@ namespace Linux_Mint.MVVM.ViewModel
         public bool IsRefreshing
         {
             get => _isRefreshing;
-            set => SetProperty(ref _isRefreshing, value);
+            set
+            {
+                _isRefreshing = value;
+                OnPropertyChanged();
+            }
         }
 
         public ICommand RefreshCommand { get; }
@@ -27,13 +29,12 @@ namespace Linux_Mint.MVVM.ViewModel
         {
             _postService = new PostService();
 
-            RefreshCommand = new Command(async () => await LoadPostsAsync());
-            LikeCommand = new Command<UserPost>(LikePost);
-            EditPostCommand = new Command<UserPost>(EditPost);
-            DeletePostCommand = new Command<UserPost>(DeletePost);
+            RefreshCommand = new Command( async () => await LoadPostsAsync() );
+            LikeCommand = new Command<UserPost>( LikePost );
+            EditPostCommand = new Command<UserPost>( EditPost );
+            DeletePostCommand = new Command<UserPost>( DeletePost );
 
-            // Load on startup
-            Task.Run(LoadPostsAsync);
+            Task.Run( LoadPostsAsync );
         }
 
         private async Task LoadPostsAsync()
@@ -42,35 +43,42 @@ namespace Linux_Mint.MVVM.ViewModel
 
             var posts = await _postService.GetPostsAsync();
 
-            MainThread.BeginInvokeOnMainThread(() =>
+            MainThread.BeginInvokeOnMainThread( () =>
             {
                 Posts.Clear();
-                foreach (var post in posts.OrderByDescending(p => DateTime.Parse(p.PostCreated)))
-                    Posts.Add(post);
+                foreach ( var post in posts.OrderByDescending( p => DateTime.Parse( p.PostCreated ) ) )
+                {
+                    if ( string.IsNullOrWhiteSpace( post.FullName ) )
+                        post.FullName = $"{post.FirstName} {post.LastName}";
+
+                    Posts.Add( post );
+                }
 
                 IsRefreshing = false;
-            });
+            } );
         }
 
-        private void LikePost(UserPost post)
+        private void LikePost( UserPost post )
         {
-            if (post == null) return;
+            if ( post == null )
+                return;
 
             post.LikeCount++;
-            // Here you could call the PostService to persist the like change if needed.
+            OnPropertyChanged( nameof( Posts ) );
         }
 
-        private void EditPost(UserPost post)
+        private void EditPost( UserPost post )
         {
-            // Handle post editing logic
+            // Implement popup edit logic here
         }
 
-        private void DeletePost(UserPost post)
+        private void DeletePost( UserPost post )
         {
-            if (post == null) return;
+            if ( post == null )
+                return;
 
-            Posts.Remove(post);
-            // Here you could also call PostService to delete from backend if needed.
+            Posts.Remove( post );
+            // Optional: delete from backend
         }
     }
 }
