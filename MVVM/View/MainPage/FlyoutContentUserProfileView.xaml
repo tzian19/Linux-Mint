@@ -17,82 +17,128 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-
-        <Grid Grid.Row="0" Margin="0,10,0,0">
-
-            <Border
+        <!--  Profile Header  -->
+        <VerticalStackLayout
                      Grid.Row="0"
-                     Stroke="#46B47F"
-                     StrokeThickness="5"
-                     BackgroundColor="Transparent"
+            Margin="0,10"
+            HorizontalOptions="Center"
+            Spacing="10">
+            <Border
                      Padding="5"
+                BackgroundColor="Transparent"
                      HorizontalOptions="Center"
+                Stroke="#46B47F"
+                StrokeThickness="5"
                      VerticalOptions="Center">
 
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="20" />
                 </Border.StrokeShape>
-
-                <Image WidthRequest="320" HeightRequest="300"/>
-
+                <Image
+                    Aspect="AspectFill"
+                    HeightRequest="300"
+                    Source="{Binding BannerImage}"
+                    WidthRequest="320" />
             </Border>
-            <VerticalStackLayout
-                HorizontalOptions="Center"
-                Spacing="10"
-                VerticalOptions="Fill">
-                <Border
 
-                        Margin="0,30,0,0"
+                <Border
                         Grid.Row="0"
-                         Stroke="Black"
-                         BackgroundColor="#217d41"
+                    Margin="0,30,0,0"
                          Padding="30"
-                         HorizontalOptions="Center">
+                    BackgroundColor="#217d41"
+                    HorizontalOptions="Center"
+                    Stroke="Black">
 
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="100" />
                     </Border.StrokeShape>
                     <Image HeightRequest="30" WidthRequest="30" />
 
+                <VerticalStackLayout HorizontalOptions="Center" Spacing="8">
+                    <Image
+                        Aspect="AspectFill"
+                        HeightRequest="80"
+                        Source="{Binding UserAvatar}"
+                        WidthRequest="80" />
+                    <Label
+                        FontSize="20"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding Username}"
+                        TextColor="Black" />
+                    <Label
+                        FontSize="12"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding Description}"
+                        TextColor="Black" />
 
-                <Label Text="Username" FontSize="20" TextColor="Black" HorizontalTextAlignment="Center"/>
-                <Label Text="Description" FontSize="12" TextColor="Black" HorizontalTextAlignment="Center"/>
+                    <Button
+                        BackgroundColor="#BAD9C3"
+                        CornerRadius="30"
+                        FontSize="12"
+                        Text="Edit Profile"
+                        TextColor="Black"
+                        WidthRequest="100" />
 
-                <Button Text="Edit Profile" TextColor="Black" BackgroundColor="#BAD9C3" WidthRequest="100" FontSize="12" CornerRadius="30" Padding="0,5,0,5" />
-
-                <HorizontalStackLayout HorizontalOptions="Fill" Spacing="20" Margin="0,50,0,0">
-                    <Button Text="Timeline Posts" BackgroundColor="#BAD9C3" CornerRadius="30" FontSize="12" WidthRequest="130"  Padding="0,5,0,5" Clicked="TimelineButton"/>
-                    <Button Text="About" FontSize="12" BackgroundColor="#BAD9C3" CornerRadius="30" WidthRequest="130"  Padding="0,5,0,5" Clicked="AboutButton"/>
-
+                    <HorizontalStackLayout
+                        Margin="0,20,0,0"
+                        HorizontalOptions="Center"
+                        Spacing="20">
+                        <Button
+                            BackgroundColor="#BAD9C3"
+                            Clicked="TimelineButton"
+                            CornerRadius="30"
+                            FontSize="12"
+                            Text="Timeline Posts"
+                            WidthRequest="130" />
+                        <Button
+                            BackgroundColor="#BAD9C3"
+                            Clicked="AboutButton"
+                            CornerRadius="30"
+                            FontSize="12"
+                            Text="About"
+                            WidthRequest="130" />
                 </HorizontalStackLayout>
 
 
             </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
 
-        </Grid>
-
-        <Grid Grid.Row="1" Margin="0,0,0,0" >
-            <ScrollView BackgroundColor="Transparent" Margin="0,-10,0,10">
-
-                <BoxView x:Name="TimelineContainer" Margin="0,0,0,0" BackgroundColor="#46B47F" HeightRequest="500" CornerRadius="10" IsVisible="True"/>
+        <!--  Main Content  -->
+        <Grid Grid.Row="1" Margin="0,0,0,0">
+            <!--  Timeline View  -->
+            <ScrollView
+                x:Name="TimelineContainer"
+                Margin="0,0,0,10"
+                IsVisible="True">
+                <BoxView
+                    BackgroundColor="#46B47F"
+                    CornerRadius="10"
+                    HeightRequest="500" />
             </ScrollView>
-            <Border x:Name="AboutContainer" Margin="0,-15,0,0" BackgroundColor="Green" HeightRequest="365" IsVisible="False">
+
+            <!--  About Section  -->
+            <Border
+                x:Name="AboutContainer"
+                Margin="0,0,0,10"
+                BackgroundColor="Green"
+                HeightRequest="365"
+                IsVisible="False">
                 <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="10"/>
+                    <RoundRectangle CornerRadius="10" />
                 </Border.StrokeShape>
-                <Grid Margin="10">
-                    <StackLayout>
-                        <Label Text="Lastname"/>   
-                        <Label Text="Firstname"/>   
-                        <Label Text="Email"/>
-                        <Label Text="Birthdate"/>
-                        <Label Text="Age"/>
+                <StackLayout Margin="10">
+                    <Label Text="{Binding LastName}" />
+                    <Label Text="{Binding FirstName}" />
+                    <Label Text="{Binding Email}" />
+                    <Label Text="{Binding BirthDate}" />
+                    <Label Text="{Binding Age}" />
                     </StackLayout>
                 </Grid>
             </Border>
         </Grid>
     </Grid>
-
+</ContentPage>
 
 
 </ContentPage>
