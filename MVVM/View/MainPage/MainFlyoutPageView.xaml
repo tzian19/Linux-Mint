@@ -1,5 +1,6 @@
 <FlyoutPage
     x:Class="Linux_Mint.MVVM.View.MainPage.MainFlyoutPageView"
+    x:Name="FlyoutPageRoot"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pages="clr-namespace:Linux_Mint.MVVM.View.MainPage"
@@ -37,25 +38,17 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.06*" />
-                        <!--  Top menu bar  -->
                         <RowDefinition Height=".5*" />
-                        <!--  Main menu content  -->
                         <RowDefinition Height=".5*" />
-                        <!--  Bottom icon buttons  -->
                     </Grid.RowDefinitions>
 
                     <!--  Top Bar: Title and hide button  -->
-                    <Grid
-                        Grid.Row="0"
-                        Margin="0"
-                        Padding="0,0,10,0"
-                        VerticalOptions="Center">
+                    <Grid Grid.Row="0" Margin="0" Padding="0,0,10,0" VerticalOptions="Center">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <!--  Menu title label  -->
                         <Label
                             Grid.Column="0"
                             Padding="10"
@@ -65,7 +58,6 @@
                             TextColor="{StaticResource Primary}"
                             VerticalOptions="Center" />
 
-                        <!--  Minimize menu button  -->
                         <Button
                             x:Name="btnHideMenuIcon"
                             Grid.Column="1"
@@ -81,25 +73,17 @@
                             VerticalOptions="End" />
                     </Grid>
 
-                    <!--  Divider lines under top bar  -->
+                    <!-- Divider lines -->
                     <VerticalStackLayout
                         Grid.Row="0"
                         Grid.ColumnSpan="2"
                         Spacing="2"
                         VerticalOptions="End">
-                        <BoxView
-                            Grid.Row="0"
-                            Grid.ColumnSpan="2"
-                            Margin="10,0,10,0"
-                            BackgroundColor="{StaticResource Penta}"
-                            HeightRequest="2" />
-                        <BoxView
-                            Margin="10,0,10,0"
-                            BackgroundColor="{StaticResource Penta}"
-                            HeightRequest="2" />
+                        <BoxView Margin="10,0,10,0" BackgroundColor="{StaticResource Penta}" HeightRequest="2" />
+                        <BoxView Margin="10,0,10,0" BackgroundColor="{StaticResource Penta}" HeightRequest="2" />
                     </VerticalStackLayout>
 
-                    <!--  Main Menu Items and Profile section  -->
+                    <!-- Main Menu Items and Profile section -->
                     <VerticalStackLayout
                         Grid.Row="1"
                         Margin="10"
@@ -108,21 +92,15 @@
                         Spacing="10"
                         VerticalOptions="Start">
 
-                        <!--  Profile card  -->
-                        <Border
-                            BackgroundColor="Transparent"
-                            StrokeShape="RoundRectangle, 30"
-                            StrokeThickness="0">
-                            <Grid
-                                Padding="10"
-                                BackgroundColor="{StaticResource Penta}"
-                                HorizontalOptions="Fill">
+                        <!-- Current Profile card -->
+                        <Border BackgroundColor="Transparent" StrokeShape="RoundRectangle, 30" StrokeThickness="0">
+                            <Grid Padding="10" BackgroundColor="{StaticResource Penta}" HorizontalOptions="Fill">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width=".3*" />
                                     <ColumnDefinition Width=".5*" />
                                 </Grid.ColumnDefinitions>
 
-                                <!--  Profile image  -->
+                                <!-- Profile image -->
                                 <Border
                                     Grid.Column="0"
                                     Margin="0"
@@ -146,13 +124,13 @@
                                             Aspect="AspectFill"
                                             HeightRequest="100"
                                             HorizontalOptions="Fill"
-                                            Source="{Binding CurrentUser.ImageUrl}"
+                                            Source="{Binding LoggedInUser.UserAvatar, FallbackValue='default_avatar.png'}"
                                             VerticalOptions="Fill"
                                             WidthRequest="100" />
                                     </Frame>
                                 </Border>
 
-                                <!--  User information  -->
+                                <!-- User information -->
                                 <Frame
                                     Grid.Column="1"
                                     BackgroundColor="{StaticResource Penta}"
@@ -162,37 +140,21 @@
                                         Padding="0"
                                         HorizontalOptions="Start"
                                         VerticalOptions="Center">
-                                        <Label Style="{StaticResource LabelFormat}" Text="Complete Name" />
-                                        <Label
-                                            FontSize="15"
-                                            Style="{StaticResource LabelFormat}"
-                                            Text="ID # 00000000" />
+                                        <Label Style="{StaticResource LabelFormat}" Text="{Binding LoggedInUser.FullName, FallbackValue='User Name'}" />
+                                        <Label FontSize="15" Style="{StaticResource LabelFormat}" Text="{Binding LoggedInUser.Username, FallbackValue='username'}" />
                                     </VerticalStackLayout>
                                 </Frame>
                             </Grid>
                         </Border>
 
-                        <!--  Menu buttons  -->
-                        <Button
-                            Command="{Binding ClickProfileTab}"
-                            Style="{StaticResource BaseButtonStyle}"
-                            Text="View Profile" />
-                        <Button
-                            Command="{Binding ClickTimelineTab}"
-                            Style="{StaticResource BaseButtonStyle}"
-                            Text="Timeline Feed" />
-                        <Button
-                            Command="{Binding ClickNewPostTab}"
-                            Style="{StaticResource BaseButtonStyle}"
-                            Text="Add New post" />
+                        <!-- Menu buttons -->
+                        <Button Command="{Binding ClickProfileTab}" Style="{StaticResource BaseButtonStyle}" Text="View Profile" />
+                        <Button Command="{Binding ClickTimelineTab}" Style="{StaticResource BaseButtonStyle}" Text="Timeline Feed" />
+                        <Button Command="{Binding ClickNewPostTab}" Style="{StaticResource BaseButtonStyle}" Text="Add New post" />
                     </VerticalStackLayout>
 
-                    <!--  Bottom buttons: Home and Logout  -->
-                    <Grid
-                        Grid.Row="2"
-                        Margin="10,10,10,20"
-                        HorizontalOptions="Fill">
-                        <!--  Home button icon  -->
+                    <!-- Bottom buttons: Home and Logout -->
+                    <Grid Grid.Row="2" Margin="10,10,10,20" HorizontalOptions="Fill">
                         <Button
                             Background="Transparent"
                             Command="{Binding ClickHomeIcon}"
@@ -203,7 +165,6 @@
                             Text="&#xe803;"
                             TextColor="{StaticResource Secondary}"
                             VerticalOptions="End" />
-                        <!--  Logout button icon  -->
                         <Button
                             Background="Transparent"
                             Command="{Binding ClickLogOut}"
@@ -220,15 +181,14 @@
         </ContentPage>
     </FlyoutPage.Flyout>
 
-    <!--  Detail Page (Right Side Content Area)  -->
+    <!-- Detail Page (Right Side Content Area) -->
     <FlyoutPage.Detail>
-        <NavigationPage>
+        <NavigationPage x:Name="DetailNavPage">
             <x:Arguments>
-                <!--  Initial content page shown on load  -->
+                <!-- Initial content page shown on load -->
                 <ContentPage
                     Title="Home"
-                    BackgroundColor="{StaticResource Primary}"
-                    Loaded="OnLoaded" />
+                    BackgroundColor="{StaticResource Primary}" />
             </x:Arguments>
         </NavigationPage>
     </FlyoutPage.Detail>

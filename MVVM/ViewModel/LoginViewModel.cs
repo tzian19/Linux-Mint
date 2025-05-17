@@ -12,17 +12,23 @@ namespace Linux_Mint.MVVM.ViewModel
         private string _inputUser;
         private string _inputPass;
 
+        public string InputUser
+        {
+            get => _inputUser;
+            set => SetProperty( ref _inputUser , value );
+        }
 
-        public string InputUser { get => _inputUser; set { _inputUser = value; OnPropertyChanged(); } }
-        public string InputPass { get => _inputPass; set { _inputPass = value; OnPropertyChanged(); } }
-
+        public string InputPass
+        {
+            get => _inputPass;
+            set => SetProperty( ref _inputPass , value );
+        }
 
         public ICommand LoginCommand { get; }
 
         public LoginViewModel()
         {
             LoginCommand = new Command( async () => await Login() );
-
         }
 
         private async Task Login()
@@ -46,12 +52,12 @@ namespace Linux_Mint.MVVM.ViewModel
 
                         DependencyService.Get<IKeepScreenOnService>()?.KeepScreenOn();
 
+                        // Pass logged-in user to MainFlyoutPageView constructor
                         Application.Current.MainPage = new MainFlyoutPageView( user );
                     }
                     else
                     {
                         await Application.Current.MainPage.DisplayAlert( "Error" , "Invalid credentials" , "OK" );
-                        //await Application.Current.MainPage.DisplayAlert("Error", "Invalid credentials", "OK");
                     }
                 }
                 else
@@ -59,11 +65,10 @@ namespace Linux_Mint.MVVM.ViewModel
                     await Application.Current.MainPage.DisplayAlert( "Error" , "Can't connect to the server" , "OK" );
                 }
             }
-            catch ( Exception ex )
+            catch ( Exception )
             {
                 await Application.Current.MainPage.DisplayAlert( "Error" , "Server error" , "OK" );
             }
-
         }
     }
 }
