@@ -45,7 +45,7 @@ namespace Linux_Mint.MVVM.ViewModel
 
                     if ( user != null )
                     {
-                        LoggedInUser = user;
+                        AppState.LoggedInUser = user;
 
                         await Application.Current.MainPage.DisplayAlert( "Login Successfully" , $"Welcome! {user.FirstName} {user.LastName}" , "OK" );
                         await Task.Delay( 100 );
@@ -53,7 +53,7 @@ namespace Linux_Mint.MVVM.ViewModel
                         DependencyService.Get<IKeepScreenOnService>()?.KeepScreenOn();
 
                         // Pass logged-in user to MainFlyoutPageView constructor
-                        Application.Current.MainPage = new MainFlyoutPageView( user );
+                        Application.Current.MainPage = new MainFlyoutPageView();
                     }
                     else
                     {

@@ -1,6 +1,5 @@
 ﻿using System.Windows.Input;
 
-using Linux_Mint.MVVM.Model;
 using Linux_Mint.MVVM.view;
 using Linux_Mint.MVVM.View.MainPage;
 
@@ -16,14 +15,14 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage
         public ICommand ClickMinimizeMenu { get; }
         public ICommand ClickHomeIcon { get; }
 
-
-        public MainFlyoutPageViewModel( UserProfile user )
+        public MainFlyoutPageViewModel()
         {
+            LoggedInUser = AppState.LoggedInUser;
             FlyoutPageOnLoad = new Command( async () => await NavigateToPage( new FlyoutContentUserListView() ) );
             ClickProfileTab = new Command( async () => await NavigateToPage( new FlyoutContentUserProfileView() ) );
             ClickLogOut = new Command<object>( async ( param ) => await ParameterizedCommand( param ) );
-            ClickTimelineTab = new Command( async () => await NavigateToPage( new FlyoutContentTimelineView( LoggedInUser ) ) );
-            ClickNewPostTab = new Command( async () => await NavigateToPage( new FlyoutContentNewPostView( LoggedInUser ) ) );
+            ClickTimelineTab = new Command( async () => await NavigateToPage( new FlyoutContentTimelineView() ) );
+            ClickNewPostTab = new Command( async () => await NavigateToPage( new FlyoutContentNewPostView() ) );
             ClickMinimizeMenu = new Command( async () => await MinimizeMenu() );
             ClickHomeIcon = new Command<object>( async ( param ) => await ParameterizedCommand( param ) );
         }

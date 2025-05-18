@@ -23,10 +23,9 @@ namespace Linux_Mint.MVVM.ViewModel
         public ICommand EditPostCommand { get; }
         public ICommand DeletePostCommand { get; }
 
-        public FlyoutContentTimelineViewModel( UserProfile loggedInUser )
+        public FlyoutContentTimelineViewModel()
         {
-            LoggedInUser = loggedInUser;  // fixed assignment direction
-
+            LoggedInUser = AppState.LoggedInUser;
             _postService = new PostService();
 
             RefreshCommand = new Command( async () => await LoadPostsAsync() );
@@ -41,8 +40,9 @@ namespace Linux_Mint.MVVM.ViewModel
         {
             IsRefreshing = true;
 
-            var posts = await _postService.GetPostsAsync();
             var users = await _postService.GetAllUsersAsync();
+            var posts = await _postService.GetPostsAsync();
+
 
             var postList = posts
                 .OrderByDescending(p =>
@@ -60,8 +60,6 @@ namespace Linux_Mint.MVVM.ViewModel
                 {
                     var user = users.FirstOrDefault(u => u.UId == post.UserProfileId);
                     post.UserProfile = user ?? new UserProfile();
-
-                    Console.WriteLine( $"Post by UserId: {post.UserProfileId}, Found: {user != null}, FullName: {post.UserProfile?.FullName}" );
 
                     Posts.Add( post );
                 }

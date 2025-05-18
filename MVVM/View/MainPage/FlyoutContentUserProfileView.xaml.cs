@@ -12,7 +12,7 @@ public partial class FlyoutContentUserProfileView : ContentPage
 
     private Task ToolbarItem_ClickedAsync( object sender , EventArgs e )
     {
-        return Navigation.PushAsync( new FlyoutContentNewPostView( currentUser ) );
+        return Navigation.PushAsync( new FlyoutContentNewPostView() );
     }
 
     // Update your XAML or event subscription to use the new async method with a fire-and-forget pattern:
