@@ -61,23 +61,34 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Frame
-                            Padding="0"
-                            BackgroundColor="White"
-                            BorderColor="Transparent"
-                            CornerRadius="50"
-                            HeightRequest="50"
-                            IsClippedToBounds="True"
-                            VerticalOptions="Center"
-                            WidthRequest="50">
-                            <Image
-                                Aspect="AspectFill"
-                                HeightRequest="55"
-                                HorizontalOptions="Fill"
-                                Source="{Binding LoggedInUser.UserAvatar}"
-                                VerticalOptions="Fill"
-                                WidthRequest="55" />
-                        </Frame>
+                        <Border
+                            Grid.Row="0"
+                            Margin="0"
+                            Padding="2"
+                            BackgroundColor="Transparent"
+                            HorizontalOptions="Center"
+                            Stroke="{StaticResource Tertiary}"
+                            StrokeShape="RoundRectangle, 180"
+                            StrokeThickness="2"
+                            VerticalOptions="End">
+                            <Frame
+                                Padding="0"
+                                BackgroundColor="White"
+                                BorderColor="Transparent"
+                                CornerRadius="180"
+                                HeightRequest="50"
+                                IsClippedToBounds="True"
+                                VerticalOptions="Center"
+                                WidthRequest="50">
+                                <Image
+                                    Aspect="AspectFill"
+                                    HeightRequest="55"
+                                    HorizontalOptions="Fill"
+                                    Source="{Binding LoggedInUser.UserAvatar}"
+                                    VerticalOptions="Fill"
+                                    WidthRequest="55" />
+                            </Frame>
+                        </Border>
                         <Label
                             Grid.Column="1"
                             Style="{StaticResource LabelFormat}"

@@ -21,15 +21,5 @@ public partial class FlyoutContentUserProfileView : ContentPage
         _ = ToolbarItem_ClickedAsync( sender , e );
     }
 
-    private void TimelineButton( object sender , EventArgs e )
-    {
-        TimelineContainer.IsVisible = true;
-        AboutContainer.IsVisible = false;
-    }
 
-    private void AboutButton( object sender , EventArgs e )
-    {
-        TimelineContainer.IsVisible = false;
-        AboutContainer.IsVisible = true;
-    }
 }
