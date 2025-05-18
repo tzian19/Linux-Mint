@@ -33,7 +33,7 @@ public class PostService
         try
         {
             var users = await _httpClient.GetFromJsonAsync<List<UserProfile>>(
-                $"{BaseUrl}/UserProfile");
+                $"{BaseUrl}/UserProfiles");
 
             return users ?? new List<UserProfile>();
         }
