@@ -21,7 +21,7 @@
         </Style>
         <Style x:Key="Post" TargetType="Border">
             <Setter Property="Stroke" Value="{StaticResource Hexa}" />
-            <Setter Property="StrokeShape" Value=" RoundRectangle, 30" />
+            <Setter Property="StrokeShape" Value="RoundRectangle, 30" />
             <Setter Property="BackgroundColor" Value="{StaticResource Hexa}" />
         </Style>
     </ContentPage.Resources>
@@ -29,8 +29,9 @@
     <Grid Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height=".01*" />
+            <RowDefinition Height="0.01*" />
         </Grid.RowDefinitions>
+
         <Grid.GestureRecognizers>
             <SwipeGestureRecognizer
                 Command="{Binding OnSwiped}"
@@ -43,6 +44,8 @@
             Padding="20,0"
             IsClippedToBounds="True"
             VerticalOptions="Fill">
+
+
             <VerticalStackLayout
                 Padding="0"
                 Spacing="20"
@@ -55,17 +58,15 @@
                         ColumnSpacing="10"
                         HorizontalOptions="Fill">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width=".1*" />
-                            <ColumnDefinition Width=".5*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Frame
-                            Grid.Column="0"
                             Padding="0"
                             BackgroundColor="White"
                             BorderColor="Transparent"
                             CornerRadius="50"
                             HeightRequest="50"
-                            HorizontalOptions="Center"
                             IsClippedToBounds="True"
                             VerticalOptions="Center"
                             WidthRequest="50">
@@ -73,23 +74,15 @@
                                 Aspect="AspectFill"
                                 HeightRequest="55"
                                 HorizontalOptions="Fill"
-                                Source="{Binding LoggedInUser.UserAvatar}"
+                                Source="{Binding LoggedInUserAvatar}"
                                 VerticalOptions="Fill"
                                 WidthRequest="55" />
                         </Frame>
-                        <Frame
+                        <Label
                             Grid.Column="1"
-                            Padding="0"
-                            BackgroundColor="Transparent"
-                            BorderColor="Transparent"
-                            HorizontalOptions="Start"
-                            VerticalOptions="Center">
-                            <Label
-                                HorizontalOptions="Start"
-                                Style="{StaticResource LabelFormat}"
-                                Text="What's on your mind?"
-                                VerticalOptions="Center" />
-                        </Frame>
+                            Style="{StaticResource LabelFormat}"
+                            Text="What's on your mind?"
+                            VerticalOptions="Center" />
                     </Grid>
                 </Border>
 
@@ -103,21 +96,18 @@
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Border
-                                Margin="0"
-                                Padding="20"
-                                Style="{StaticResource Post}">
-                                <Grid HorizontalOptions="Fill" RowSpacing="30">
+                            <Border Padding="20" Style="{StaticResource Post}">
+                                <Grid RowSpacing="30">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height=".9*" />
-                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
 
-                                    <!--  User info and controls  -->
-                                    <Grid Grid.Row="0" HorizontalOptions="Fill">
+                                    <!--  User Info  -->
+                                    <Grid Grid.Row="0" ColumnSpacing="10">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width=".3*" />
+                                            <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
@@ -129,29 +119,25 @@
                                             BorderColor="Transparent"
                                             CornerRadius="50"
                                             HeightRequest="50"
-                                            HorizontalOptions="Center"
                                             IsClippedToBounds="True"
                                             VerticalOptions="Center"
                                             WidthRequest="50">
                                             <Image
                                                 Aspect="AspectFill"
-                                                HeightRequest="55"
+                                                HeightRequest="50"
                                                 HorizontalOptions="Fill"
                                                 Source="{Binding UserAvatar}"
                                                 VerticalOptions="Fill"
-                                                WidthRequest="55" />
+                                                WidthRequest="50" />
                                         </Frame>
 
-                                        <StackLayout
-                                            Grid.Column="1"
-                                            Padding="0"
-                                            HorizontalOptions="Start">
+                                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
                                             <Label Style="{StaticResource LabelFormat}" Text="{Binding FullName}" />
                                             <Label
-                                                FontAttributes="None"
-                                                FontSize="20"
-                                                Text="{Binding PostCreated}" />
-                                        </StackLayout>
+                                                FontSize="18"
+                                                Text="{Binding PostCreated, StringFormat='{0:MMM d, yyyy h:mm tt}'}"
+                                                TextColor="Gray" />
+                                        </VerticalStackLayout>
 
                                         <Button
                                             Grid.Column="2"
@@ -162,24 +148,22 @@
                                             Text="&#xe805;" />
                                     </Grid>
 
-                                    <!--  Post image  -->
+                                    <!--  Post Image  -->
                                     <Frame
                                         Grid.Row="1"
                                         Padding="0"
                                         BackgroundColor="White"
                                         BorderColor="Transparent"
                                         CornerRadius="10"
-                                        IsClippedToBounds="True"
-                                        VerticalOptions="Center">
+                                        IsClippedToBounds="True">
                                         <Image
                                             Aspect="AspectFill"
                                             HeightRequest="320"
-                                            HorizontalOptions="Fill"
-                                            Source="{Binding ImageUrl}"
-                                            VerticalOptions="Fill" />
+                                            Source="{Binding PostImage}"
+                                            WidthRequest="320" />
                                     </Frame>
 
-                                    <!--  Like section  -->
+                                    <!--  Like & Delete  -->
                                     <HorizontalStackLayout
                                         Grid.Row="2"
                                         Spacing="10"
@@ -191,10 +175,7 @@
                                             FontSize="30"
                                             Style="{StaticResource BaseButtonStyle}"
                                             Text="&#xe800;" />
-                                        <Label
-                                            Style="{StaticResource LabelFormat}"
-                                            Text="{Binding LikeCount}"
-                                            VerticalOptions="Center" />
+                                        <Label Style="{StaticResource LabelFormat}" Text="{Binding LikeCount}" />
                                         <Button
                                             BackgroundColor="Transparent"
                                             Command="{Binding BindingContext.DeletePostCommand, Source={x:Reference PageRoot}}"

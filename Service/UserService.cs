@@ -8,7 +8,7 @@ namespace Linux_Mint.Service
     public class UserService
     {
         private readonly HttpClient _httpClient;
-        private const string BaseUrl = "https://64f7ddfd824680fd217fb676.mockapi.io/api/v1/users";
+        private const string BaseUrl = "https://64f7ddfd824680fd217fb676.mockapi.io/UserProfiles";
 
         public UserService()
         {
@@ -24,23 +24,8 @@ namespace Linux_Mint.Service
             }
             catch ( Exception ex )
             {
-                // Handle errors (maybe log or show UI alert)
                 Console.WriteLine( $"Error fetching users: {ex.Message}" );
                 return new ObservableCollection<UserProfile>();
-            }
-        }
-
-        public async Task<bool> AddUserAsync( UserProfile newUser )
-        {
-            try
-            {
-                var response = await _httpClient.PostAsJsonAsync(BaseUrl, newUser);
-                return response.IsSuccessStatusCode;
-            }
-            catch ( Exception ex )
-            {
-                Console.WriteLine( $"Error adding user: {ex.Message}" );
-                return false;
             }
         }
 
@@ -48,13 +33,26 @@ namespace Linux_Mint.Service
         {
             try
             {
-                var user = await _httpClient.GetFromJsonAsync<UserProfile>($"{BaseUrl}/{id}");
-                return user;
+                return await _httpClient.GetFromJsonAsync<UserProfile>( $"{BaseUrl}/{id}" );
             }
             catch ( Exception ex )
             {
                 Console.WriteLine( $"Error fetching user by id: {ex.Message}" );
                 return null;
+            }
+        }
+
+        public async Task<bool> AddUserAsync( UserProfile user )
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync(BaseUrl, user);
+                return response.IsSuccessStatusCode;
+            }
+            catch ( Exception ex )
+            {
+                Console.WriteLine( $"Error adding user: {ex.Message}" );
+                return false;
             }
         }
 

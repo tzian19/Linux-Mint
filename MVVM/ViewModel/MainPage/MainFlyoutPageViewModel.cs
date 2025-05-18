@@ -16,15 +16,14 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage
         public ICommand ClickMinimizeMenu { get; }
         public ICommand ClickHomeIcon { get; }
 
-        private readonly UserProfile _currentUser;
 
         public MainFlyoutPageViewModel( UserProfile user )
         {
             FlyoutPageOnLoad = new Command( async () => await NavigateToPage( new FlyoutContentUserListView() ) );
-            ClickProfileTab = new Command(async () => await NavigateToPage(new FlyoutContentUserProfileView()));
+            ClickProfileTab = new Command( async () => await NavigateToPage( new FlyoutContentUserProfileView() ) );
             ClickLogOut = new Command<object>( async ( param ) => await ParameterizedCommand( param ) );
-            ClickTimelineTab = new Command( async () => await NavigateToPage( new FlyoutContentTimelineView( _currentUser ) ) );
-            ClickNewPostTab = new Command( async () => await NavigateToPage( new FlyoutContentNewPostView( _currentUser ) ) );
+            ClickTimelineTab = new Command( async () => await NavigateToPage( new FlyoutContentTimelineView( LoggedInUser ) ) );
+            ClickNewPostTab = new Command( async () => await NavigateToPage( new FlyoutContentNewPostView( LoggedInUser ) ) );
             ClickMinimizeMenu = new Command( async () => await MinimizeMenu() );
             ClickHomeIcon = new Command<object>( async ( param ) => await ParameterizedCommand( param ) );
         }
@@ -62,7 +61,7 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage
         }
         private async Task MinimizeMenu()
         {
-            if ( Application.Current.MainPage is FlyoutPage flyoutPage )
+            if ( Application.Current.MainPage is FlyoutPage flyoutPage && DeviceInfo.Platform != DevicePlatform.WinUI )
             {
                 flyoutPage.IsPresented = !flyoutPage.IsPresented; // Toggle flyout visibility
             }

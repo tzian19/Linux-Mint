@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 
+using Linux_Mint.MVVM.Model;
+
 namespace Linux_Mint.MVVM.ViewModel
 {
     public class FlyoutContentTimelineViewModel : ViewModelBase
@@ -13,11 +15,7 @@ namespace Linux_Mint.MVVM.ViewModel
         public bool IsRefreshing
         {
             get => _isRefreshing;
-            set
-            {
-                _isRefreshing = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty( ref _isRefreshing , value );
         }
 
         public ICommand RefreshCommand { get; }
@@ -25,8 +23,10 @@ namespace Linux_Mint.MVVM.ViewModel
         public ICommand EditPostCommand { get; }
         public ICommand DeletePostCommand { get; }
 
-        public FlyoutContentTimelineViewModel()
+        public FlyoutContentTimelineViewModel( UserProfile loggedInUser )
         {
+            LoggedInUser = loggedInUser;  // fixed assignment direction
+
             _postService = new PostService();
 
             RefreshCommand = new Command( async () => await LoadPostsAsync() );
@@ -42,20 +42,43 @@ namespace Linux_Mint.MVVM.ViewModel
             IsRefreshing = true;
 
             var posts = await _postService.GetPostsAsync();
+            var users = await _postService.GetAllUsersAsync();
+
+            var postList = posts
+                .OrderByDescending(p =>
+                {
+                    DateTime.TryParse(p.PostCreated, out var parsedDate);
+                    return parsedDate;
+                })
+                .ToList();
 
             MainThread.BeginInvokeOnMainThread( () =>
             {
                 Posts.Clear();
-                foreach ( var post in posts.OrderByDescending( p => DateTime.Parse( p.PostCreated ) ) )
+
+                foreach ( var post in postList )
                 {
-                    if ( string.IsNullOrWhiteSpace( post.FullName ) )
-                        post.FullName = $"{post.FirstName} {post.LastName}";
+                    var user = users.FirstOrDefault(u => u.UId == post.UserProfileId);
+                    post.UserProfile = user ?? new UserProfile();
+
+                    Console.WriteLine( $"Post by UserId: {post.UserProfileId}, Found: {user != null}, FullName: {post.UserProfile?.FullName}" );
 
                     Posts.Add( post );
                 }
 
                 IsRefreshing = false;
             } );
+
+            //Testing
+            foreach ( var user in users )
+            {
+                Console.WriteLine( $"User: {user.UId} - {user.FullName}" );
+            }
+
+            foreach ( var post in posts )
+            {
+                Console.WriteLine( $"Post.UserProfileId: {post.UserProfileId}" );
+            }
         }
 
         private void LikePost( UserPost post )
