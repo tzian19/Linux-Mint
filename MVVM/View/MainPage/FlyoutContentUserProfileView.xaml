@@ -151,13 +151,9 @@
             BackgroundColor="{StaticResource Tertiary}"
             Stroke="Transparent"
             StrokeShape="RoundRectangle 30">
-            <HorizontalStackLayout BindableLayout.ItemsSource="{Binding Content}">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate>
-                        <Label Text="{Binding Name}" />
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
-            </HorizontalStackLayout>
+            <ContentView x:Name="ContentContainer">
+
+            </ContentView>
         </Border>
     </Grid>
 
