@@ -9,7 +9,7 @@ namespace Linux_Mint.MVVM.Model
         public string PostText { get; set; }
         public int LikeCount { get; set; }
         public string PostCreated { get; set; }
-        public string UserProfileId { get; set; } // FK to UserProfile.UId
+        public string UserProfileId { get; set; }
 
         private UserProfile _userProfile;
         public UserProfile UserProfile
@@ -24,12 +24,14 @@ namespace Linux_Mint.MVVM.Model
             }
         }
 
-        // Proxy properties for convenience
         public string FullName => UserProfile?.FullName ?? "Unknown User";
-        public string UserAvatar => string.IsNullOrWhiteSpace( UserProfile?.UserAvatar ) ? "default_avatar.png" : UserProfile.UserAvatar;
+        public string UserAvatar => string.IsNullOrWhiteSpace( UserProfile?.UserAvatar )
+            ? "default_avatar.png"
+            : UserProfile.UserAvatar;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged( string name ) => PropertyChanged?.Invoke( this , new PropertyChangedEventArgs( name ) );
+        protected void OnPropertyChanged( string name ) =>
+            PropertyChanged?.Invoke( this , new PropertyChangedEventArgs( name ) );
     }
 
 }

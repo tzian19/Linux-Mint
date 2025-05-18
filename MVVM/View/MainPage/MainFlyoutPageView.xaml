@@ -124,7 +124,7 @@
                                             Aspect="AspectFill"
                                             HeightRequest="100"
                                             HorizontalOptions="Fill"
-                                            Source="{Binding LoggedInUser.UserAvatar, FallbackValue='default_avatar.png'}"
+                                            Source="{Binding UserProfile.UserAvatar, FallbackValue='default_avatar.png'}"
                                             VerticalOptions="Fill"
                                             WidthRequest="100" />
                                     </Frame>
@@ -140,8 +140,8 @@
                                         Padding="0"
                                         HorizontalOptions="Start"
                                         VerticalOptions="Center">
-                                        <Label Style="{StaticResource LabelFormat}" Text="{Binding LoggedInUser.FullName, FallbackValue='User Name'}" />
-                                        <Label FontSize="15" Style="{StaticResource LabelFormat}" Text="{Binding LoggedInUser.Username, FallbackValue='username'}" />
+                                        <Label Style="{StaticResource LabelFormat}" Text="{Binding UserProfile.FullName, FallbackValue='User Name'}" />
+                                        <Label FontSize="15" Style="{StaticResource LabelFormat}" Text="{Binding UserProfile.Username, FallbackValue='username'}" />
                                     </VerticalStackLayout>
                                 </Frame>
                             </Grid>

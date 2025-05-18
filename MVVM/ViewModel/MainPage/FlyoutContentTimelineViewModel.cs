@@ -41,8 +41,9 @@ namespace Linux_Mint.MVVM.ViewModel
         {
             IsRefreshing = true;
 
-            var posts = await _postService.GetPostsAsync();
             var users = await _postService.GetAllUsersAsync();
+            var posts = await _postService.GetPostsAsync();
+
 
             var postList = posts
                 .OrderByDescending(p =>
@@ -60,8 +61,6 @@ namespace Linux_Mint.MVVM.ViewModel
                 {
                     var user = users.FirstOrDefault(u => u.UId == post.UserProfileId);
                     post.UserProfile = user ?? new UserProfile();
-
-                    Console.WriteLine( $"Post by UserId: {post.UserProfileId}, Found: {user != null}, FullName: {post.UserProfile?.FullName}" );
 
                     Posts.Add( post );
                 }
