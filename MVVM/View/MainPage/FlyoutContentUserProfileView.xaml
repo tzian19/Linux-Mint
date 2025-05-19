@@ -37,126 +37,125 @@
         <ToolbarItem Clicked="ToolbarItem_Clicked" IconImageSource="addpost_icon.svg" />
     </ContentPage.ToolbarItems>
 
-    <Grid
-        Margin="10,0"
-        RowSpacing="20"
+    <ScrollView >
+        <Grid
+    Margin="10,0"
+    RowSpacing="20"
+    VerticalOptions="Fill">
+            <Grid.RowDefinitions>
+                <RowDefinition Height=".6*" />
+                <RowDefinition Height=".4*" />
+            </Grid.RowDefinitions>
+
+
+            <Border
+        Grid.Row="0"
+        Margin="0"
+        Padding="10"
+        BackgroundColor="Transparent"
+        HorizontalOptions="Fill"
+        Stroke="{StaticResource Tertiary}"
+        StrokeShape="RoundRectangle, 30"
+        StrokeThickness="5"
         VerticalOptions="Fill">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-
-        <Border
-            Grid.Row="0"
-            Margin="0"
-            Padding="10"
-            BackgroundColor="Transparent"
-            HorizontalOptions="Fill"
-            Stroke="{StaticResource Tertiary}"
-            StrokeShape="RoundRectangle, 30"
-            StrokeThickness="5"
-            VerticalOptions="Fill">
-            <Grid VerticalOptions="Fill">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height=".6*" />
-                    <RowDefinition Height=".3*" />
-                    <RowDefinition Height=".2*" />
-                </Grid.RowDefinitions>
-                <Border
-                    Grid.Row="0"
-                    Margin="0"
-                    Padding="5"
-                    BackgroundColor="Transparent"
+                <Grid VerticalOptions="Fill">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height=".6*" />
+                        <RowDefinition Height=".3*" />
+                        <RowDefinition Height=".2*" />
+                    </Grid.RowDefinitions>
+                    <Border
+                Grid.Row="0"
+                Margin="0"
+                Padding="5"
+                BackgroundColor="Transparent"
+                HorizontalOptions="Center"
+                Stroke="{StaticResource Tertiary}"
+                StrokeShape="RoundRectangle, 180"
+                StrokeThickness="5"
+                VerticalOptions="End">
+                        <Frame
+                    Padding="0"
+                    BackgroundColor="White"
+                    BorderColor="{StaticResource Tertiary}"
+                    CornerRadius="180"
+                    HeightRequest="216"
                     HorizontalOptions="Center"
-                    Stroke="{StaticResource Tertiary}"
-                    StrokeShape="RoundRectangle, 180"
-                    StrokeThickness="5"
-                    VerticalOptions="End">
-                    <Frame
-                        Padding="0"
-                        BackgroundColor="White"
-                        BorderColor="{StaticResource Tertiary}"
-                        CornerRadius="180"
+                    IsClippedToBounds="True"
+                    VerticalOptions="Center"
+                    WidthRequest="216">
+                            <Image
+                        Aspect="AspectFill"
                         HeightRequest="216"
-                        HorizontalOptions="Center"
-                        IsClippedToBounds="True"
-                        VerticalOptions="Center"
-                        WidthRequest="216">
-                        <Image
-                            Aspect="AspectFill"
-                            HeightRequest="216"
-                            HorizontalOptions="Fill"
-                            Source="{Binding LoggedInUser.UserAvatar, FallbackValue='default_avatar.png'}"
-                            VerticalOptions="Fill"
-                            WidthRequest="216" />
-                    </Frame>
-                </Border>
-                <VerticalStackLayout
-                    Grid.Row="1"
-                    Margin="0"
-                    Padding="0"
+                        HorizontalOptions="Fill"
+                        Source="{Binding LoggedInUser.UserAvatar, FallbackValue='default_avatar.png'}"
+                        VerticalOptions="Fill"
+                        WidthRequest="216" />
+                        </Frame>
+                    </Border>
+                    <VerticalStackLayout
+                Grid.Row="1"
+                Margin="0"
+                Padding="0"
+                HorizontalOptions="Center"
+                VerticalOptions="End">
+                        <Label
+                    Style="{StaticResource LabelFormat}"
+                    Text="{Binding LoggedInUser.FullName}"
+                    TextColor="{StaticResource SecondaryDarkText}" />
+                        <Label
+                    Margin="0,0,0,20"
+                    FontAttributes="None"
+                    FontSize="15"
                     HorizontalOptions="Center"
-                    VerticalOptions="End">
-                    <Label
-                        Style="{StaticResource LabelFormat}"
-                        Text="{Binding LoggedInUser.FullName}"
-                        TextColor="{StaticResource SecondaryDarkText}" />
-                    <Label
-                        Margin="0,0,0,20"
-                        FontAttributes="None"
-                        FontSize="15"
-                        HorizontalOptions="Center"
-                        Style="{StaticResource LabelFormat}"
-                        Text="{Binding LoggedInUser.Username, StringFormat='@{0}'}"
-                        TextColor="{StaticResource SecondaryDarkText}"
-                        VerticalOptions="Center" />
-                    <Button
-                        CornerRadius="25"
-                        FontSize="20"
-                        HorizontalOptions="Center"
-                        Style="{StaticResource BaseButtonStyle}"
-                        Text="Edit Profile"
-                        VerticalOptions="Center"
-                        WidthRequest="174" />
-                </VerticalStackLayout>
-                <HorizontalStackLayout
-                    Grid.Row="2"
-                    Padding="0"
+                    Style="{StaticResource LabelFormat}"
+                    Text="{Binding LoggedInUser.Username, StringFormat='@{0}'}"
+                    TextColor="{StaticResource SecondaryDarkText}"
+                    VerticalOptions="Center" />
+                        <Button
+                    CornerRadius="25"
+                    FontSize="20"
                     HorizontalOptions="Center"
-                    Spacing="5"
-                    VerticalOptions="Center">
-                    <Button
-                        CornerRadius="25"
-                        FontSize="20"
-                        HorizontalOptions="Center"
-                        Style="{StaticResource BaseButtonStyle}"
-                        Text="Timeline Posts"
-                        VerticalOptions="Center"
-                        WidthRequest="174" />
-                    <Button
-                        CornerRadius="25"
-                        FontSize="20"
-                        HorizontalOptions="Center"
-                        Style="{StaticResource BaseButtonStyle}"
-                        Text="About"
-                        VerticalOptions="Center"
-                        WidthRequest="174" />
-                </HorizontalStackLayout>
-            </Grid>
-        </Border>
+                    Style="{StaticResource BaseButtonStyle}"
+                    Text="Edit Profile"
+                    VerticalOptions="Center"
+                    WidthRequest="174" />
+                    </VerticalStackLayout>
+                    <HorizontalStackLayout
+                Grid.Row="2"
+                Padding="0"
+                HorizontalOptions="Center"
+                Spacing="5"
+                VerticalOptions="Center">
+                        <Button
+                    CornerRadius="25"
+                    FontSize="20"
+                    HorizontalOptions="Center"
+                    Style="{StaticResource BaseButtonStyle}"
+                    Text="Timeline Posts"
+                    VerticalOptions="Center"
+                    WidthRequest="174" />
+                        <Button
+                    CornerRadius="25"
+                    FontSize="20"
+                    HorizontalOptions="Center"
+                    Style="{StaticResource BaseButtonStyle}"
+                    Text="About"
+                    VerticalOptions="Center"
+                    WidthRequest="174" />
+                    </HorizontalStackLayout>
+                </Grid>
+            </Border>
 
-        <Border
-            Grid.Row="1"
-            BackgroundColor="{StaticResource Tertiary}"
-            Stroke="Transparent"
-            StrokeShape="RoundRectangle 30">
-            <ContentView x:Name="ContentContainer">
+            <Border
+        Grid.Row="1"
+        BackgroundColor="{StaticResource Tertiary}"
+        Stroke="Transparent"
+        StrokeShape="RoundRectangle 30">
+                <ContentView x:Name="ContentContainer" HeightRequest="500">
 
-            </ContentView>
-        </Border>
-    </Grid>
-
-
-
+                </ContentView>
+            </Border>
+        </Grid>
+    </ScrollView>
 </ContentPage>
