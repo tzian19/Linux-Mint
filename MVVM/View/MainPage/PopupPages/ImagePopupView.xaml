@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Linux_Mint.MVVM.View.MainPage.PopupPages.ImagePopupView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Padding="20"
+    BackgroundColor="#99000000">
+
+    <Grid
+        x:Name="MainLayout"
+        HorizontalOptions="Center"
+        VerticalOptions="Center">
+
+        <Grid>
+            <Border Stroke="{StaticResource Tertiary}"
+                    StrokeThickness="5">
+                <Image
+                    Aspect="AspectFit"
+                    HeightRequest="300"
+                    Source="{Binding ImageUrl}"
+                    WidthRequest="300" />
+            </Border>
+
+
+            <Button
+                Margin="10"
+                BackgroundColor="#8046B47F"
+                Clicked="CloseButton_Clicked"
+                CornerRadius="20"
+                FontSize="16"
+                HeightRequest="40"
+                HorizontalOptions="End"
+                Text="✕"
+                TextColor="White"
+                VerticalOptions="Start"
+                WidthRequest="40" />
+        </Grid>
+
+    </Grid>
+</ContentPage>

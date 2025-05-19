@@ -177,17 +177,24 @@
                                     <!--  Like & Delete  -->
                                     <HorizontalStackLayout
                                         Grid.Row="2"
-                                        Spacing="10"
+                                        Spacing="5"
                                         VerticalOptions="Center">
                                         <Button
+                                            Padding="0"
                                             BackgroundColor="Transparent"
                                             Command="{Binding BindingContext.LikeCommand, Source={x:Reference PageRoot}}"
                                             CommandParameter="{Binding .}"
                                             FontSize="30"
                                             Style="{StaticResource BaseButtonStyle}"
                                             Text="&#xe800;" />
-                                        <Label Style="{StaticResource LabelFormat}" Text="{Binding LikeCount}" />
+                                        <Label
+                                            Style="{StaticResource LabelFormat}"
+                                            Text="{Binding LikeCount}"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Start"
+                                            Padding="0"/>
                                         <Button
+                                            Padding="0"
                                             BackgroundColor="Transparent"
                                             Command="{Binding BindingContext.DeletePostCommand, Source={x:Reference PageRoot}}"
                                             CommandParameter="{Binding .}"
