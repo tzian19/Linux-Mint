@@ -4,7 +4,6 @@ namespace Linux_Mint.MVVM.View.MainPage;
 
 public partial class FlyoutContentTimelineView : ContentPage
 {
-
     public FlyoutContentTimelineView()
     {
         InitializeComponent();

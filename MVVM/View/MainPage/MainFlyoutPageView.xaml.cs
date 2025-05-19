@@ -6,18 +6,18 @@ public partial class MainFlyoutPageView : FlyoutPage
 {
     public MainFlyoutPageView()
     {
-
         InitializeComponent();
         BindingContext = new MainFlyoutPageViewModel();
 
-        if ( DeviceInfo.Platform == DevicePlatform.WinUI )
+        if (DeviceInfo.Platform == DevicePlatform.WinUI)
         {
             btnHideMenuIcon.IsVisible = false;
         }
     }
-    public async void OnLoaded( object sender , EventArgs e )
+
+    public async void OnLoaded(object sender, EventArgs e)
     {
-        if ( BindingContext is MainFlyoutPageViewModel vm )
-            vm.FlyoutPageOnLoad.Execute( null );
+        if (BindingContext is MainFlyoutPageViewModel vm)
+            vm.FlyoutPageOnLoad.Execute(null);
     }
 }

@@ -5,21 +5,20 @@ namespace Linux_Mint.MVVM.View.MainPage;
 public partial class FlyoutContentUserProfileView : ContentPage
 {
     public UserProfile currentUser;
+
     public FlyoutContentUserProfileView()
     {
         InitializeComponent();
     }
 
-    private Task ToolbarItem_ClickedAsync( object sender , EventArgs e )
+    private Task ToolbarItem_ClickedAsync(object sender, EventArgs e)
     {
-        return Navigation.PushAsync( new FlyoutContentNewPostView() );
+        return Navigation.PushAsync(new FlyoutContentNewPostView());
     }
 
     // Update your XAML or event subscription to use the new async method with a fire-and-forget pattern:
-    private void ToolbarItem_Clicked( object sender , EventArgs e )
+    private void ToolbarItem_Clicked(object sender, EventArgs e)
     {
-        _ = ToolbarItem_ClickedAsync( sender , e );
+        _ = ToolbarItem_ClickedAsync(sender, e);
     }
-
-
 }

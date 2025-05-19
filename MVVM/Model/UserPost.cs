@@ -12,26 +12,28 @@ namespace Linux_Mint.MVVM.Model
         public string UserProfileId { get; set; }
 
         private UserProfile _userProfile;
+
         public UserProfile UserProfile
         {
             get => _userProfile;
             set
             {
                 _userProfile = value;
-                OnPropertyChanged( nameof( UserProfile ) );
-                OnPropertyChanged( nameof( FullName ) );
-                OnPropertyChanged( nameof( UserAvatar ) );
+                OnPropertyChanged(nameof(UserProfile));
+                OnPropertyChanged(nameof(FullName));
+                OnPropertyChanged(nameof(UserAvatar));
             }
         }
 
         public string FullName => UserProfile?.FullName ?? "Unknown User";
-        public string UserAvatar => string.IsNullOrWhiteSpace( UserProfile?.UserAvatar )
+
+        public string UserAvatar => string.IsNullOrWhiteSpace(UserProfile?.UserAvatar)
             ? "default_avatar.png"
             : UserProfile.UserAvatar;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged( string name ) =>
-            PropertyChanged?.Invoke( this , new PropertyChangedEventArgs( name ) );
-    }
 
+        protected void OnPropertyChanged(string name) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    }
 }

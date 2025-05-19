@@ -6,15 +6,11 @@ public partial class FlyoutContentNewPostView : ContentPage
 {
     public FlyoutContentNewPostView()
     {
-
         InitializeComponent();
         BindingContext = new FlyoutContentNewPostViewModel();
-
     }
 
-    private void OnRemoveImageClicked( object sender , EventArgs e )
+    private void OnRemoveImageClicked(object sender, EventArgs e)
     {
-
-
     }
 }
