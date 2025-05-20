@@ -3,11 +3,11 @@
     x:Class="Linux_Mint.MVVM.View.MainPage.FlyoutContentNewPostView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    BackgroundColor="#D6F7E2"
-    Title="New Post">
+    Title="New Post"
+    BackgroundColor="#D6F7E2">
 
     <VerticalStackLayout Padding="20,40,20,0" Spacing="20">
-        <!-- Header -->
+        <!--  Header  -->
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -15,103 +15,113 @@
             </Grid.ColumnDefinitions>
             <Button
                 Grid.Column="1"
-                Text="Post"
-                FontSize="16"
-                BackgroundColor="#46B47F"
-                TextColor="White"
-                CornerRadius="5"
+                Margin="0,0,0,0"
                 Padding="20,5"
-                VerticalOptions="Center"
+                BackgroundColor="#46B47F"
+                CornerRadius="5"
+                FontSize="16"
                 HorizontalOptions="End"
-                Margin="0,0,0,0"/>
+                Text="Post"
+                TextColor="White"
+                VerticalOptions="Center" />
         </Grid>
 
-        <!-- Divider -->
-        <BoxView HeightRequest="1" BackgroundColor="#A0C4B0" />
+        <!--  Divider  -->
+        <BoxView BackgroundColor="#A0C4B0" HeightRequest="1" />
 
-        <!-- User Info Card -->
+        <!--  User Info Card  -->
         <Frame
+            Margin="0,0,0,0"
+            Padding="10"
             BackgroundColor="#E6F9ED"
             CornerRadius="20"
-            HasShadow="False"
-            Padding="10"
-            Margin="0,0,0,0">
+            HasShadow="False">
             <Grid ColumnSpacing="10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Border
-                    WidthRequest="40"
+                    BackgroundColor="#46B47F"
                     HeightRequest="40"
+                    HorizontalOptions="Center"
                     Stroke="#46B47F"
                     StrokeThickness="0"
-                    BackgroundColor="#46B47F"
                     VerticalOptions="Center"
-                    HorizontalOptions="Center">
+                    WidthRequest="40">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="100"/>
+                        <RoundRectangle CornerRadius="100" />
                     </Border.StrokeShape>
-                    <Image Source="user_icon.png" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" HorizontalOptions="Center"/>
+                    <Image
+                        HeightRequest="28"
+                        HorizontalOptions="Center"
+                        Source="user_icon.png"
+                        VerticalOptions="Center"
+                        WidthRequest="28" />
                 </Border>
                 <Label
                     Grid.Column="1"
-                    Text="Christian Quizam"
                     FontSize="18"
-                    VerticalOptions="Center"
-                    TextColor="Black"/>
+                    Text="Christian Quizam"
+                    TextColor="Black"
+                    VerticalOptions="Center" />
             </Grid>
         </Frame>
 
-        <!-- Post Text Placeholder -->
+        <!--  Post Text Placeholder  -->
         <Entry
-            Placeholder="What’s on your mind?"
-            VerticalTextAlignment="Start"
+            Margin="0,0,0,0"
             FontSize="18"
-            TextColor ="Black"
             HeightRequest="100"
-            Margin="0,0,0,0"/>
+            Placeholder="What’s on your mind?"
+            TextColor="Black"
+            VerticalTextAlignment="Start" />
 
 
-        <!-- Add Photo Button -->
+        <!--  Add Photo Button  -->
         <Button
+            Padding="0"
             BackgroundColor="#46B47F"
-            TextColor="White"
             CornerRadius="10"
             FontSize="20"
             HeightRequest="50"
             HorizontalOptions="Center"
-            VerticalOptions="End"
-            Padding="0"
             Text="Add Photo"
-            WidthRequest="300"/>
+            TextColor="White"
+            VerticalOptions="End"
+            WidthRequest="300" />
 
         <StackLayout Orientation="Horizontal" Spacing="10">
             <Border
                 x:Name="RemovableImageBorder"
-                WidthRequest="100"
+                BackgroundColor="#46B47F"
                 HeightRequest="100"
+                HorizontalOptions="Start"
                 Stroke="#46B47F"
                 StrokeThickness="0"
-                BackgroundColor="#46B47F"
-                HorizontalOptions="Start">
+                WidthRequest="100">
                 <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="10"/>
+                    <RoundRectangle CornerRadius="10" />
 
                 </Border.StrokeShape>
                 <Grid>
-                    <Image Source="user_icon.png" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" HorizontalOptions="Center"/>
+                    <Image
+                        HeightRequest="28"
+                        HorizontalOptions="Center"
+                        Source="user_icon.png"
+                        VerticalOptions="Center"
+                        WidthRequest="28" />
                     <Button
-                        Text="✕"
-                        BackgroundColor="Transparent"
-                        TextColor="White"
-                        FontSize="18"
                         Padding="0"
-                        WidthRequest="30"
+                        BackgroundColor="Transparent"
+                        Clicked="OnRemoveImageClicked"
+                        FontSize="18"
                         HeightRequest="30"
                         HorizontalOptions="End"
+                        Text="✕"
+                        TextColor="White"
                         VerticalOptions="Start"
-                        Clicked="OnRemoveImageClicked"/>
+                        WidthRequest="30" />
                 </Grid>
             </Border>
         </StackLayout>

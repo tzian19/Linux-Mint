@@ -1,5 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
+﻿using System.Windows.Input;
+
+using Linux_Mint.MVVM.Model;
+using Linux_Mint.MVVM.View.MainPage;
 
 namespace Linux_Mint.MVVM.ViewModel
 {
@@ -7,19 +9,7 @@ namespace Linux_Mint.MVVM.ViewModel
     {
         private readonly PostService _postService;
 
-        public ObservableCollection<UserPost> Posts { get; set; } = new();
-
-        private bool _isRefreshing;
-        public bool IsRefreshing
-        {
-            get => _isRefreshing;
-            set
-            {
-                _isRefreshing = value;
-                OnPropertyChanged();
-            }
-        }
-
+        public ICommand AddNewPostCommand { get; }
         public ICommand RefreshCommand { get; }
         public ICommand LikeCommand { get; }
         public ICommand EditPostCommand { get; }
@@ -29,6 +19,7 @@ namespace Linux_Mint.MVVM.ViewModel
         {
             _postService = new PostService();
 
+            AddNewPostCommand = new Command( async () => await NavigateToPage( new FlyoutContentNewPostView() ) );
             RefreshCommand = new Command( async () => await LoadPostsAsync() );
             LikeCommand = new Command<UserPost>( LikePost );
             EditPostCommand = new Command<UserPost>( EditPost );
@@ -41,21 +32,42 @@ namespace Linux_Mint.MVVM.ViewModel
         {
             IsRefreshing = true;
 
+            var users = await _postService.GetAllUsersAsync();
             var posts = await _postService.GetPostsAsync();
+
+            var postList = posts
+                .OrderByDescending(p =>
+                {
+                    DateTime.TryParse(p.PostCreated, out var parsedDate);
+                    return parsedDate;
+                })
+                .ToList();
 
             MainThread.BeginInvokeOnMainThread( () =>
             {
                 Posts.Clear();
-                foreach ( var post in posts.OrderByDescending( p => DateTime.Parse( p.PostCreated ) ) )
+
+                foreach ( var post in postList )
                 {
-                    if ( string.IsNullOrWhiteSpace( post.FullName ) )
-                        post.FullName = $"{post.FirstName} {post.LastName}";
+                    var user = users.FirstOrDefault(u => u.UId == post.UserProfileId);
+                    post.UserProfile = user ?? new UserProfile();
 
                     Posts.Add( post );
                 }
 
                 IsRefreshing = false;
             } );
+
+            //Testing
+            foreach ( var user in users )
+            {
+                Console.WriteLine( $"User: {user.UId} - {user.FullName}" );
+            }
+
+            foreach ( var post in posts )
+            {
+                Console.WriteLine( $"Post.UserProfileId: {post.UserProfileId}" );
+            }
         }
 
         private void LikePost( UserPost post )

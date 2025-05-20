@@ -2,7 +2,8 @@
 
 using Linux_Mint.Service;
 
-[assembly: Dependency( typeof( Linux_Mint.Platforms.Android.KeepScreenOnService ) )]
+[assembly: Dependency(typeof(Linux_Mint.Platforms.Android.KeepScreenOnService))]
+
 namespace Linux_Mint.Platforms.Android
 {
     public class KeepScreenOnService : IKeepScreenOnService
@@ -10,13 +11,13 @@ namespace Linux_Mint.Platforms.Android
         public void KeepScreenOn()
         {
             var window = Platform.CurrentActivity?.Window;
-            window?.AddFlags( WindowManagerFlags.KeepScreenOn );
+            window?.AddFlags(WindowManagerFlags.KeepScreenOn);
         }
 
         public void AllowScreenOff()
         {
             var window = Platform.CurrentActivity?.Window;
-            window?.ClearFlags( WindowManagerFlags.KeepScreenOn );
+            window?.ClearFlags(WindowManagerFlags.KeepScreenOn);
         }
     }
 }

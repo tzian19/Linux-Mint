@@ -5,94 +5,164 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pages="clr-namespace:Linux_Mint.MVVM.View.MainPage"
     xmlns:shapes="clr-namespace:Microsoft.Maui.Controls.Shapes;assembly=Microsoft.Maui.Controls"
+    x:Name="PageRoot"
     Title="Profile"
     BackgroundColor="{StaticResource Primary}">
 
+    <ContentPage.Resources>
+        <Style x:Key="BaseButtonStyle" TargetType="Button">
+            <Setter Property="HorizontalOptions" Value="Fill" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="FontFamily" Value="Fontello" />
+            <Setter Property="FontSize" Value="25" />
+            <Setter Property="BackgroundColor" Value="{StaticResource Secondary}" />
+            <Setter Property="TextColor" Value="{StaticResource Tertiary}" />
+            <Setter Property="Shadow">
+                <Setter.Value>
+                    <Shadow
+                        Brush="Black"
+                        Opacity="0.5"
+                        Radius="10"
+                        Offset="5,5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="LabelFormat" TargetType="Label">
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="TextColor" Value="{StaticResource Quadra}" />
+        </Style>
+    </ContentPage.Resources>
+
     <ContentPage.ToolbarItems>
-        <ToolbarItem Clicked="ToolbarItem_Clicked" IconImageSource="addpost_icon.svg" />
+        <ToolbarItem Clicked="ToolbarItem_Clicked" Text="20" />
     </ContentPage.ToolbarItems>
-    <Grid Margin="10,0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
 
 
-        <Grid Grid.Row="0" Margin="0,10,0,0">
-
+    <ScrollView>
+        <VerticalStackLayout
+            Margin="10,0,10,0"
+            Spacing="10"
+            VerticalOptions="Fill">
             <Border
-                     Grid.Row="0"
-                     Stroke="#46B47F"
-                     StrokeThickness="5"
-                     BackgroundColor="Transparent"
-                     Padding="5"
-                     HorizontalOptions="Center"
-                     VerticalOptions="Center">
-
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="20" />
-                </Border.StrokeShape>
-
-                <Image WidthRequest="320" HeightRequest="300"/>
-
-            </Border>
-            <VerticalStackLayout
-                HorizontalOptions="Center"
-                Spacing="10"
-                VerticalOptions="Fill">
-                <Border
-
-                        Margin="0,30,0,0"
+                Margin="0"
+                BackgroundColor="Transparent"
+                HorizontalOptions="Fill"
+                Stroke="{StaticResource Tertiary}"
+                StrokeShape="RoundRectangle, 30"
+                StrokeThickness="5"
+                VerticalOptions="Center">
+                <Grid
+                    Margin="0"
+                    Padding="20"
+                    RowSpacing="20"
+                    VerticalOptions="Fill">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Border
                         Grid.Row="0"
-                         Stroke="Black"
-                         BackgroundColor="#217d41"
-                         Padding="30"
-                         HorizontalOptions="Center">
-
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="100" />
-                    </Border.StrokeShape>
-                    <Image HeightRequest="30" WidthRequest="30" />
-
-
-                <Label Text="Username" FontSize="20" TextColor="Black" HorizontalTextAlignment="Center"/>
-                <Label Text="Description" FontSize="12" TextColor="Black" HorizontalTextAlignment="Center"/>
-
-                <Button Text="Edit Profile" TextColor="Black" BackgroundColor="#BAD9C3" WidthRequest="100" FontSize="12" CornerRadius="30" Padding="0,5,0,5" />
-
-                <HorizontalStackLayout HorizontalOptions="Fill" Spacing="20" Margin="0,50,0,0">
-                    <Button Text="Timeline Posts" BackgroundColor="#BAD9C3" CornerRadius="30" FontSize="12" WidthRequest="130"  Padding="0,5,0,5" Clicked="TimelineButton"/>
-                    <Button Text="About" FontSize="12" BackgroundColor="#BAD9C3" CornerRadius="30" WidthRequest="130"  Padding="0,5,0,5" Clicked="AboutButton"/>
-
-                </HorizontalStackLayout>
-
-
-            </VerticalStackLayout>
-
-        </Grid>
-
-        <Grid Grid.Row="1" Margin="0,0,0,0" >
-            <ScrollView BackgroundColor="Transparent" Margin="0,-10,0,10">
-
-                <BoxView x:Name="TimelineContainer" Margin="0,0,0,0" BackgroundColor="#46B47F" HeightRequest="500" CornerRadius="10" IsVisible="True"/>
-            </ScrollView>
-            <Border x:Name="AboutContainer" Margin="0,-15,0,0" BackgroundColor="Green" HeightRequest="365" IsVisible="False">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="10"/>
-                </Border.StrokeShape>
-                <Grid Margin="10">
-                    <StackLayout>
-                        <Label Text="Lastname"/>   
-                        <Label Text="Firstname"/>   
-                        <Label Text="Email"/>
-                        <Label Text="Birthdate"/>
-                        <Label Text="Age"/>
-                    </StackLayout>
+                        Margin="0"
+                        Padding="5"
+                        BackgroundColor="Transparent"
+                        HorizontalOptions="Center"
+                        Stroke="{StaticResource Tertiary}"
+                        StrokeShape="RoundRectangle, 180"
+                        StrokeThickness="5"
+                        VerticalOptions="End">
+                        <Frame
+                            BackgroundColor="White"
+                            BorderColor="{StaticResource Tertiary}"
+                            CornerRadius="108"
+                            HeightRequest="216"
+                            HorizontalOptions="Center"
+                            IsClippedToBounds="True"
+                            VerticalOptions="Center"
+                            WidthRequest="216">
+                            <Image
+                                Aspect="AspectFill"
+                                HeightRequest="216"
+                                HorizontalOptions="Fill"
+                                Source="{Binding LoggedInUser.UserAvatar, FallbackValue='default_avatar.png'}"
+                                VerticalOptions="Fill"
+                                WidthRequest="216">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.ShowImageCommand, Source={x:Reference PageRoot}}" CommandParameter="{Binding LoggedInUser}" />
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </Frame>
+                    </Border>
+                    <VerticalStackLayout
+                        Grid.Row="1"
+                        Margin="0"
+                        Padding="0"
+                        HorizontalOptions="Center"
+                        VerticalOptions="End">
+                        <Label
+                            Style="{StaticResource LabelFormat}"
+                            Text="{Binding LoggedInUser.FullName}"
+                            TextColor="{StaticResource SecondaryDarkText}" />
+                        <Label
+                            Margin="0,0,0,20"
+                            FontAttributes="None"
+                            FontSize="15"
+                            HorizontalOptions="Center"
+                            Style="{StaticResource LabelFormat}"
+                            Text="{Binding LoggedInUser.Username, StringFormat='@{0}'}"
+                            TextColor="{StaticResource SecondaryDarkText}"
+                            VerticalOptions="Center" />
+                        <Button
+                            CornerRadius="25"
+                            FontSize="20"
+                            HorizontalOptions="Center"
+                            Style="{StaticResource BaseButtonStyle}"
+                            Text="Edit Profile"
+                            VerticalOptions="Center"
+                            WidthRequest="174" />
+                    </VerticalStackLayout>
+                    <HorizontalStackLayout
+                        Grid.Row="2"
+                        Padding="0"
+                        HorizontalOptions="Center"
+                        Spacing="5"
+                        VerticalOptions="Center">
+                        <Button
+                            Command="{Binding SwitchViewPage}"
+                            CommandParameter="UserPostedView"
+                            CornerRadius="25"
+                            FontSize="20"
+                            HorizontalOptions="Center"
+                            Style="{StaticResource BaseButtonStyle}"
+                            Text="Timeline Posts"
+                            VerticalOptions="Center"
+                            WidthRequest="174" />
+                        <Button
+                            Command="{Binding SwitchViewPage}"
+                            CommandParameter="AboutContentView"
+                            CornerRadius="25"
+                            FontSize="20"
+                            HorizontalOptions="Center"
+                            Style="{StaticResource BaseButtonStyle}"
+                            Text="About"
+                            VerticalOptions="Center"
+                            WidthRequest="174" />
+                    </HorizontalStackLayout>
                 </Grid>
             </Border>
-        </Grid>
-    </Grid>
-
-
-
+            <Border
+                BackgroundColor="{StaticResource Tertiary}"
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 30"
+                VerticalOptions="FillAndExpand">
+                <ContentView
+                    x:Name="ContentContainer"
+                    Margin="30,20"
+                    x:FieldModifier="public"
+                    Loaded="ContentContainer_Loaded" />
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

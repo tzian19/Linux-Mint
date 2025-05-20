@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="Linux_Mint.MVVM.View.MainPage.ProfileContents.UserPostedView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="PageRoot">
+
+    <ContentView.Resources>
+        <Style x:Key="BaseButtonStyle" TargetType="Button">
+            <Setter Property="HorizontalOptions" Value="Fill" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="FontFamily" Value="Fontello" />
+            <Setter Property="FontSize" Value="25" />
+            <Setter Property="TextColor" Value="{StaticResource SecondaryDarkText}" />
+        </Style>
+        <Style x:Key="LabelFormat" TargetType="Label">
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="TextColor" Value="{StaticResource SecondaryDarkText}" />
+        </Style>
+        <Style x:Key="Post" TargetType="Border">
+            <Setter Property="Stroke" Value="{StaticResource Hexa}" />
+            <Setter Property="StrokeShape" Value="RoundRectangle, 30" />
+            <Setter Property="BackgroundColor" Value="{StaticResource Hexa}" />
+        </Style>
+    </ContentView.Resources>
+
+    <CollectionView
+        BackgroundColor="Transparent"
+        ItemsSource="{Binding Posts}"
+        VerticalOptions="Fill">
+        <CollectionView.ItemsLayout>
+            <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="10" />
+        </CollectionView.ItemsLayout>
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Border Padding="20" Style="{StaticResource Post}">
+                    <Grid RowSpacing="30">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!--  User Info  -->
+                        <Grid Grid.Row="0" ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Frame
+                                Grid.Column="0"
+                                Padding="0"
+                                BackgroundColor="White"
+                                BorderColor="Transparent"
+                                CornerRadius="50"
+                                HeightRequest="50"
+                                IsClippedToBounds="True"
+                                VerticalOptions="Center"
+                                WidthRequest="50">
+                                <Image
+                                    Aspect="AspectFill"
+                                    HeightRequest="50"
+                                    HorizontalOptions="Fill"
+                                    Source="{Binding UserAvatar}"
+                                    VerticalOptions="Fill"
+                                    WidthRequest="50" />
+                            </Frame>
+
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                <Label Style="{StaticResource LabelFormat}" Text="{Binding FullName}" />
+                                <Label
+                                    FontSize="18"
+                                    Text="{Binding PostCreated, StringFormat='{0:MMM d, yyyy h:mm tt}'}"
+                                    TextColor="Gray" />
+                            </VerticalStackLayout>
+
+                            <Button
+                                Grid.Column="2"
+                                BackgroundColor="Transparent"
+                                Command="{Binding BindingContext.EditPostCommand, Source={x:Reference PageRoot}}"
+                                CommandParameter="{Binding .}"
+                                Style="{StaticResource BaseButtonStyle}"
+                                Text="&#xe805;" />
+                        </Grid>
+
+                        <!--  Post Image  -->
+                        <Frame
+                            Grid.Row="1"
+                            Padding="0"
+                            BackgroundColor="White"
+                            BorderColor="Transparent"
+                            CornerRadius="10"
+                            IsClippedToBounds="True">
+                            <Image
+                                Aspect="AspectFill"
+                                HeightRequest="320"
+                                Source="{Binding PostImage}"
+                                WidthRequest="320">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.ShowImageCommand, Source={x:Reference PageRoot}}" CommandParameter="{Binding .}" />
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </Frame>
+
+                        <!--  Like & Delete  -->
+                        <HorizontalStackLayout
+                            Grid.Row="2"
+                            Spacing="10"
+                            VerticalOptions="Center">
+                            <Button
+                                Padding="0"
+                                BackgroundColor="Transparent"
+                                Command="{Binding BindingContext.LikeCommand, Source={x:Reference PageRoot}}"
+                                CommandParameter="{Binding .}"
+                                FontSize="30"
+                                Style="{StaticResource BaseButtonStyle}"
+                                Text="&#xe800;" />
+                            <Label
+                                Padding="0"
+                                Style="{StaticResource LabelFormat}"
+                                Text="{Binding LikeCount}"
+                                VerticalOptions="Center" />
+                            <Button
+                                Padding="0"
+                                BackgroundColor="Transparent"
+                                Command="{Binding BindingContext.DeletePostCommand, Source={x:Reference PageRoot}}"
+                                CommandParameter="{Binding .}"
+                                FontSize="25"
+                                Style="{StaticResource BaseButtonStyle}"
+                                Text="🗑" />
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentView>

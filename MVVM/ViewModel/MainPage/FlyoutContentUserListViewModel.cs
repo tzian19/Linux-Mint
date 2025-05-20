@@ -1,12 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using Linux_Mint.MVVM.Model;
+using System.Collections.ObjectModel;
 using System.Text.Json;
 using System.Windows.Input;
 
-using Linux_Mint.MVVM.Model;
-
 namespace Linux_Mint.MVVM.ViewModel.MainPage
 {
-    class FlyoutContentUserListViewModel : ViewModelBase
+    internal class FlyoutContentUserListViewModel : ViewModelBase
     {
         public ObservableCollection<UserProfile> Users { get; set; }
 
@@ -15,7 +14,7 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage
         public FlyoutContentUserListViewModel()
         {
             Users = new ObservableCollection<UserProfile>();
-            GetAllUsersCommand = new Command( async () => await LoadUsers() );
+            GetAllUsersCommand = new Command(async () => await LoadUsers());
 
             // Auto-load users on ViewModel construction
             _ = LoadUsers();
@@ -26,28 +25,28 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage
             try
             {
                 var response = await client.GetAsync($"{baseUrl}/UserProfiles"); // Adjust 'UserProfiles' if needed
-                if ( response.IsSuccessStatusCode )
+                if (response.IsSuccessStatusCode)
                 {
                     using var stream = await response.Content.ReadAsStreamAsync();
                     var users = await JsonSerializer.DeserializeAsync<List<UserProfile>>(stream, _serializerOptions);
 
-                    if ( users != null )
+                    if (users != null)
                     {
                         Users.Clear();
-                        foreach ( var user in users )
+                        foreach (var user in users)
                         {
-                            Users.Add( user );
+                            Users.Add(user);
                         }
                     }
                 }
                 else
                 {
-                    Console.WriteLine( $"Server error: {response.StatusCode}" );
+                    Console.WriteLine($"Server error: {response.StatusCode}");
                 }
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
-                Console.WriteLine( $"Exception: {ex.Message}" );
+                Console.WriteLine($"Exception: {ex.Message}");
             }
         }
     }

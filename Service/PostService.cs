@@ -1,5 +1,6 @@
-﻿using Linux_Mint.MVVM.Model;
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
+
+using Linux_Mint.MVVM.Model;
 
 public class PostService
 {
@@ -15,33 +16,31 @@ public class PostService
     {
         try
         {
-            var users = await _httpClient.GetFromJsonAsync<List<UserProfile>>($"{BaseUrl}/UserProfiles");
-            var posts = await _httpClient.GetFromJsonAsync<List<UserPost>>($"{BaseUrl}/UserPosts");
+            var posts = await _httpClient.GetFromJsonAsync<List<UserPost>>(
+                $"{BaseUrl}/UserPosts");
 
-            if (users == null || posts == null)
-                return new List<UserPost>();
-
-            // Join post with user info
-            foreach (var post in posts)
-            {
-                var user = users.FirstOrDefault(u => u.UId == post.UserId);
-                if (user != null)
-                {
-                    post.FirstName = user.FirstName;
-                    post.LastName = user.LastName;
-                    post.UserAvatar = user.UserAvatar;
-                    post.Email = user.Email;
-                    post.Username = user.Username;
-                    post.FullName = $"{user.FirstName} {user.LastName}";
-                }
-            }
-
-            return posts;
+            return posts ?? new List<UserPost>();
         }
-        catch (Exception ex)
+        catch ( Exception ex )
         {
-            Console.WriteLine($"Error fetching posts: {ex.Message}");
+            Console.WriteLine( $"Error fetching posts: {ex.Message}" );
             return new List<UserPost>();
+        }
+    }
+
+    public async Task<List<UserProfile>> GetAllUsersAsync()
+    {
+        try
+        {
+            var users = await _httpClient.GetFromJsonAsync<List<UserProfile>>(
+                $"{BaseUrl}/UserProfiles");
+
+            return users ?? new List<UserProfile>();
+        }
+        catch ( Exception ex )
+        {
+            Console.WriteLine( $"Error fetching users: {ex.Message}" );
+            return new List<UserProfile>();
         }
     }
 }

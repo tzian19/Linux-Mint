@@ -1,13 +1,10 @@
-﻿using Linux_Mint.MVVM.Model;
-using Linux_Mint.MVVM.view;
-using Linux_Mint.MVVM.View.MainPage;
+﻿using Linux_Mint.MVVM.view;
 using Linux_Mint.Service;
 
 namespace Linux_Mint
 {
     public partial class App : Application
     {
-        UserProfile user = new UserProfile();
         public App()
         {
             InitializeComponent();
@@ -17,10 +14,6 @@ namespace Linux_Mint
                 BarBackgroundColor = Color.FromArgb( "#46B47F" ) ,
                 BarTextColor = Color.FromArgb( "#94FFD4" )
             };
-
-
-
-
         }
 
 

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="Linux_Mint.MVVM.View.MainPage.ProfileContents.AboutContentView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="{StaticResource Tertiary}">
+
+    <ContentView.Resources>
+        <Style x:Key="HeaderLabel" TargetType="Label">
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="FontFamily" Value="NotoSansExtraBold" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontSize" Value="25" />
+        </Style>
+        <Style x:Key="InfoBorder" TargetType="Border">
+            <Setter Property="HorizontalOptions" Value="Start" />
+            <Setter Property="Stroke" Value="Transparent" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 30" />
+            <Setter Property="BackgroundColor" Value="{StaticResource Quadra}" />
+        </Style>
+        <Style x:Key="DetailLabel" TargetType="Label">
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontSize" Value="19" />
+            <Setter Property="Padding" Value="2" />
+        </Style>
+    </ContentView.Resources>
+    <VerticalStackLayout>
+        <Grid HorizontalOptions="Fill" RowSpacing="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <VerticalStackLayout Grid.Row="0" HorizontalOptions="Fill">
+                <Label Style="{StaticResource HeaderLabel}" Text="Primary Details" />
+                <BoxView
+                    Margin="0"
+                    BackgroundColor="{StaticResource Penta}"
+                    HeightRequest="2" />
+
+                <Grid
+                    Margin="0,20,0,0"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=".7*" />
+                        <ColumnDefinition Width=".3*" />
+                    </Grid.ColumnDefinitions>
+                    <VerticalStackLayout
+                        Grid.Column="1"
+                        HorizontalOptions="Fill"
+                        Spacing="10">
+                        <Label
+                            FontAttributes="Bold"
+                            Style="{StaticResource DetailLabel}"
+                            Text="ID: " />
+                        <Border HorizontalOptions="Fill" Style="{StaticResource InfoBorder}">
+                            <Label
+                                HorizontalOptions="Center"
+                                Style="{StaticResource DetailLabel}"
+                                Text="{Binding LoggedInUser.UId, StringFormat='{}{0:MMMM dd, yyyy}'}" />
+                        </Border>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout
+                        Grid.Column="0"
+                        HorizontalOptions="Fill"
+                        Spacing="10">
+                        <Label
+                            FontAttributes="Bold"
+                            Style="{StaticResource DetailLabel}"
+                            Text="Username: " />
+                        <Border HorizontalOptions="Fill" Style="{StaticResource InfoBorder}">
+                            <Label
+                                HorizontalOptions="Center"
+                                Style="{StaticResource DetailLabel}"
+                                Text="{Binding LoggedInUser.Username, StringFormat='@{0}'}" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                </Grid>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Row="1" HorizontalOptions="Fill">
+                <Label Style="{StaticResource HeaderLabel}" Text="Basic Info" />
+                <BoxView
+                    Margin="0"
+                    BackgroundColor="{StaticResource Penta}"
+                    HeightRequest="2" />
+                <Grid
+                    Margin="0,20,0,0"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=".7*" />
+                        <ColumnDefinition Width=".3*" />
+                    </Grid.ColumnDefinitions>
+                    <VerticalStackLayout
+                        Grid.Column="0"
+                        HorizontalOptions="Fill"
+                        Spacing="10">
+                        <Label
+                            FontAttributes="Bold"
+                            Style="{StaticResource DetailLabel}"
+                            Text="Birth Date: " />
+                        <Border HorizontalOptions="Fill" Style="{StaticResource InfoBorder}">
+                            <Label
+                                HorizontalOptions="Center"
+                                Style="{StaticResource DetailLabel}"
+                                Text="{Binding LoggedInUser.BirthDate, StringFormat='{}{0:MMMM dd, yyyy}'}" />
+                        </Border>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout
+                        Grid.Column="1"
+                        HorizontalOptions="Fill"
+                        Spacing="10">
+                        <Label
+                            FontAttributes="Bold"
+                            Style="{StaticResource DetailLabel}"
+                            Text="Age: " />
+                        <Border HorizontalOptions="Fill" Style="{StaticResource InfoBorder}">
+                            <Label
+                                HorizontalOptions="Center"
+                                Style="{StaticResource DetailLabel}"
+                                Text="{Binding LoggedInUser.Age}" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                </Grid>
+
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Row="2">
+
+                <Label Style="{StaticResource HeaderLabel}" Text="Contacts" />
+                <BoxView
+                    Margin="0"
+                    BackgroundColor="{StaticResource Penta}"
+                    HeightRequest="2" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Row="3" Spacing="10">
+                <Label
+                    FontAttributes="Bold"
+                    HorizontalOptions="Start"
+                    Style="{StaticResource DetailLabel}"
+                    Text="Email: " />
+                <Border HorizontalOptions="Fill" Style="{StaticResource InfoBorder}">
+                    <Label
+                        HorizontalOptions="Center"
+                        Style="{StaticResource DetailLabel}"
+                        Text="{Binding LoggedInUser.Email}" />
+                </Border>
+            </VerticalStackLayout>
+
+        </Grid>
+    </VerticalStackLayout>
+</ContentView>

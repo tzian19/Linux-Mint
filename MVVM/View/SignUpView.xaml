@@ -211,7 +211,7 @@
                     x:Name="btnSignUp"
                     BackgroundColor="{StaticResource Quadra}"
                     Command="{Binding SignUpCommand}"
-                    CornerRadius="10"
+                    CornerRadius="25"
                     FontAttributes="Bold"
                     FontSize="25"
                     HeightRequest="51"
