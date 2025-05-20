@@ -17,7 +17,7 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage
 
         public MainFlyoutPageViewModel()
         {
-            FlyoutPageOnLoad = new Command( async () => await NavigateToPage( new FlyoutContentUserListView() ) );
+            FlyoutPageOnLoad = new Command( async () => await NavigateToPage( new FlyoutContentTimelineView() ) );
             ClickProfileTab = new Command( async () => await NavigateToPage( new FlyoutContentUserProfileView() ) );
             ClickLogOut = new Command<object>( async ( param ) => await ParameterizedCommand( param ) );
             ClickTimelineTab = new Command( async () => await NavigateToPage( new FlyoutContentTimelineView() ) );
@@ -37,7 +37,7 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage
 
             if ( param is string action2 && action2 == "Home" )
             {
-                NavigateToPage( new FlyoutContentUserListView() );
+                NavigateToPage( new FlyoutContentTimelineView() );
                 MinimizeMenu();
                 return;
             }
