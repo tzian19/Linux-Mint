@@ -13,7 +13,7 @@
             <Setter Property="FontSize" Value="25" />
         </Style>
         <Style x:Key="InfoBorder" TargetType="Border">
-            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="HorizontalOptions" Value="Start" />
             <Setter Property="Stroke" Value="Transparent" />
             <Setter Property="StrokeShape" Value="RoundRectangle 30" />
             <Setter Property="BackgroundColor" Value="{StaticResource Quadra}" />
@@ -65,38 +65,53 @@
                     </Border>
                 </HorizontalStackLayout>
             </VerticalStackLayout>
-            <VerticalStackLayout Grid.Row="1" HorizontalOptions="Start">
+            <VerticalStackLayout Grid.Row="1" HorizontalOptions="Fill">
                 <Label Style="{StaticResource HeaderLabel}" Text="Basic Info" />
                 <BoxView
                     Margin="0"
                     BackgroundColor="{StaticResource Penta}"
                     HeightRequest="2" />
-                <HorizontalStackLayout
+                <Grid
                     Margin="0,20,0,0"
                     HorizontalOptions="Fill"
-                    Spacing="1"
                     VerticalOptions="Center">
-                    <Label
-                        FontAttributes="Bold"
-                        Style="{StaticResource DetailLabel}"
-                        Text="Birth Date: " />
-                    <Border Style="{StaticResource InfoBorder}" WidthRequest="180">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=".7*" />
+                        <ColumnDefinition Width=".3*" />
+                    </Grid.ColumnDefinitions>
+                    <VerticalStackLayout
+                        Grid.Column="0"
+                        HorizontalOptions="Fill"
+                        Spacing="10">
                         <Label
-                            HorizontalOptions="Center"
+                            FontAttributes="Bold"
                             Style="{StaticResource DetailLabel}"
-                            Text="{Binding LoggedInUser.BirthDate, StringFormat='{}{0:MMMM dd, yyyy}'}" />
-                    </Border>
-                    <Label
-                        FontAttributes="Bold"
-                        Style="{StaticResource DetailLabel}"
-                        Text="Age: " />
-                    <Border Style="{StaticResource InfoBorder}" WidthRequest="56">
+                            Text="Birth Date: " />
+                        <Border HorizontalOptions="Fill" Style="{StaticResource InfoBorder}">
+                            <Label
+                                HorizontalOptions="Center"
+                                Style="{StaticResource DetailLabel}"
+                                Text="{Binding LoggedInUser.BirthDate, StringFormat='{}{0:MMMM dd, yyyy}'}" />
+                        </Border>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout
+                        Grid.Column="1"
+                        HorizontalOptions="Fill"
+                        Spacing="10">
                         <Label
-                            HorizontalOptions="Center"
+                            FontAttributes="Bold"
                             Style="{StaticResource DetailLabel}"
-                            Text="{Binding LoggedInUser.Age}" />
-                    </Border>
-                </HorizontalStackLayout>
+                            Text="Age: " />
+                        <Border HorizontalOptions="Fill" Style="{StaticResource InfoBorder}">
+                            <Label
+                                HorizontalOptions="Center"
+                                Style="{StaticResource DetailLabel}"
+                                Text="{Binding LoggedInUser.Age}" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                </Grid>
+
             </VerticalStackLayout>
 
             <VerticalStackLayout Grid.Row="2">
@@ -107,10 +122,19 @@
                     BackgroundColor="{StaticResource Penta}"
                     HeightRequest="2" />
             </VerticalStackLayout>
+
             <VerticalStackLayout Grid.Row="3">
-
-                <Label Style="{StaticResource HeaderLabel}" Text="Primary Details" />
-
+                <Label
+                    FontAttributes="Bold"
+                    HorizontalOptions="Start"
+                    Style="{StaticResource DetailLabel}"
+                    Text="Email: " />
+                <Border Style="{StaticResource InfoBorder}" WidthRequest="380">
+                    <Label
+                        HorizontalOptions="Center"
+                        Style="{StaticResource DetailLabel}"
+                        Text="{Binding LoggedInUser.Email}" />
+                </Border>
             </VerticalStackLayout>
 
         </Grid>

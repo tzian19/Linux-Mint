@@ -115,6 +115,9 @@
                                     <ColumnDefinition Width=".3*" />
                                     <ColumnDefinition Width=".5*" />
                                 </Grid.ColumnDefinitions>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ClickProfileTab}"/>
+                                </Grid.GestureRecognizers>
 
                                 <!--  Profile image  -->
                                 <Border

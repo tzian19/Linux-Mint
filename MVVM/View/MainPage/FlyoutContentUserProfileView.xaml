@@ -155,13 +155,13 @@
             <Border
                 BackgroundColor="{StaticResource Tertiary}"
                 Stroke="Transparent"
-                StrokeShape="RoundRectangle 30">
+                StrokeShape="RoundRectangle 30"
+                VerticalOptions="FillAndExpand">
                 <ContentView
                     x:Name="ContentContainer"
                     Margin="30,20"
                     x:FieldModifier="public"
-                    Loaded="ContentContainer_Loaded"
-                    MinimumHeightRequest="350" />
+                    Loaded="ContentContainer_Loaded" />
             </Border>
         </VerticalStackLayout>
     </ScrollView>

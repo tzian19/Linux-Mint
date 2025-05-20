@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 
 using Linux_Mint.MVVM.Model;
+using Linux_Mint.MVVM.View.MainPage;
 
 namespace Linux_Mint.MVVM.ViewModel
 {
@@ -8,6 +9,7 @@ namespace Linux_Mint.MVVM.ViewModel
     {
         private readonly PostService _postService;
 
+        public ICommand AddNewPostCommand { get; }
         public ICommand RefreshCommand { get; }
         public ICommand LikeCommand { get; }
         public ICommand EditPostCommand { get; }
@@ -17,6 +19,7 @@ namespace Linux_Mint.MVVM.ViewModel
         {
             _postService = new PostService();
 
+            AddNewPostCommand = new Command( async () => await NavigateToPage( new FlyoutContentNewPostView() ) );
             RefreshCommand = new Command( async () => await LoadPostsAsync() );
             LikeCommand = new Command<UserPost>( LikePost );
             EditPostCommand = new Command<UserPost>( EditPost );

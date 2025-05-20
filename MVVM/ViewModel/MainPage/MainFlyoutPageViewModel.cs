@@ -67,30 +67,6 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage
             await Task.Delay( 50 );
         }
 
-        private Color ColorPallete( string tag )
-        {
-            return Application.Current.Resources.TryGetValue( tag , out var color ) && color is Color c
-                     ? c
-                     : Colors.Transparent;
-        }
 
-        private async Task NavigateToPage( ContentPage page )
-        {
-            if ( Application.Current.MainPage is FlyoutPage flyout )
-            {
-                page.BackgroundColor = ColorPallete( "Primary" );
-                flyout.Detail = new NavigationPage( page )
-                {
-                    BarBackgroundColor = ColorPallete( "Primary" ) ,
-                    BarTextColor = ColorPallete( "SecondaryDarkText" )
-                };
-                await Task.Delay( 2000 );
-
-                if ( DeviceInfo.Platform == DevicePlatform.Android )
-                {
-                    flyout.IsPresented = false;
-                }
-            }
-        }
     }
 }
