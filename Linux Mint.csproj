@@ -87,6 +87,9 @@
 	  <MauiXaml Update="MVVM\View\MainPage\MainFlyoutPageView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="MVVM\View\MainPage\PopupPages\EditPostPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="MVVM\View\MainPage\PopupPages\ImagePopupView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -75,6 +75,7 @@
                                     FontSize="18"
                                     Text="{Binding PostCreated, StringFormat='{0:MMM d, yyyy h:mm tt}'}"
                                     TextColor="Gray" />
+                                <Label Text="{Binding PostText}" TextColor="Black"/>
                             </VerticalStackLayout>
 
                             <Button
