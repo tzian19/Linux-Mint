@@ -178,7 +178,7 @@
                                             Grid.RowSpan="2"
                                             Grid.Column="2"
                                             BackgroundColor="Transparent"
-                                            Command="{Binding BindingContext.EditPostCommand, Source={x:Reference PageRoot}}"
+                                            Command="{Binding BindingContext.HidePostCommand, Source={x:Reference PageRoot}}"
                                             CommandParameter="{Binding .}"
                                             Style="{StaticResource BaseButtonStyle}"
                                             Text="&#xe805;"
@@ -231,14 +231,6 @@
                                             Style="{StaticResource LabelFormat}"
                                             Text="{Binding LikeCount}"
                                             VerticalOptions="Center" />
-                                        <Button
-                                            Padding="0"
-                                            BackgroundColor="Transparent"
-                                            Command="{Binding BindingContext.DeletePostCommand, Source={x:Reference PageRoot}}"
-                                            CommandParameter="{Binding .}"
-                                            FontSize="25"
-                                            Style="{StaticResource BaseButtonStyle}"
-                                            Text="🗑" />
                                     </HorizontalStackLayout>
                                 </Grid>
                             </Border>

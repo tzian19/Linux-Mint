@@ -12,7 +12,7 @@ namespace Linux_Mint.MVVM.ViewModel
         public ICommand RefreshCommand { get; }
         public ICommand LikeCommand { get; }
         public ICommand EditPostCommand { get; }
-        public ICommand DeletePostCommand { get; }
+        public ICommand HidePostCommand { get; }
 
         public FlyoutContentTimelineViewModel()
         {
@@ -22,7 +22,7 @@ namespace Linux_Mint.MVVM.ViewModel
             RefreshCommand = new Command( async () => await LoadPostsAsync() );
             LikeCommand = new Command<UserPost>( LikePost );
             EditPostCommand = new Command<UserPost>( EditPost );
-            DeletePostCommand = new Command<UserPost>( DeletePost );
+            HidePostCommand = new Command<UserPost>( HidePost );
 
             Task.Run( LoadPostsAsync );
         }
@@ -57,16 +57,6 @@ namespace Linux_Mint.MVVM.ViewModel
                 IsRefreshing = false;
             } );
 
-            //Testing
-            foreach ( var user in users )
-            {
-                Console.WriteLine( $"User: {user.UId} - {user.FullName}" );
-            }
-
-            foreach ( var post in posts )
-            {
-                Console.WriteLine( $"Post.UserProfileId: {post.UserProfileId}" );
-            }
         }
 
         private void LikePost( UserPost post )
@@ -83,13 +73,13 @@ namespace Linux_Mint.MVVM.ViewModel
             // Implement popup edit logic here
         }
 
-        private void DeletePost( UserPost post )
+        private void HidePost( UserPost post )
         {
+
             if ( post == null )
                 return;
 
             Posts.Remove( post );
-            // Optional: delete from backend
         }
     }
 }
