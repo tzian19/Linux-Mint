@@ -8,7 +8,6 @@ namespace Linux_Mint.MVVM.ViewModel
     public class FlyoutContentTimelineViewModel : ViewModelBase
     {
         private readonly PostService _postService;
-
         public ICommand AddNewPostCommand { get; }
         public ICommand RefreshCommand { get; }
         public ICommand LikeCommand { get; }

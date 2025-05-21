@@ -26,8 +26,8 @@
         </Style>
         <Style x:Key="PostTextFormat" TargetType="Label">
             <Setter Property="FontSize" Value="20" />
-            <Setter Property="VerticalOptions" Value="Center"/>
-            <Setter Property="Margin" Value="20"/>
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="Margin" Value="20" />
             <Setter Property="TextColor" Value="{StaticResource SecondaryDarkText}" />
         </Style>
     </ContentPage.Resources>
@@ -68,7 +68,7 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding AddNewPostCommand}"/>
+                            <TapGestureRecognizer Command="{Binding AddNewPostCommand}" />
                         </Grid.GestureRecognizers>
                         <Border
                             Grid.Row="0"
@@ -117,7 +117,7 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Border Padding="20" Style="{StaticResource Post}">
-                                <Grid RowSpacing="30">
+                                <Grid RowSpacing="10">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -125,15 +125,20 @@
                                     </Grid.RowDefinitions>
 
                                     <!--  User Info  -->
-                                    <Grid Grid.Row="0" ColumnSpacing="10" VerticalOptions="Start" Padding="0">
+                                    <Grid
+                                        Grid.Row="0"
+                                        Padding="0"
+                                        ColumnSpacing="10"
+                                        RowSpacing="0"
+                                        VerticalOptions="Start">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height=".7*"/>
-                                            <RowDefinition Height=".1*"/>
+                                            <RowDefinition Height=".3*" />
+                                            <RowDefinition Height=".1*" />
                                         </Grid.RowDefinitions>
 
                                         <Frame
@@ -156,13 +161,16 @@
                                                 WidthRequest="50" />
                                         </Frame>
 
-                                        <VerticalStackLayout Grid.Row="0" Grid.Column="1" VerticalOptions="Center">
+                                        <VerticalStackLayout
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            VerticalOptions="Center">
                                             <Label Style="{StaticResource LabelFormat}" Text="{Binding FullName}" />
                                             <Label
                                                 FontSize="18"
-                                                Text="{Binding PostCreated, StringFormat='{0:MMM d, yyyy h:mm tt}'}"
+                                                Text="{Binding TimeAgo, StringFormat='{0:MMM d, yyyy}'}"
                                                 TextColor="Gray" />
-                                            
+
                                         </VerticalStackLayout>
 
                                         <Button
@@ -173,11 +181,21 @@
                                             Command="{Binding BindingContext.EditPostCommand, Source={x:Reference PageRoot}}"
                                             CommandParameter="{Binding .}"
                                             Style="{StaticResource BaseButtonStyle}"
-                                            Text="&#xe805;" />
+                                            Text="&#xe805;"
+                                            VerticalOptions="Start" />
 
-                                        <Entry Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Text="{Binding PostText}" Style="{StaticResource PostTextFormat}" IsEnabled="False" HorizontalOptions="Start"/>
+                                        <Entry
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            Grid.ColumnSpan="2"
+                                            Margin="0"
+                                            HorizontalOptions="Start"
+                                            IsEnabled="False"
+                                            Style="{StaticResource PostTextFormat}"
+                                            Text="{Binding PostText}"
+                                            VerticalOptions="Start" />
                                     </Grid>
-                                    
+
 
                                     <!--  Post Image  -->
                                     <Frame
@@ -208,11 +226,11 @@
                                             Style="{StaticResource BaseButtonStyle}"
                                             Text="&#xe800;" />
                                         <Label
+                                            Padding="0"
+                                            HorizontalOptions="Start"
                                             Style="{StaticResource LabelFormat}"
                                             Text="{Binding LikeCount}"
-                                            VerticalOptions="Center"
-                                            HorizontalOptions="Start"
-                                            Padding="0"/>
+                                            VerticalOptions="Center" />
                                         <Button
                                             Padding="0"
                                             BackgroundColor="Transparent"
