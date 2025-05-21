@@ -24,6 +24,12 @@
             <Setter Property="StrokeShape" Value="RoundRectangle, 30" />
             <Setter Property="BackgroundColor" Value="{StaticResource Hexa}" />
         </Style>
+        <Style x:Key="PostTextFormat" TargetType="Label">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="VerticalOptions" Value="Center"/>
+            <Setter Property="Margin" Value="20"/>
+            <Setter Property="TextColor" Value="{StaticResource SecondaryDarkText}" />
+        </Style>
     </ContentPage.Resources>
 
     <Grid Margin="0">
@@ -119,14 +125,19 @@
                                     </Grid.RowDefinitions>
 
                                     <!--  User Info  -->
-                                    <Grid Grid.Row="0" ColumnSpacing="10">
+                                    <Grid Grid.Row="0" ColumnSpacing="10" VerticalOptions="Start" Padding="0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height=".7*"/>
+                                            <RowDefinition Height=".1*"/>
+                                        </Grid.RowDefinitions>
 
                                         <Frame
+                                            Grid.Row="0"
                                             Grid.Column="0"
                                             Padding="0"
                                             BackgroundColor="White"
@@ -145,22 +156,28 @@
                                                 WidthRequest="50" />
                                         </Frame>
 
-                                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                        <VerticalStackLayout Grid.Row="0" Grid.Column="1" VerticalOptions="Center">
                                             <Label Style="{StaticResource LabelFormat}" Text="{Binding FullName}" />
                                             <Label
                                                 FontSize="18"
                                                 Text="{Binding PostCreated, StringFormat='{0:MMM d, yyyy h:mm tt}'}"
                                                 TextColor="Gray" />
+                                            
                                         </VerticalStackLayout>
 
                                         <Button
+                                            Grid.Row="0"
+                                            Grid.RowSpan="2"
                                             Grid.Column="2"
                                             BackgroundColor="Transparent"
                                             Command="{Binding BindingContext.EditPostCommand, Source={x:Reference PageRoot}}"
                                             CommandParameter="{Binding .}"
                                             Style="{StaticResource BaseButtonStyle}"
                                             Text="&#xe805;" />
+
+                                        <Entry Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Text="{Binding PostText}" Style="{StaticResource PostTextFormat}" IsEnabled="False" HorizontalOptions="Start"/>
                                     </Grid>
+                                    
 
                                     <!--  Post Image  -->
                                     <Frame
