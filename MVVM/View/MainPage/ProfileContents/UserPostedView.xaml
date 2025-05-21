@@ -75,15 +75,16 @@
                                     FontSize="18"
                                     Text="{Binding PostCreated, StringFormat='{0:MMM d, yyyy h:mm tt}'}"
                                     TextColor="Gray" />
+                                <Label Text="{Binding PostText}" TextColor="Black"/>
                             </VerticalStackLayout>
 
                             <Button
                                 Grid.Column="2"
-                                BackgroundColor="Transparent"
+                                BackgroundColor="Transparent"   
                                 Command="{Binding BindingContext.EditPostCommand, Source={x:Reference PageRoot}}"
                                 CommandParameter="{Binding .}"
                                 Style="{StaticResource BaseButtonStyle}"
-                                Text="&#xe805;" />
+                                Text="&#xe805;"/>
                         </Grid>
 
                         <!--  Post Image  -->

@@ -181,6 +181,7 @@
                                             Command="{Binding BindingContext.HidePostCommand, Source={x:Reference PageRoot}}"
                                             CommandParameter="{Binding .}"
                                             Style="{StaticResource BaseButtonStyle}"
+                                    
                                             Text="&#xe805;"
                                             VerticalOptions="Start" />
 
@@ -194,6 +195,7 @@
                                             Style="{StaticResource PostTextFormat}"
                                             Text="{Binding PostText}"
                                             VerticalOptions="Start" />
+
                                     </Grid>
 
 
