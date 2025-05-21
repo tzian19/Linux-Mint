@@ -59,31 +59,44 @@
             </HorizontalStackLayout>
 
             <!--  Username and Password Fields  -->
-            <Entry
-                x:Name="userEntry"
+            <Border
+                Padding="10,0,10,0"
                 BackgroundColor="{StaticResource Secondary}"
-                FontSize="20"
-                HeightRequest="51"
-                Placeholder="Username"
-                PlaceholderColor="{StaticResource Tertiary}"
-                Text="{Binding InputUser}"
-                TextColor="{StaticResource Tertiary}" />
-            <Entry
-                x:Name="passEntry"
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 30"
+                VerticalOptions="Fill">
+                <Entry
+                    x:Name="userEntry"
+                    BackgroundColor="Transparent"
+                    FontSize="20"
+                    HeightRequest="51"
+                    Placeholder="Username"
+                    PlaceholderColor="{StaticResource Tertiary}"
+                    Text="{Binding InputUser}"
+                    TextColor="{StaticResource Tertiary}" />
+            </Border>
+            <Border
+                Padding="10,0,10,0"
                 BackgroundColor="{StaticResource Secondary}"
-                FontSize="20"
-                HeightRequest="51"
-                IsPassword="True"
-                Placeholder="Password"
-                PlaceholderColor="{StaticResource Tertiary}"
-                Text="{Binding InputPass}"
-                TextColor="{StaticResource Tertiary}" />
-
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 30"
+                VerticalOptions="Fill">
+                <Entry
+                    x:Name="passEntry"
+                    BackgroundColor="Transparent"
+                    FontSize="20"
+                    HeightRequest="51"
+                    IsPassword="True"
+                    Placeholder="Password"
+                    PlaceholderColor="{StaticResource Tertiary}"
+                    Text="{Binding InputPass}"
+                    TextColor="{StaticResource Tertiary}" />
+            </Border>
             <!--  Login Button  -->
             <Button
                 BackgroundColor="{StaticResource Quadra}"
                 Command="{Binding LoginCommand}"
-                CornerRadius="10"
+                CornerRadius="25"
                 FontAttributes="Bold"
                 FontSize="25"
                 HeightRequest="51"

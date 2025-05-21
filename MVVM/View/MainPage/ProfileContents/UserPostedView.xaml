@@ -101,7 +101,7 @@
                                 Source="{Binding PostImage}"
                                 WidthRequest="320">
                                 <Image.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding BindingContext.ShowImageCommand, Source={x:Reference PageRoot}}" CommandParameter="{Binding .}"/>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.ShowImageCommand, Source={x:Reference PageRoot}}" CommandParameter="{Binding .}" />
                                 </Image.GestureRecognizers>
                             </Image>
                         </Frame>
@@ -112,14 +112,20 @@
                             Spacing="10"
                             VerticalOptions="Center">
                             <Button
+                                Padding="0"
                                 BackgroundColor="Transparent"
                                 Command="{Binding BindingContext.LikeCommand, Source={x:Reference PageRoot}}"
                                 CommandParameter="{Binding .}"
                                 FontSize="30"
                                 Style="{StaticResource BaseButtonStyle}"
                                 Text="&#xe800;" />
-                            <Label Style="{StaticResource LabelFormat}" Text="{Binding LikeCount}" />
+                            <Label
+                                Padding="0"
+                                Style="{StaticResource LabelFormat}"
+                                Text="{Binding LikeCount}"
+                                VerticalOptions="Center" />
                             <Button
+                                Padding="0"
                                 BackgroundColor="Transparent"
                                 Command="{Binding BindingContext.DeletePostCommand, Source={x:Reference PageRoot}}"
                                 CommandParameter="{Binding .}"

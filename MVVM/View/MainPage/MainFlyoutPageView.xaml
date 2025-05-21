@@ -115,6 +115,9 @@
                                     <ColumnDefinition Width=".3*" />
                                     <ColumnDefinition Width=".5*" />
                                 </Grid.ColumnDefinitions>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ClickProfileTab}" />
+                                </Grid.GestureRecognizers>
 
                                 <!--  Profile image  -->
                                 <Border
@@ -214,7 +217,7 @@
 
     <!--  Detail Page (Right Side Content Area)  -->
     <FlyoutPage.Detail>
-        <NavigationPage x:Name="DetailNavPage">
+        <NavigationPage x:Name="DetailNavPage" Loaded="OnLoaded">
             <x:Arguments>
                 <!--  Initial content page shown on load  -->
                 <ContentPage Title="Home" BackgroundColor="{StaticResource Primary}" />
