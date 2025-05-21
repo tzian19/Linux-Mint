@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+
 using Linux_Mint.MVVM.Model;
 
 public class PostService
@@ -45,21 +46,21 @@ public class PostService
         }
     }
 
-    public async Task<bool> UpdatePostAsync(UserPost post)
+    public async Task<bool> UpdatePostAsync( UserPost post )
     {
         try
         {
-            Console.WriteLine($"⏳ Attempting to update post {post.PostId}");
+            Console.WriteLine( $"⏳ Attempting to update post {post.PostId}" );
 
-            if (string.IsNullOrEmpty(post?.PostId))
+            if ( string.IsNullOrEmpty( post?.PostId ) )
             {
-                Console.WriteLine("❌ Update failed: Post ID is null or empty");
+                Console.WriteLine( "❌ Update failed: Post ID is null or empty" );
                 return false;
             }
 
             // CORRECTED: Proper endpoint URL construction
             var updateUrl = $"{BaseUrl}/UserPosts/{post.PostId}";
-            Console.WriteLine($"🔗 API Endpoint: {updateUrl}");
+            Console.WriteLine( $"🔗 API Endpoint: {updateUrl}" );
 
             // Configure JSON serializer options
             var options = new JsonSerializerOptions
@@ -69,27 +70,27 @@ public class PostService
             };
 
             var jsonContent = JsonSerializer.Serialize(post, options);
-            Console.WriteLine($"📦 Request Payload: {jsonContent}");
+            Console.WriteLine( $"📦 Request Payload: {jsonContent}" );
 
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
             var response = await _httpClient.PutAsync(updateUrl, content);
 
-            Console.WriteLine($"🔄 Response Status: {response.StatusCode}");
+            Console.WriteLine( $"🔄 Response Status: {response.StatusCode}" );
 
-            if (!response.IsSuccessStatusCode)
+            if ( !response.IsSuccessStatusCode )
             {
                 var errorContent = await response.Content.ReadAsStringAsync();
-                Console.WriteLine($"❌ Error Content: {errorContent}");
+                Console.WriteLine( $"❌ Error Content: {errorContent}" );
                 return false;
             }
 
-            Console.WriteLine("✅ Update successful!");
+            Console.WriteLine( "✅ Update successful!" );
             return true;
         }
-        catch (Exception ex)
+        catch ( Exception ex )
         {
-            Console.WriteLine($"💥 Exception: {ex.Message}");
-            Console.WriteLine($"🔍 Stack Trace: {ex.StackTrace}");
+            Console.WriteLine( $"💥 Exception: {ex.Message}" );
+            Console.WriteLine( $"🔍 Stack Trace: {ex.StackTrace}" );
             return false;
         }
     }

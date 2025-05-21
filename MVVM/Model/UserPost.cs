@@ -7,12 +7,54 @@ namespace Linux_Mint.MVVM.Model
         public string PostId { get; set; }
         public string PostImage { get; set; }
         public string PostText { get; set; }
-        public int LikeCount { get; set; }
         public string PostCreated { get; set; }
         public string UserProfileId { get; set; }
 
-        private UserProfile _userProfile;
+        // New: List of user IDs who liked this post
+        private List<string> _likedBy = new List<string>();
+        public List<string> LikedBy
+        {
+            get => _likedBy;
+            set
+            {
+                if ( _likedBy != value )
+                {
+                    _likedBy = value ?? new List<string>();
+                    OnPropertyChanged( nameof( LikedBy ) );
+                    OnPropertyChanged( nameof( LikeCount ) );
+                    OnPropertyChanged( nameof( IsLiked ) );
+                    OnPropertyChanged( nameof( LikeIcon ) );
+                }
+            }
+        }
 
+        // The current logged-in user's ID for checking if liked
+        private string _currentUserId;
+        public string CurrentUserId
+        {
+            get => _currentUserId;
+            set
+            {
+                if ( _currentUserId != value )
+                {
+                    _currentUserId = value;
+                    OnPropertyChanged( nameof( CurrentUserId ) );
+                    OnPropertyChanged( nameof( IsLiked ) );
+                    OnPropertyChanged( nameof( LikeIcon ) );
+                }
+            }
+        }
+
+        // LikeCount is derived from LikedBy count
+        public int LikeCount => LikedBy?.Count ?? 0;
+
+        // IsLiked depends on whether CurrentUserId is in LikedBy list
+        public bool IsLiked => LikedBy?.Contains( CurrentUserId ) ?? false;
+
+        // Update LikeIcon to show filled or outlined heart based on IsLiked
+        public string LikeIcon => IsLiked ? "\uE800" : "\uE801";
+
+        private UserProfile _userProfile;
         public UserProfile UserProfile
         {
             get => _userProfile;
@@ -24,6 +66,13 @@ namespace Linux_Mint.MVVM.Model
                 OnPropertyChanged( nameof( UserAvatar ) );
             }
         }
+
+        public string FullName => UserProfile?.FullName ?? "Unknown User";
+
+        public string UserAvatar => string.IsNullOrWhiteSpace( UserProfile?.UserAvatar )
+            ? "default_avatar.png"
+            : UserProfile.UserAvatar;
+
         public string TimeAgo
         {
             get
@@ -50,20 +99,9 @@ namespace Linux_Mint.MVVM.Model
             }
         }
 
-
-
-
-        public string FullName => UserProfile?.FullName ?? "Unknown User";
-
-        public string UserAvatar => string.IsNullOrWhiteSpace( UserProfile?.UserAvatar )
-            ? "default_avatar.png"
-            : UserProfile.UserAvatar;
-
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged(string name) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-
-        
+        public void OnPropertyChanged( string name ) =>
+            PropertyChanged?.Invoke( this , new PropertyChangedEventArgs( name ) );
     }
 }

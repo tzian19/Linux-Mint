@@ -5,10 +5,10 @@ namespace Linux_Mint.MVVM.View.MainPage
 {
     public partial class EditPostPopup : ContentPage
     {
-        public EditPostPopup(UserPost post)
+        public EditPostPopup( UserPost post )
         {
             InitializeComponent();
-            BindingContext = new EditPostViewModel(post);
+            BindingContext = new EditPostViewModel( post );
         }
     }
 }
