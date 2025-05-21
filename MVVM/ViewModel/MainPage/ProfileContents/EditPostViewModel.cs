@@ -44,24 +44,32 @@ namespace Linux_Mint.MVVM.ViewModel
 
             try
             {
-                // Show loading indicator
                 IsBusy = true;
 
                 // Update local post
                 _originalPost.PostText = PostText;
-                _originalPost.PostCreated = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss"); // ISO format for APIs
+                _originalPost.PostCreated = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
 
                 // Update post in MockAPI
                 bool success = await _postService.UpdatePostAsync(_originalPost);
 
-                if (!success)
+                if (success)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error", "Failed to update post in API", "OK");
-                    return;
-                }
+                    // Show success message before closing
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Success",
+                        "Your post has been updated successfully!",
+                        "OK");
 
-                // Close the popup on success
-                await Shell.Current.Navigation.PopModalAsync();
+                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Error",
+                        "Failed to update post in API",
+                        "OK");
+                }
             }
             catch (Exception ex)
             {
@@ -72,7 +80,7 @@ namespace Linux_Mint.MVVM.ViewModel
             }
             finally
             {
-                IsBusy = false; // Hide loading indicator
+                IsBusy = false;
             }
         }
 

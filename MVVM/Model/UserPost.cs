@@ -35,5 +35,7 @@ namespace Linux_Mint.MVVM.Model
 
         protected void OnPropertyChanged(string name) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+        
     }
 }

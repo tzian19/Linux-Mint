@@ -57,10 +57,18 @@ public class PostService
                 return false;
             }
 
-            var updateUrl = $"{BaseUrl} / {post.PostId}";
+            // CORRECTED: Proper endpoint URL construction
+            var updateUrl = $"{BaseUrl}/UserPosts/{post.PostId}";
             Console.WriteLine($"🔗 API Endpoint: {updateUrl}");
 
-            var jsonContent = JsonSerializer.Serialize(post);
+            // Configure JSON serializer options
+            var options = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true
+            };
+
+            var jsonContent = JsonSerializer.Serialize(post, options);
             Console.WriteLine($"📦 Request Payload: {jsonContent}");
 
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
