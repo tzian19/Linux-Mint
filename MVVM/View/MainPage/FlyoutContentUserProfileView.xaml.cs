@@ -29,6 +29,11 @@ public partial class FlyoutContentUserProfileView : ContentPage
     private void ToolbarItem_Clicked( object sender , EventArgs e )
     {
         _ = ToolbarItem_ClickedAsync( sender , e );
+
+    }
+
+    private void ToolbarItem_Clicked2( object sender , EventArgs e )
+    {
     }
 
     private void ContentContainer_Loaded( object sender , EventArgs e )
@@ -39,23 +44,4 @@ public partial class FlyoutContentUserProfileView : ContentPage
         }
     }
 
-
-    // Optional: Uncomment if you decide to use MessagingCenter later
-    //protected override void OnAppearing()
-    //{
-    //    base.OnAppearing();
-    //    MessagingCenter.Subscribe<FlyoutContentUserProfileViewModel, MauiView>(
-    //        this,
-    //        "SwitchProfileContent",
-    //        (sender, view) =>
-    //        {
-    //            ContentContainer.Content = view;
-    //        });
-    //}
-
-    //protected override void OnDisappearing()
-    //{
-    //    base.OnDisappearing();
-    //    MessagingCenter.Unsubscribe<FlyoutContentUserProfileViewModel, MauiView>(this, "SwitchProfileContent");
-    //}
 }

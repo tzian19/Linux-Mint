@@ -92,6 +92,7 @@ namespace Linux_Mint.MVVM.ViewModel
                 }
             }
         }
+
         protected internal async void ShowImagePopup( UserPost post )
         {
             if ( post == null || string.IsNullOrEmpty( post.PostImage ) )

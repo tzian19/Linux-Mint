@@ -155,7 +155,7 @@
                 BackgroundColor="{StaticResource Tertiary}"
                 Stroke="Transparent"
                 StrokeShape="RoundRectangle 30"
-                VerticalOptions="FillAndExpand">
+                VerticalOptions="Fill">
                 <ContentView
                     x:Name="ContentContainer"
                     Margin="30,20"

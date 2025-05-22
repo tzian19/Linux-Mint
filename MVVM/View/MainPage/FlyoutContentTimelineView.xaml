@@ -188,7 +188,7 @@
                                             Text="&#xF2D1;"
                                             VerticalOptions="Start" />
 
-                                        <Entry
+                                        <Label
                                             Grid.Row="1"
                                             IsEnabled="False"
                                             Grid.Column="0"

@@ -140,6 +140,7 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage.ProfileContents
             Posts.Remove( post );
             // TODO: Optionally delete on backend via _postService
         }
+
     }
 
 }
