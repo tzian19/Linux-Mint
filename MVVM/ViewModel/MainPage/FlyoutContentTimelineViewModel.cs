@@ -10,18 +10,21 @@ namespace Linux_Mint.MVVM.ViewModel
     public class FlyoutContentTimelineViewModel : ViewModelBase
     {
         private readonly PostService _postService;
-        private readonly string _currentUserId = "your-current-user-id"; // set this dynamically from login
+        private readonly string _currentUserId = "your-current-user-id"; // dynamically set this after login
 
         public ICommand AddNewPostCommand { get; }
         public ICommand RefreshCommand { get; }
         public ICommand EditPostCommand { get; }
         public ICommand HidePostCommand { get; }
         public ICommand LikeCommand { get; }
+        public ICommand ShowImageCommand { get; }
 
         public FlyoutContentTimelineViewModel()
         {
             _postService = new PostService();
+            _currentUserId = LoggedInUser?.UId ?? string.Empty;
 
+            ShowImageCommand = new Command<UserPost>( ShowImagePopup );
             AddNewPostCommand = new Command( async () => await NavigateToPage( new FlyoutContentNewPostView() ) );
             RefreshCommand = new Command( async () => await LoadPostsAsync() );
             EditPostCommand = new Command<UserPost>( EditPost );
@@ -36,22 +39,22 @@ namespace Linux_Mint.MVVM.ViewModel
             if ( post == null )
                 return;
 
-            // Ensure LikedBy is initialized
+            // Initialize LikedBy if null
             if ( post.LikedBy == null )
                 post.LikedBy = new List<string>();
 
             if ( post.IsLiked )
             {
-                // Unlike: remove current user ID from LikedBy
+                // Unlike: remove current user ID
                 post.LikedBy.Remove( _currentUserId );
             }
             else
             {
-                // Like: add current user ID to LikedBy
+                // Like: add current user ID
                 post.LikedBy.Add( _currentUserId );
             }
 
-            // Notify property changes
+            // Notify UI that these properties changed
             post.OnPropertyChanged( nameof( UserPost.LikedBy ) );
             post.OnPropertyChanged( nameof( UserPost.IsLiked ) );
             post.OnPropertyChanged( nameof( UserPost.LikeCount ) );
@@ -62,17 +65,14 @@ namespace Linux_Mint.MVVM.ViewModel
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await client.PutAsync(url, content);
+
             if ( !response.IsSuccessStatusCode )
             {
-                // Revert changes on failure
+                // On failure, revert changes
                 if ( post.IsLiked )
-                {
                     post.LikedBy.Remove( _currentUserId );
-                }
                 else
-                {
                     post.LikedBy.Add( _currentUserId );
-                }
 
                 post.OnPropertyChanged( nameof( UserPost.LikedBy ) );
                 post.OnPropertyChanged( nameof( UserPost.IsLiked ) );
@@ -101,20 +101,20 @@ namespace Linux_Mint.MVVM.ViewModel
             MainThread.BeginInvokeOnMainThread( () =>
             {
                 Posts.Clear();
+
                 foreach ( var post in postList )
                 {
                     var user = users.FirstOrDefault(u => u.UId == post.UserProfileId);
                     post.UserProfile = user ?? new UserProfile();
 
-                    // Set current user ID on post to evaluate IsLiked properly
                     post.CurrentUserId = _currentUserId;
 
-                    // Ensure LikedBy is not null
                     if ( post.LikedBy == null )
                         post.LikedBy = new List<string>();
 
                     Posts.Add( post );
                 }
+
                 IsRefreshing = false;
             } );
         }

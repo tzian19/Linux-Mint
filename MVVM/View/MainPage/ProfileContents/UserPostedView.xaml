@@ -18,6 +18,12 @@
             <Setter Property="FontAttributes" Value="Bold" />
             <Setter Property="TextColor" Value="{StaticResource SecondaryDarkText}" />
         </Style>
+        <Style x:Key="PostTextFormat" TargetType="Label">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="Margin" Value="20" />
+            <Setter Property="TextColor" Value="{StaticResource SecondaryDarkText}" />
+        </Style>
         <Style x:Key="Post" TargetType="Border">
             <Setter Property="Stroke" Value="{StaticResource Hexa}" />
             <Setter Property="StrokeShape" Value="RoundRectangle, 30" />
@@ -29,28 +35,39 @@
         BackgroundColor="Transparent"
         ItemsSource="{Binding Posts}"
         VerticalOptions="Fill">
+
         <CollectionView.ItemsLayout>
             <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="10" />
         </CollectionView.ItemsLayout>
+
         <CollectionView.ItemTemplate>
             <DataTemplate>
                 <Border Padding="20" Style="{StaticResource Post}">
-                    <Grid RowSpacing="30">
+                    <Grid RowSpacing="10">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <!--  User Info  -->
-                        <Grid Grid.Row="0" ColumnSpacing="10">
+                        <!--  User Info + Post Text  -->
+                        <Grid
+                            Grid.Row="0"
+                            ColumnSpacing="10"
+                            RowSpacing="0"
+                            VerticalOptions="Start">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height=".3*" />
+                                <RowDefinition Height=".1*" />
+                            </Grid.RowDefinitions>
 
                             <Frame
+                                Grid.Row="0"
                                 Grid.Column="0"
                                 Padding="0"
                                 BackgroundColor="White"
@@ -69,22 +86,38 @@
                                     WidthRequest="50" />
                             </Frame>
 
-                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                            <VerticalStackLayout
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                VerticalOptions="Center">
                                 <Label Style="{StaticResource LabelFormat}" Text="{Binding FullName}" />
                                 <Label
                                     FontSize="18"
-                                    Text="{Binding PostCreated, StringFormat='{0:MMM d, yyyy h:mm tt}'}"
+                                    Text="{Binding TimeAgo}"
                                     TextColor="Gray" />
-                                <Label Text="{Binding PostText}" TextColor="Black"/>
                             </VerticalStackLayout>
 
+                            <!--  Edit Button  -->
                             <Button
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
                                 Grid.Column="2"
-                                BackgroundColor="Transparent"   
-                                Command="{Binding BindingContext.EditPostCommand, Source={x:Reference PageRoot}}"
+                                BackgroundColor="Transparent"
+                                Command="{Binding BindingContext.EditPostCommand}"
                                 CommandParameter="{Binding .}"
                                 Style="{StaticResource BaseButtonStyle}"
-                                Text="&#xe805;"/>
+                                Text="&#xe805;"
+                                VerticalOptions="Start" />
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                Margin="0"
+                                HorizontalOptions="Start"
+                                Style="{StaticResource PostTextFormat}"
+                                Text="{Binding PostText}"
+                                VerticalOptions="Start" />
                         </Grid>
 
                         <!--  Post Image  -->
@@ -118,7 +151,7 @@
                                 CommandParameter="{Binding .}"
                                 FontSize="30"
                                 Style="{StaticResource BaseButtonStyle}"
-                                Text="&#xe800;" />
+                                Text="{Binding LikeIcon}" />
                             <Label
                                 Padding="0"
                                 Style="{StaticResource LabelFormat}"
@@ -139,3 +172,4 @@
         </CollectionView.ItemTemplate>
     </CollectionView>
 </ContentView>
+

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Linux_Mint.MVVM.Model
 {
@@ -10,7 +11,6 @@ namespace Linux_Mint.MVVM.Model
         public string PostCreated { get; set; }
         public string UserProfileId { get; set; }
 
-        // New: List of user IDs who liked this post
         private List<string> _likedBy = new List<string>();
         public List<string> LikedBy
         {
@@ -20,15 +20,11 @@ namespace Linux_Mint.MVVM.Model
                 if ( _likedBy != value )
                 {
                     _likedBy = value ?? new List<string>();
-                    OnPropertyChanged( nameof( LikedBy ) );
-                    OnPropertyChanged( nameof( LikeCount ) );
-                    OnPropertyChanged( nameof( IsLiked ) );
-                    OnPropertyChanged( nameof( LikeIcon ) );
+                    NotifyLikeChanged();
                 }
             }
         }
 
-        // The current logged-in user's ID for checking if liked
         private string _currentUserId;
         public string CurrentUserId
         {
@@ -38,21 +34,19 @@ namespace Linux_Mint.MVVM.Model
                 if ( _currentUserId != value )
                 {
                     _currentUserId = value;
-                    OnPropertyChanged( nameof( CurrentUserId ) );
+                    OnPropertyChanged();
                     OnPropertyChanged( nameof( IsLiked ) );
                     OnPropertyChanged( nameof( LikeIcon ) );
                 }
             }
         }
 
-        // LikeCount is derived from LikedBy count
         public int LikeCount => LikedBy?.Count ?? 0;
 
-        // IsLiked depends on whether CurrentUserId is in LikedBy list
         public bool IsLiked => LikedBy?.Contains( CurrentUserId ) ?? false;
 
-        // Update LikeIcon to show filled or outlined heart based on IsLiked
-        public string LikeIcon => IsLiked ? "\uE800" : "\uE801";
+        // Use emoji if unsure about icon fonts:
+        public string LikeIcon => IsLiked ? "❤️" : "🤍";
 
         private UserProfile _userProfile;
         public UserProfile UserProfile
@@ -61,7 +55,7 @@ namespace Linux_Mint.MVVM.Model
             set
             {
                 _userProfile = value;
-                OnPropertyChanged( nameof( UserProfile ) );
+                OnPropertyChanged();
                 OnPropertyChanged( nameof( FullName ) );
                 OnPropertyChanged( nameof( UserAvatar ) );
             }
@@ -101,7 +95,15 @@ namespace Linux_Mint.MVVM.Model
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void OnPropertyChanged( string name ) =>
+        public void OnPropertyChanged( [CallerMemberName] string name = null ) =>
             PropertyChanged?.Invoke( this , new PropertyChangedEventArgs( name ) );
+
+        public void NotifyLikeChanged()
+        {
+            OnPropertyChanged( nameof( LikedBy ) );
+            OnPropertyChanged( nameof( LikeCount ) );
+            OnPropertyChanged( nameof( IsLiked ) );
+            OnPropertyChanged( nameof( LikeIcon ) );
+        }
     }
 }
