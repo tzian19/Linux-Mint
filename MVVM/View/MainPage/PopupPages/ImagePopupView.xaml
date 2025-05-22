@@ -12,8 +12,7 @@
         VerticalOptions="Center">
 
         <Grid>
-            <Border Stroke="{StaticResource Tertiary}"
-                    StrokeThickness="5">
+            <Border Stroke="{StaticResource Tertiary}" StrokeThickness="5">
                 <Image
                     Aspect="AspectFit"
                     HeightRequest="300"

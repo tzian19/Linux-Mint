@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Linux_Mint.MVVM.View.MainPage.EditPostPopup"
-             Title="Edit Post">
+<ContentPage
+    x:Class="Linux_Mint.MVVM.View.MainPage.EditPostPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Edit Post"
+    BackgroundColor="#99000000">
 
-    <VerticalStackLayout Padding="20" Spacing="20">
-        <Entry Text="{Binding PostText}" 
-               Placeholder="Edit your post..."
-               FontSize="16"/>
+    <VerticalStackLayout
+        Padding="20"
+        HorizontalOptions="Center"
+        Spacing="20">
+
+        <Entry
+            FontSize="16"
+            Placeholder="Edit your post..."
+            Text="{Binding PostText}" />
 
         <Grid ColumnSpacing="10">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" 
-                    Text="Save" 
-                    Command="{Binding SaveCommand}"
-                    BackgroundColor="Green"/>
+            <Button
+                Grid.Column="0"
+                BackgroundColor="Green"
+                Command="{Binding SaveCommand}"
+                Text="Save" />
 
-            <Button Grid.Column="1" 
-                    Text="Cancel" 
-                    Command="{Binding CancelCommand}"
-                    BackgroundColor="Red"/>
+            <Button
+                Grid.Column="1"
+                BackgroundColor="Red"
+                Command="{Binding CancelCommand}"
+                Text="Cancel" />
         </Grid>
     </VerticalStackLayout>
 </ContentPage>
