@@ -36,7 +36,7 @@
     </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Clicked="ToolbarItem_Clicked" Text="20" />
+        <ToolbarItem Clicked="ToolbarItem_Clicked" IconImageSource="addpost_icon.png"  />
     </ContentPage.ToolbarItems>
 
 
