@@ -10,6 +10,7 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage.ProfileContents
     internal class UserPostedViewModel : ViewModelBase
     {
         private readonly PostService _postService;
+        public UserPost _originalPost;
         private readonly string _currentUserId;
 
         public ICommand RefreshCommand { get; }
@@ -17,7 +18,8 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage.ProfileContents
         public ICommand EditPostCommand { get; }
         public ICommand DeletePostCommand { get; }
         public ICommand ShowImageCommand { get; }
-
+        public bool IsBusy { get; private set; }
+        
         public UserPostedViewModel()
         {
             _postService = new PostService();
@@ -27,8 +29,8 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage.ProfileContents
             RefreshCommand = new Command( async () => await LoadCurrentUserPostsAsync() );
             LikeCommand = new Command<UserPost>( async ( post ) => await ToggleLikeAsync( post ) );
             EditPostCommand = new Command<UserPost>( EditPost );
-            DeletePostCommand = new Command<UserPost>( DeletePost );
-
+            DeletePostCommand = new Command<UserPost>(async (post) => await DeletePost(post));
+            
             Task.Run( LoadCurrentUserPostsAsync );
         }
 
@@ -128,18 +130,45 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage.ProfileContents
             if ( post == null )
                 return;
 
+            // Verify the post belongs to the current user
+            if (post.UserProfileId != AppState.LoggedInUser.UId)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "You can only edit your own posts", "OK");
+                return;
+            }
+
             var editPage = new EditPostPopup(post);
             await Application.Current.MainPage.Navigation.PushModalAsync( editPage );
         }
 
-        private void DeletePost( UserPost post )
+        private async Task DeletePost(UserPost post)
         {
-            if ( post == null )
-                return;
+            bool success = await _postService.DeletePostAsync(post);
 
-            Posts.Remove( post );
-            // TODO: Optionally delete on backend via _postService
+            if (success)
+            {
+                // Show success message before closing
+                await Application.Current.MainPage.DisplayAlert(
+                    "Success",
+                    "Your post has been deleted successfully!",
+                    "OK");
+
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    "Failed to delete post in API",
+                    "OK");
+            }
         }
+
+
+
+
+       
+
 
     }
 

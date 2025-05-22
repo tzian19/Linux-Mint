@@ -36,8 +36,7 @@
     </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Clicked="ToolbarItem_Clicked" Text="addpost_icon.svg" />
-        <ToolbarItem Clicked="ToolbarItem_Clicked2" Text="EditPage" />
+        <ToolbarItem Clicked="ToolbarItem_Clicked" IconImageSource="addpost_icon.png"  />
     </ContentPage.ToolbarItems>
 
 
