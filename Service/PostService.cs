@@ -93,4 +93,41 @@ public class PostService
             return false;
         }
     }
+
+    public async Task<bool> DeletePostAsync(UserPost post)
+    {
+        try
+        {
+            Console.WriteLine($"⏳ Attempting to delete post {post.PostId}");
+
+            if (string.IsNullOrEmpty(post.PostId))
+            {
+                Console.WriteLine("❌ Delete failed: Post ID is null or empty");
+                return false;
+            }
+
+            var deleteUrl = $"{BaseUrl}/UserPosts/{post.PostId}";
+            Console.WriteLine($"🔗 API Endpoint: {deleteUrl}");
+
+            var response = await _httpClient.DeleteAsync(deleteUrl);
+
+            Console.WriteLine($"🔄 Response Status: {response.StatusCode}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"❌ Error Content: {errorContent}");
+                return false;
+            }
+
+            Console.WriteLine("✅ Delete successful!");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"💥 Exception: {ex.Message}");
+            Console.WriteLine($"🔍 Stack Trace: {ex.StackTrace}");
+            return false;
+        }
+    }
 }

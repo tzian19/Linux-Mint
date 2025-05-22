@@ -1,19 +1,23 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.VisualStudio.PlatformUI;
+using System.ComponentModel;
 
 namespace Linux_Mint.MVVM.Model
 {
     public class UserPost : INotifyPropertyChanged
     {
-        public string PostId { get; set; }
-        public string PostImage { get; set; }
-        public string PostText { get; set; }
+        public string? PostId { get; set; }
+        public string? PostImage { get; set; }
+        public string? PostText { get; set; }
         public int LikeCount { get; set; }
-        public string PostCreated { get; set; }
-        public string UserProfileId { get; set; }
+        public string? PostCreated { get; set; }
+        public string? UserProfileId { get; set; }
 
-        private UserProfile _userProfile;
+        public bool IsOwnPost => UserProfileId == AppState.LoggedInUser?.UId;
+        public bool IsNotOwnPost => UserProfileId != AppState.LoggedInUser?.UId;
 
-        public UserProfile UserProfile
+        private UserProfile? _userProfile;
+
+        public UserProfile? UserProfile
         {
             get => _userProfile;
             set
@@ -59,11 +63,11 @@ namespace Linux_Mint.MVVM.Model
             ? "default_avatar.png"
             : UserProfile.UserAvatar;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected void OnPropertyChanged(string name) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        
+     
     }
 }

@@ -80,11 +80,11 @@
 
                             <Button
                                 Grid.Column="2"
-                                BackgroundColor="Transparent"   
-                                Command="{Binding BindingContext.EditPostCommand, Source={x:Reference PageRoot}}"
-                                CommandParameter="{Binding .}"
+                                BackgroundColor="Transparent"
                                 Style="{StaticResource BaseButtonStyle}"
-                                Text="&#xe805;"/>
+                                Text="&#xe805;"
+                                Command="{Binding BindingContext.EditPostCommand, Source={x:Reference PageRoot}}"
+                                CommandParameter="{Binding .}"/>
                         </Grid>
 
                         <!--  Post Image  -->

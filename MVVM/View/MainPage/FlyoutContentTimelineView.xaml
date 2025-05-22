@@ -181,7 +181,19 @@
                                             Command="{Binding BindingContext.HidePostCommand, Source={x:Reference PageRoot}}"
                                             CommandParameter="{Binding .}"
                                             Style="{StaticResource BaseButtonStyle}"
-                                    
+                                            IsVisible="{Binding IsNotOwnPost}"
+                                            Text="&#xf2d1;"
+                                            VerticalOptions="Start" />
+
+                                        <Button
+                                            Grid.Row="0"
+                                            Grid.RowSpan="2"
+                                            Grid.Column="2"
+                                            BackgroundColor="Transparent"
+                                            Command="{Binding BindingContext.EditPostCommand, Source={x:Reference PageRoot}}"
+                                            CommandParameter="{Binding .}"
+                                            Style="{StaticResource BaseButtonStyle}"
+                                            IsVisible="{Binding IsOwnPost}"
                                             Text="&#xe805;"
                                             VerticalOptions="Start" />
 
