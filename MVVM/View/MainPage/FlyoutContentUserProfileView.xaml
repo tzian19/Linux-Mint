@@ -36,7 +36,8 @@
     </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Clicked="ToolbarItem_Clicked" Text="20" />
+        <ToolbarItem Clicked="ToolbarItem_Clicked" Text="addpost_icon.svg" />
+        <ToolbarItem Clicked="ToolbarItem_Clicked2" Text="EditPage" />
     </ContentPage.ToolbarItems>
 
 
@@ -156,7 +157,7 @@
                 BackgroundColor="{StaticResource Tertiary}"
                 Stroke="Transparent"
                 StrokeShape="RoundRectangle 30"
-                VerticalOptions="FillAndExpand">
+                VerticalOptions="Fill">
                 <ContentView
                     x:Name="ContentContainer"
                     Margin="30,20"
