@@ -78,9 +78,6 @@
 	  <MauiXaml Update="MVVM\View\MainPage\FlyoutContentTimelineView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="MVVM\View\MainPage\FlyoutContentUserListView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="MVVM\View\MainPage\FlyoutContentUserProfileView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

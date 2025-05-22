@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Windows.Input;
 
 using Linux_Mint.MVVM.Model;
+using Linux_Mint.MVVM.View.MainPage.PopupPages;
 using Linux_Mint.Service;
 
 namespace Linux_Mint.MVVM.ViewModel
@@ -90,6 +91,13 @@ namespace Linux_Mint.MVVM.ViewModel
                     flyout.IsPresented = false;
                 }
             }
+        }
+        protected internal async void ShowImagePopup( UserPost post )
+        {
+            if ( post == null || string.IsNullOrEmpty( post.PostImage ) )
+                return;
+
+            await Application.Current.MainPage.Navigation.PushModalAsync( new ImagePopupView( post.PostImage ) );
         }
     }
 }
