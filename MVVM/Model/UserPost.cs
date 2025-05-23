@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.PlatformUI;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Linux_Mint.MVVM.Model
@@ -10,9 +9,6 @@ namespace Linux_Mint.MVVM.Model
         public bool IsOwnPost => UserProfileId == AppState.LoggedInUser?.UId;
         public bool IsNotOwnPost => UserProfileId != AppState.LoggedInUser?.UId;
 
-        private UserProfile? _userProfile;
-
-        public UserProfile? UserProfile
         public string PostId { get; set; }
         public string PostImage { get; set; }
         public string PostText { get; set; }
@@ -101,11 +97,7 @@ namespace Linux_Mint.MVVM.Model
             }
         }
 
-        public string FullName => UserProfile?.FullName ?? "Unknown User";
 
-        public string UserAvatar => string.IsNullOrWhiteSpace( UserProfile?.UserAvatar )
-            ? "default_avatar.png"
-            : UserProfile.UserAvatar;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
