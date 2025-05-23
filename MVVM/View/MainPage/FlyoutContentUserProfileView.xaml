@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pages="clr-namespace:Linux_Mint.MVVM.View.MainPage"
     xmlns:shapes="clr-namespace:Microsoft.Maui.Controls.Shapes;assembly=Microsoft.Maui.Controls"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Name="PageRoot"
     Title="Profile"
     BackgroundColor="{StaticResource Primary}">
@@ -35,8 +36,12 @@
         </Style>
     </ContentPage.Resources>
 
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="#217D41" StatusBarStyle="LightContent" />
+    </ContentPage.Behaviors>
+
     <ContentPage.ToolbarItems>
-        <ToolbarItem Clicked="ToolbarItem_Clicked" IconImageSource="addpost_icon.png"  />
+        <ToolbarItem Clicked="ToolbarItem_Clicked" IconImageSource="addpost_icon.png" />
     </ContentPage.ToolbarItems>
 
 
@@ -56,7 +61,7 @@
                 <Grid
                     Margin="0"
                     Padding="20"
-                    RowSpacing="20"
+                    RowSpacing="10"
                     VerticalOptions="Fill">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
@@ -85,9 +90,9 @@
                             <Image
                                 Aspect="AspectFill"
                                 HeightRequest="216"
-                                HorizontalOptions="Fill"
+                                HorizontalOptions="Center"
                                 Source="{Binding LoggedInUser.UserAvatar, FallbackValue='default_avatar.png'}"
-                                VerticalOptions="Fill"
+                                VerticalOptions="Center"
                                 WidthRequest="216">
                                 <Image.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding BindingContext.ShowImageCommand, Source={x:Reference PageRoot}}" CommandParameter="{Binding LoggedInUser}" />
@@ -95,33 +100,46 @@
                             </Image>
                         </Frame>
                     </Border>
+
                     <VerticalStackLayout
                         Grid.Row="1"
                         Margin="0"
                         Padding="0"
                         HorizontalOptions="Center"
                         VerticalOptions="End">
+                        <Button
+                            Padding="0"
+                            BackgroundColor="Transparent"
+                            BorderColor="{StaticResource SecondaryDarkText}"
+                            Command="{Binding ChangePhotoCommand}"
+                            FontFamily="NotoSansExtraBold"
+                            FontSize="20"
+                            Style="{StaticResource LabelFormat}"
+                            Text="Change Photo"
+                            VerticalOptions="Center" />
                         <Label
+                            FontFamily="OpenSansSemibold"
                             Style="{StaticResource LabelFormat}"
                             Text="{Binding LoggedInUser.FullName}"
                             TextColor="{StaticResource SecondaryDarkText}" />
                         <Label
                             Margin="0,0,0,20"
                             FontAttributes="None"
+                            FontFamily="NotoSansExtraBold"
                             FontSize="15"
                             HorizontalOptions="Center"
                             Style="{StaticResource LabelFormat}"
                             Text="{Binding LoggedInUser.Username, StringFormat='@{0}'}"
                             TextColor="{StaticResource SecondaryDarkText}"
                             VerticalOptions="Center" />
-                        <Button
-                            CornerRadius="25"
-                            FontSize="20"
-                            HorizontalOptions="Center"
-                            Style="{StaticResource BaseButtonStyle}"
-                            Text="Edit Profile"
-                            VerticalOptions="Center"
-                            WidthRequest="174" />
+                        <!--<Button {Revisit Changes Later}
+                        CornerRadius="25"
+                        FontSize="20"
+                        HorizontalOptions="Center"
+                        Style="{StaticResource BaseButtonStyle}"
+                        Text="Edit Profile"
+                        VerticalOptions="Center"
+                        WidthRequest="174" />-->
                     </VerticalStackLayout>
                     <HorizontalStackLayout
                         Grid.Row="2"
@@ -155,11 +173,12 @@
             <Border
                 BackgroundColor="{StaticResource Tertiary}"
                 Stroke="Transparent"
-                StrokeShape="RoundRectangle 30"
+                StrokeShape="RoundRectangle 20"
                 VerticalOptions="Fill">
+
                 <ContentView
                     x:Name="ContentContainer"
-                    Margin="30,20"
+                    Padding="5"
                     x:FieldModifier="public"
                     Loaded="ContentContainer_Loaded" />
             </Border>

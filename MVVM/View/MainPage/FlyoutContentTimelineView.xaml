@@ -52,54 +52,62 @@
                 VerticalOptions="Fill">
 
                 <!--  What's on your mind  -->
-                <Border StrokeShape="RoundRectangle 50" Style="{StaticResource Post}">
-                    <Grid
-                        Padding="20"
-                        ColumnSpacing="10"
-                        HorizontalOptions="Fill">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding AddNewPostCommand}" />
-                        </Grid.GestureRecognizers>
+                <Border StrokeShape="RoundRectangle 100" Style="{StaticResource Post}">
+                    <Border
+                        Margin="5"
+                        Stroke="White"
+                        StrokeShape="RoundRectangle 50"
+                        StrokeThickness="2"
+                        Style="{StaticResource Post}">
+                        <Grid
+                            Padding="5"
+                            ColumnSpacing="10"
+                            HorizontalOptions="Fill">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AddNewPostCommand}" />
+                            </Grid.GestureRecognizers>
 
-                        <Border
-                            Grid.Row="0"
-                            Margin="0"
-                            Padding="2"
-                            BackgroundColor="Transparent"
-                            HorizontalOptions="Center"
-                            Stroke="{StaticResource Tertiary}"
-                            StrokeShape="RoundRectangle, 180"
-                            StrokeThickness="2"
-                            VerticalOptions="End">
-                            <Frame
-                                Padding="0"
-                                BackgroundColor="White"
-                                BorderColor="Transparent"
-                                CornerRadius="180"
-                                HeightRequest="50"
-                                IsClippedToBounds="True"
-                                VerticalOptions="Center"
-                                WidthRequest="50">
-                                <Image
-                                    Aspect="AspectFill"
-                                    HeightRequest="55"
-                                    HorizontalOptions="Fill"
-                                    Source="{Binding LoggedInUser.UserAvatar}"
-                                    VerticalOptions="Fill"
-                                    WidthRequest="55" />
-                            </Frame>
-                        </Border>
+                            <Border
+                                Grid.Row="0"
+                                Margin="0"
+                                Padding="2"
+                                BackgroundColor="Transparent"
+                                HorizontalOptions="Center"
+                                Stroke="{StaticResource Tertiary}"
+                                StrokeShape="RoundRectangle, 180"
+                                StrokeThickness="2"
+                                VerticalOptions="End">
+                                <Frame
+                                    Padding="0"
+                                    BackgroundColor="White"
+                                    BorderColor="Transparent"
+                                    CornerRadius="180"
+                                    HeightRequest="50"
+                                    IsClippedToBounds="True"
+                                    VerticalOptions="Center"
+                                    WidthRequest="50">
+                                    <Image
+                                        Aspect="AspectFill"
+                                        HeightRequest="55"
+                                        HorizontalOptions="Fill"
+                                        Source="{Binding LoggedInUser.UserAvatar}"
+                                        VerticalOptions="Fill"
+                                        WidthRequest="55" />
+                                </Frame>
+                            </Border>
 
-                        <Label
-                            Grid.Column="1"
-                            Style="{StaticResource LabelFormat}"
-                            Text="What's on your mind?"
-                            VerticalOptions="Center" />
-                    </Grid>
+                            <Label
+                                Grid.Column="1"
+                                HorizontalOptions="Center"
+                                Style="{StaticResource LabelFormat}"
+                                Text="What's on your mind?"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
                 </Border>
 
                 <!--  Loading indicator  -->
@@ -147,25 +155,30 @@
                                             <RowDefinition Height=".1*" />
                                         </Grid.RowDefinitions>
 
-                                        <Frame
+                                        <Border
                                             Grid.Row="0"
                                             Grid.Column="0"
-                                            Padding="0"
-                                            BackgroundColor="White"
-                                            BorderColor="Transparent"
-                                            CornerRadius="50"
                                             HeightRequest="50"
-                                            IsClippedToBounds="True"
-                                            VerticalOptions="Center"
+                                            Stroke="{StaticResource Penta}"
+                                            StrokeShape="RoundRectangle 100"
+                                            StrokeThickness="1"
                                             WidthRequest="50">
-                                            <Image
-                                                Aspect="AspectFill"
-                                                HeightRequest="50"
-                                                HorizontalOptions="Fill"
-                                                Source="{Binding UserAvatar}"
-                                                VerticalOptions="Fill"
-                                                WidthRequest="50" />
-                                        </Frame>
+                                            <Frame
+                                                Padding="0"
+                                                BackgroundColor="White"
+                                                BorderColor="Transparent"
+                                                CornerRadius="50"
+                                                IsClippedToBounds="True"
+                                                VerticalOptions="Center">
+                                                <Image
+                                                    Aspect="AspectFill"
+                                                    HeightRequest="50"
+                                                    HorizontalOptions="Fill"
+                                                    Source="{Binding UserAvatar}"
+                                                    VerticalOptions="Fill"
+                                                    WidthRequest="50" />
+                                            </Frame>
+                                        </Border>
 
                                         <VerticalStackLayout
                                             Grid.Row="0"
@@ -178,39 +191,58 @@
                                                 TextColor="Gray" />
                                         </VerticalStackLayout>
 
+
+                                        <!--  Hide Post Button  -->
                                         <Button
                                             Grid.Row="0"
                                             Grid.RowSpan="2"
                                             Grid.Column="2"
+                                            Margin="0"
+                                            Padding="0"
                                             BackgroundColor="Transparent"
                                             Command="{Binding BindingContext.HidePostCommand, Source={x:Reference PageRoot}}"
                                             CommandParameter="{Binding .}"
                                             IsVisible="{Binding IsNotOwnPost}"
                                             Style="{StaticResource BaseButtonStyle}"
                                             Text="&#xf2d1;"
-                                            VerticalOptions="Start" />
+                                            VerticalOptions="Start"
+                                            WidthRequest="40" />
 
                                         <Button
                                             Grid.Row="0"
                                             Grid.RowSpan="2"
                                             Grid.Column="2"
+                                            Padding="0"
                                             BackgroundColor="Transparent"
                                             Command="{Binding BindingContext.EditPostCommand, Source={x:Reference PageRoot}}"
                                             CommandParameter="{Binding .}"
                                             IsVisible="{Binding IsOwnPost}"
                                             Style="{StaticResource BaseButtonStyle}"
-                                            Text="&#xe805;"
-                                            VerticalOptions="Start" />
+                                            Text="&#xe807;"
+                                            VerticalOptions="Start"
+                                            WidthRequest="40" />
 
-                                        <Label
+                                        <VerticalStackLayout
                                             Grid.Row="1"
                                             Grid.Column="0"
-                                            Grid.ColumnSpan="2"
-                                            Margin="0"
-                                            HorizontalOptions="Start"
-                                            Style="{StaticResource PostTextFormat}"
-                                            Text="{Binding PostText}"
-                                            VerticalOptions="Start" />
+                                            Grid.ColumnSpan="3">
+                                            <Border
+                                                Grid.ColumnSpan="3"
+                                                Margin="0"
+                                                HeightRequest="5"
+                                                Stroke="Transparent"
+                                                VerticalOptions="Start">
+                                                <BoxView Color="{StaticResource Tertiary}" />
+                                            </Border>
+
+                                            <Label
+                                                Margin="0"
+                                                HorizontalOptions="Start"
+                                                Style="{StaticResource PostTextFormat}"
+                                                Text="{Binding PostText}"
+                                                VerticalOptions="Start" />
+                                        </VerticalStackLayout>
+
 
                                     </Grid>
 
@@ -219,14 +251,13 @@
                                         Grid.Row="1"
                                         Padding="0"
                                         BackgroundColor="White"
-                                        BorderColor="Transparent"
+                                        BorderColor="{StaticResource Tertiary}"
                                         CornerRadius="10"
                                         IsClippedToBounds="True">
                                         <Image
-                                            Aspect="AspectFill"
+                                            Aspect="Center"
                                             HeightRequest="320"
-                                            Source="{Binding PostImage}"
-                                            WidthRequest="320">
+                                            Source="{Binding PostImage}">
                                             <Image.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding BindingContext.ShowImageCommand, Source={x:Reference PageRoot}}" CommandParameter="{Binding .}" />
                                             </Image.GestureRecognizers>
@@ -236,7 +267,7 @@
                                     <!--  Like & Count  -->
                                     <HorizontalStackLayout
                                         Grid.Row="2"
-                                        Spacing="5"
+                                        Spacing="0"
                                         VerticalOptions="Center">
                                         <Button
                                             Padding="0"
@@ -245,7 +276,8 @@
                                             CommandParameter="{Binding .}"
                                             FontSize="30"
                                             Style="{StaticResource BaseButtonStyle}"
-                                            Text="{Binding LikeIcon}" />
+                                            Text="{Binding LikeIcon}"
+                                            WidthRequest="40" />
                                         <Label
                                             Padding="0"
                                             HorizontalOptions="Start"

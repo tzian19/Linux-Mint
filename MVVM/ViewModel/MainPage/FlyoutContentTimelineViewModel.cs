@@ -1,16 +1,16 @@
-﻿using System.Text;
-using System.Text.Json;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 using Linux_Mint.MVVM.Model;
 using Linux_Mint.MVVM.View.MainPage;
+using Linux_Mint.MVVM.View.MainPage.PopupPages;
+using Linux_Mint.Service;
 
 namespace Linux_Mint.MVVM.ViewModel
 {
     public class FlyoutContentTimelineViewModel : ViewModelBase
     {
         private readonly PostService _postService;
-        private readonly string _currentUserId = "your-current-user-id"; // dynamically set this after login
+        private readonly string _currentUserId;
 
         public ICommand AddNewPostCommand { get; }
         public ICommand RefreshCommand { get; }
@@ -28,7 +28,10 @@ namespace Linux_Mint.MVVM.ViewModel
             AddNewPostCommand = new Command( async () => await NavigateToPage( new FlyoutContentNewPostView() ) );
             RefreshCommand = new Command( async () => await LoadPostsAsync() );
             EditPostCommand = new Command<UserPost>( EditPost );
-            HidePostCommand = new Command<UserPost>( HidePost );
+
+            // UPDATED: Made this an async command
+            HidePostCommand = new Command<UserPost>( async ( post ) => await HidePostAsync( post ) );
+
             LikeCommand = new Command<UserPost>( async ( post ) => await ToggleLikeAsync( post ) );
 
             Task.Run( LoadPostsAsync );
@@ -60,13 +63,10 @@ namespace Linux_Mint.MVVM.ViewModel
             post.OnPropertyChanged( nameof( UserPost.LikeCount ) );
             post.OnPropertyChanged( nameof( UserPost.LikeIcon ) );
 
-            var url = $"{baseUrl}/UserPosts/{post.PostId}";
-            var json = JsonSerializer.Serialize(post, _serializerOptions);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            // Use the PostService we created earlier!
+            bool isSuccess = await _postService.UpdatePostAsync(post);
 
-            var response = await client.PutAsync(url, content);
-
-            if ( !response.IsSuccessStatusCode )
+            if ( !isSuccess )
             {
                 // On failure, revert changes
                 if ( post.IsLiked )
@@ -91,9 +91,11 @@ namespace Linux_Mint.MVVM.ViewModel
             var posts = await _postService.GetPostsAsync();
 
             var sortedPosts = posts
-        .OrderByDescending(p =>
-            DateTime.TryParse(p.PostCreated, out var parsedDate) ? parsedDate : DateTime.MinValue)
-        .ToList();
+                .OrderByDescending(p =>
+                    DateTime.TryParse(p.PostCreated, out var parsedDate) ? parsedDate : DateTime.MinValue)
+                // ADDED THIS FILTER: Skip any posts where the HiddenTo list contains the current user's ID
+                .Where(p => p.HiddenTo == null || !p.HiddenTo.Contains(_currentUserId))
+                .ToList();
 
             MainThread.BeginInvokeOnMainThread( () =>
             {
@@ -114,7 +116,6 @@ namespace Linux_Mint.MVVM.ViewModel
             } );
         }
 
-
         private async void EditPost( UserPost post )
         {
             if ( post == null )
@@ -124,12 +125,43 @@ namespace Linux_Mint.MVVM.ViewModel
             await Application.Current.MainPage.Navigation.PushModalAsync( editPage );
         }
 
-        private void HidePost( UserPost post )
+        // UPDATED: Added Confirmation, Database Save, and UI Removal
+        private async Task HidePostAsync( UserPost post )
         {
             if ( post == null )
                 return;
 
-            Posts.Remove( post );
+            // 1. Show Confirmation Dialog
+            bool confirm = await Application.Current.MainPage.DisplayAlert(
+                "Hide Post",
+                "Are you sure you want to hide this post? It will no longer appear in your timeline.",
+                "Yes, Hide",
+                "Cancel");
+
+            if ( confirm )
+            {
+                // 2. Add current user ID to the post's HiddenTo list
+                post.ToggleHide( _currentUserId );
+
+                // 3. Remove from UI immediately so it vanishes seamlessly
+                Posts.Remove( post );
+
+                // 4. Save the new hidden status to MockAPI
+                bool success = await _postService.UpdatePostAsync(post);
+
+                if ( !success )
+                {
+                    Console.WriteLine( "❌ API ERROR: Failed to save hidden post state to database." );
+                }
+            }
+        }
+
+        private async void ShowImagePopup( UserPost post )
+        {
+            if ( post == null || string.IsNullOrEmpty( post.PostImage ) )
+                return;
+
+            await Application.Current.MainPage.Navigation.PushModalAsync( new ImagePopupView( post.PostImage ) );
         }
     }
 }

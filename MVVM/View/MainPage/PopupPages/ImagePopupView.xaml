@@ -4,35 +4,30 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Padding="20"
-    BackgroundColor="#99000000">
+    BackgroundColor="#aaffffff">
 
     <Grid
         x:Name="MainLayout"
-        HorizontalOptions="Center"
-        VerticalOptions="Center">
+        HorizontalOptions="Fill"
+        VerticalOptions="Fill">
 
         <Grid>
-            <Border Stroke="{StaticResource Tertiary}" StrokeThickness="5">
-                <Image
-                    Aspect="AspectFit"
-                    HeightRequest="300"
-                    Source="{Binding ImageUrl}"
-                    WidthRequest="300" />
+            <Border Stroke="Transparent" StrokeThickness="5">
+                <Image Aspect="AspectFit" Source="{Binding ImageUrl}" />
             </Border>
-
 
             <Button
                 Margin="10"
-                BackgroundColor="#8046B47F"
+                BackgroundColor="Transparent"
                 Clicked="CloseButton_Clicked"
-                CornerRadius="20"
-                FontSize="16"
-                HeightRequest="40"
+                CornerRadius="50"
+                FontSize="30"
+                HeightRequest="50"
                 HorizontalOptions="End"
                 Text="✕"
-                TextColor="White"
+                TextColor="{StaticResource SecondaryDarkText}"
                 VerticalOptions="Start"
-                WidthRequest="40" />
+                WidthRequest="50" />
         </Grid>
 
     </Grid>

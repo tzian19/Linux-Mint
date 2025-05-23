@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 
+using Linux_Mint.MVVM.Model;
 using Linux_Mint.MVVM.view;
 using Linux_Mint.MVVM.View.MainPage;
 
@@ -17,6 +18,19 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage
 
         public MainFlyoutPageViewModel()
         {
+            // Listen for the "ProfileUpdated" message
+            MessagingCenter.Subscribe<FlyoutContentUserProfileViewModel , UserProfile>( this , "ProfileUpdated" , ( sender , updatedUser ) =>
+            {
+                if ( updatedUser != null )
+                {
+                    // Replace the stale user data with the fresh data
+                    LoggedInUser = updatedUser;
+
+                    // Force the Flyout menu XAML to redraw the Image and Labels immediately
+                    OnPropertyChanged( nameof( LoggedInUser ) );
+                }
+            } );
+
             FlyoutPageOnLoad = new Command( async () => await NavigateToPage( new FlyoutContentTimelineView() ) );
             ClickProfileTab = new Command( async () => await NavigateToPage( new FlyoutContentUserProfileView() ) );
             ClickLogOut = new Command<object>( async ( param ) => await ParameterizedCommand( param ) );

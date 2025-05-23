@@ -9,23 +9,23 @@ public partial class LoginView : ContentPage
     {
         InitializeComponent();
         BindingContext = new LoginViewModel();
-        passEntry.Text = "1234";
-        userEntry.Text = "tzian19";
+        //passEntry.Text = "1234";
+        //userEntry.Text = "tzian19";
     }
 
-    private void showPassword_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    private void showPassword_CheckedChanged( object sender , CheckedChangedEventArgs e )
     {
-        if (sender is CheckBox)
+        if ( sender is CheckBox )
         {
             passEntry.IsPassword = !e.Value;
         }
     }
 
-    private async void btnSignUp_Clicked(object sender, EventArgs e)
+    private async void btnSignUp_Clicked( object sender , EventArgs e )
     {
-        await MainThread.InvokeOnMainThreadAsync(async () =>
+        await MainThread.InvokeOnMainThreadAsync( async () =>
         {
-            await Navigation.PushAsync(new SignUpView());
-        });
+            await Navigation.PushAsync( new SignUpView() );
+        } );
     }
 }

@@ -1,6 +1,7 @@
 using System.Windows.Input;
 
 using Linux_Mint.MVVM.Model;
+using Linux_Mint.Service;
 
 namespace Linux_Mint.MVVM.ViewModel
 {

@@ -1,12 +1,16 @@
 ﻿using System.Windows.Input;
 
 using Linux_Mint.MVVM.Model;
+using Linux_Mint.MVVM.View.MainPage;
+using Linux_Mint.Service; // Ensure this is pointing to your services
 
 namespace Linux_Mint.MVVM.ViewModel
 {
     public class FlyoutContentNewPostViewModel : ViewModelBase
     {
         private readonly PostService _postService;
+        private readonly ImgurService _imgurService; // 1. Add Imgur Service
+        private byte[] _selectedImageBytes; // 2. Variable to hold the raw image data
 
         private string _postTexts;
         public string PostTexts
@@ -29,6 +33,7 @@ namespace Linux_Mint.MVVM.ViewModel
         public FlyoutContentNewPostViewModel()
         {
             _postService = new PostService();
+            _imgurService = new ImgurService();
 
             // Commands
             AddPhotoCommand = new Command( OnAddPhoto );
@@ -42,7 +47,6 @@ namespace Linux_Mint.MVVM.ViewModel
 
         private bool CanExecutePost()
         {
-            // You can customize this to allow posting only when there's text or an image
             return !string.IsNullOrWhiteSpace( PostTexts ) || !string.IsNullOrEmpty( PostImage );
         }
 
@@ -57,9 +61,15 @@ namespace Linux_Mint.MVVM.ViewModel
 
                 if ( result != null )
                 {
-                    var stream = await result.OpenReadAsync();
-                    // Use local file path (on some platforms, FullPath may be null, so be cautious)
+                    // 3. Convert the photo stream to a byte array so Imgur can read it later
+                    using var stream = await result.OpenReadAsync();
+                    using var memoryStream = new MemoryStream();
+                    await stream.CopyToAsync( memoryStream );
+                    _selectedImageBytes = memoryStream.ToArray();
+
+                    // Keep this so your UI can still show a local preview of the image
                     PostImage = result.FullPath ?? "";
+
                     ( ( Command ) PostCommand ).ChangeCanExecute();
                 }
             }
@@ -69,10 +79,10 @@ namespace Linux_Mint.MVVM.ViewModel
             }
         }
 
-
         private void OnRemoveImage()
         {
             PostImage = null;
+            _selectedImageBytes = null; // Clear the bytes too
             ( ( Command ) PostCommand ).ChangeCanExecute();
         }
 
@@ -81,12 +91,27 @@ namespace Linux_Mint.MVVM.ViewModel
             if ( !CanExecutePost() )
                 return;
 
+            string finalImgurUrl = "";
+
+            // 4. Upload to Imgur ONLY when the user clicks Post
+            if ( _selectedImageBytes != null )
+            {
+                // Optional: You might want to add a loading indicator/spinner here
+                finalImgurUrl = await _imgurService.UploadImageAsync( _selectedImageBytes );
+
+                if ( string.IsNullOrEmpty( finalImgurUrl ) )
+                {
+                    await Application.Current.MainPage.DisplayAlert( "Error" , "Failed to upload image to Imgur. Check your internet connection." , "OK" );
+                    return; // Stop the post process if the image upload fails
+                }
+            }
+
             var newPost = new UserPost
             {
                 PostId = Guid.NewGuid().ToString(),
                 PostText = PostTexts,
-                PostImage = PostImage,
-                PostCreated = DateTime.Now.ToString("o"), // ISO 8601 format
+                PostImage = finalImgurUrl, // 5. Save the Imgur URL, NOT the local file path!
+                PostCreated = DateTime.Now.ToString("o"),
                 UserProfileId = LoggedInUser?.UId,
                 UserProfile = LoggedInUser,
                 LikedBy = new System.Collections.Generic.List<string>(),
@@ -95,26 +120,25 @@ namespace Linux_Mint.MVVM.ViewModel
 
             try
             {
-                // Post new post to backend (assuming POST endpoint exists)
-                var json = System.Text.Json.JsonSerializer.Serialize(newPost);
-                var content = new System.Net.Http.StringContent(json, System.Text.Encoding.UTF8, "application/json");
-                var response = await _postService._httpClient.PostAsync($"{_postService.BaseUrl}/UserPosts", content);
+                // 6. Use the clean method from your PostService
+                bool isSuccess = await _postService.CreatePostAsync(newPost);
 
-                if ( response.IsSuccessStatusCode )
+                if ( isSuccess )
                 {
                     // Add new post locally and clear input
                     Posts.Insert( 0 , newPost );
 
                     PostTexts = string.Empty;
                     PostImage = null;
+                    _selectedImageBytes = null;
                     ( ( Command ) PostCommand ).ChangeCanExecute();
 
-                    // Optionally navigate back or inform the user
                     await Application.Current.MainPage.DisplayAlert( "Success" , "Post published!" , "OK" );
+                    await NavigateToPage( new FlyoutContentTimelineView() );
                 }
                 else
                 {
-                    await Application.Current.MainPage.DisplayAlert( "Error" , "Failed to publish post." , "OK" );
+                    await Application.Current.MainPage.DisplayAlert( "Error" , "Failed to publish post to database." , "OK" );
                 }
             }
             catch ( Exception ex )

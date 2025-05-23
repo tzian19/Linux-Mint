@@ -65,26 +65,31 @@
                                 <RowDefinition Height=".3*" />
                                 <RowDefinition Height=".1*" />
                             </Grid.RowDefinitions>
-
-                            <Frame
+                            <Border
                                 Grid.Row="0"
                                 Grid.Column="0"
-                                Padding="0"
-                                BackgroundColor="White"
-                                BorderColor="Transparent"
-                                CornerRadius="50"
                                 HeightRequest="50"
-                                IsClippedToBounds="True"
-                                VerticalOptions="Center"
+                                Stroke="{StaticResource Penta}"
+                                StrokeShape="RoundRectangle 100"
+                                StrokeThickness="1"
                                 WidthRequest="50">
-                                <Image
-                                    Aspect="AspectFill"
-                                    HeightRequest="50"
-                                    HorizontalOptions="Fill"
-                                    Source="{Binding UserAvatar}"
-                                    VerticalOptions="Fill"
-                                    WidthRequest="50" />
-                            </Frame>
+                                <Frame
+                                    Padding="0"
+                                    BackgroundColor="White"
+                                    BorderColor="Transparent"
+                                    CornerRadius="50"
+                                    IsClippedToBounds="True"
+                                    VerticalOptions="Center">
+
+                                    <Image
+                                        Aspect="AspectFill"
+                                        HeightRequest="50"
+                                        HorizontalOptions="Fill"
+                                        Source="{Binding UserAvatar}"
+                                        VerticalOptions="Fill"
+                                        WidthRequest="50" />
+                                </Frame>
+                            </Border>
 
                             <VerticalStackLayout
                                 Grid.Row="0"
@@ -106,18 +111,31 @@
                                 Command="{Binding BindingContext.EditPostCommand, Source={x:Reference PageRoot}}"
                                 CommandParameter="{Binding .}"
                                 Style="{StaticResource BaseButtonStyle}"
-                                Text="&#xe805;"
-                                VerticalOptions="Start" />
+                                Text="&#xe807;"
+                                VerticalOptions="Start"
+                                WidthRequest="50" />
 
-                            <Label
+                            <VerticalStackLayout
                                 Grid.Row="1"
                                 Grid.Column="0"
-                                Grid.ColumnSpan="2"
-                                Margin="0"
-                                HorizontalOptions="Start"
-                                Style="{StaticResource PostTextFormat}"
-                                Text="{Binding PostText}"
-                                VerticalOptions="Start" />
+                                Grid.ColumnSpan="3">
+                                <Border
+                                    Grid.ColumnSpan="3"
+                                    Margin="0"
+                                    HeightRequest="5"
+                                    Stroke="Transparent"
+                                    VerticalOptions="Start">
+                                    <BoxView Color="{StaticResource Tertiary}" />
+                                </Border>
+                                <Label
+                                    Margin="0"
+                                    HorizontalOptions="Start"
+                                    Style="{StaticResource PostTextFormat}"
+                                    Text="{Binding PostText}"
+                                    VerticalOptions="Start" />
+                            </VerticalStackLayout>
+
+
                         </Grid>
 
                         <!--  Post Image  -->
@@ -125,14 +143,13 @@
                             Grid.Row="1"
                             Padding="0"
                             BackgroundColor="White"
-                            BorderColor="Transparent"
-                            CornerRadius="10"
+                            BorderColor="{StaticResource Tertiary}"
+                            CornerRadius="0"
                             IsClippedToBounds="True">
                             <Image
                                 Aspect="AspectFill"
                                 HeightRequest="320"
-                                Source="{Binding PostImage}"
-                                WidthRequest="320">
+                                Source="{Binding PostImage}">
                                 <Image.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding BindingContext.ShowImageCommand, Source={x:Reference PageRoot}}" CommandParameter="{Binding .}" />
                                 </Image.GestureRecognizers>
@@ -142,18 +159,22 @@
                         <!--  Like & Delete  -->
                         <HorizontalStackLayout
                             Grid.Row="2"
-                            Spacing="10"
+                            HorizontalOptions="Fill"
+                            Spacing="0"
                             VerticalOptions="Center">
                             <Button
+                                Margin="0"
                                 Padding="0"
                                 BackgroundColor="Transparent"
                                 Command="{Binding BindingContext.LikeCommand, Source={x:Reference PageRoot}}"
                                 CommandParameter="{Binding .}"
                                 FontSize="30"
                                 Style="{StaticResource BaseButtonStyle}"
-                                Text="{Binding LikeIcon}" />
+                                Text="{Binding LikeIcon}"
+                                WidthRequest="40" />
                             <Label
                                 Padding="0"
+                                HorizontalOptions="Start"
                                 Style="{StaticResource LabelFormat}"
                                 Text="{Binding LikeCount}"
                                 VerticalOptions="Center" />
@@ -163,8 +184,10 @@
                                 Command="{Binding BindingContext.DeletePostCommand, Source={x:Reference PageRoot}}"
                                 CommandParameter="{Binding .}"
                                 FontSize="25"
+                                HorizontalOptions="End"
                                 Style="{StaticResource BaseButtonStyle}"
-                                Text="🗑" />
+                                Text="🗑"
+                                WidthRequest="40" />
                         </HorizontalStackLayout>
                     </Grid>
                 </Border>

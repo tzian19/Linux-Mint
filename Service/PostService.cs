@@ -1,161 +1,141 @@
 ﻿using System.Net.Http.Json;
-using System.Text;
-using System.Text.Json;
+using System.Text.Json; // <-- ADDED THIS
 
 using Linux_Mint.MVVM.Model;
 
-public class PostService
+namespace Linux_Mint.Service
 {
-    protected internal readonly HttpClient _httpClient;
-    protected internal string BaseUrl = "https://680f29be67c5abddd1940e6d.mockapi.io";
-
-    public PostService()
+    public class PostService
     {
-        _httpClient = new HttpClient();
-    }
+        private readonly HttpClient _httpClient;
+        private readonly JsonSerializerOptions _jsonOptions; // <-- ADDED THIS
+        private const string BaseUrl = "https://680f29be67c5abddd1940e6d.mockapi.io";
 
-    public async Task<List<UserPost>> GetPostsAsync()
-    {
-        try
+        public PostService()
         {
-            var posts = await _httpClient.GetFromJsonAsync<List<UserPost>>($"{BaseUrl}/UserPosts");
-            foreach ( var post in posts ?? new List<UserPost>() )
+            _httpClient = new HttpClient();
+
+            // <-- ADDED THIS: Forces the app to keep your exact Capitalization (PascalCase)
+            _jsonOptions = new JsonSerializerOptions
             {
-                if ( post.LikedBy == null )
-                    post.LikedBy = new List<string>();
-            }
-
-            return posts ?? new List<UserPost>();
-        }
-        catch ( Exception ex )
-        {
-            Console.WriteLine( $"Error fetching posts: {ex.Message}" );
-            return new List<UserPost>();
-        }
-    }
-
-
-    public async Task<List<UserProfile>> GetAllUsersAsync()
-    {
-        try
-        {
-            var users = await _httpClient.GetFromJsonAsync<List<UserProfile>>(
-                $"{BaseUrl}/UserProfiles");
-
-            return users ?? new List<UserProfile>();
-        }
-        catch ( Exception ex )
-        {
-            Console.WriteLine( $"Error fetching users: {ex.Message}" );
-            return new List<UserProfile>();
-        }
-    }
-
-    public async Task<bool> UpdatePostAsync( UserPost post )
-    {
-        try
-        {
-            Console.WriteLine( $"⏳ Attempting to update post {post.PostId}" );
-
-            if ( string.IsNullOrEmpty( post?.PostId ) )
-            {
-                Console.WriteLine( "❌ Update failed: Post ID is null or empty" );
-                return false;
-            }
-
-            // CORRECTED: Proper endpoint URL construction
-            var updateUrl = $"{BaseUrl}/UserPosts/{post.PostId}";
-            Console.WriteLine( $"🔗 API Endpoint: {updateUrl}" );
-
-            // Configure JSON serializer options
-            var options = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                WriteIndented = true
+                PropertyNamingPolicy = null
             };
+        }
 
-            var jsonContent = JsonSerializer.Serialize(post, options);
-            Console.WriteLine( $"📦 Request Payload: {jsonContent}" );
-
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PutAsync(updateUrl, content);
-
-            Console.WriteLine( $"🔄 Response Status: {response.StatusCode}" );
-
-            if ( !response.IsSuccessStatusCode )
+        public async Task<List<UserPost>> GetPostsAsync()
+        {
+            try
             {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                Console.WriteLine( $"❌ Error Content: {errorContent}" );
+                // 1. Fetch the posts (which might have stale UserProfile snapshots)
+                var posts = await _httpClient.GetFromJsonAsync<List<UserPost>>($"{BaseUrl}/UserPosts", _jsonOptions);
+
+                // 2. Fetch the FRESH user profiles
+                var allUsers = await GetAllUsersAsync();
+
+                foreach ( var post in posts ?? new List<UserPost>() )
+                {
+                    // Fix null LikedBy list
+                    if ( post.LikedBy == null )
+                    {
+                        post.LikedBy = new List<string>();
+                    }
+
+                    // 3. THE FIX: Find the fresh user data that matches this post
+                    var freshUser = allUsers.FirstOrDefault(u => u.UId == post.UserProfileId);
+
+                    if ( freshUser != null )
+                    {
+                        // Overwrite the stale snapshot with the fresh data!
+                        post.UserProfile = freshUser;
+
+                    }
+                }
+
+                return posts ?? new List<UserPost>();
+            }
+            catch ( Exception ex )
+            {
+                Console.WriteLine( $"Error fetching posts: {ex.Message}" );
+                return new List<UserPost>();
+            }
+        }
+        public async Task<List<UserProfile>> GetAllUsersAsync()
+        {
+            try
+            {
+                // Passed _jsonOptions here
+                var users = await _httpClient.GetFromJsonAsync<List<UserProfile>>($"{BaseUrl}/UserProfiles", _jsonOptions);
+                return users ?? new List<UserProfile>();
+            }
+            catch ( Exception ex )
+            {
+                Console.WriteLine( $"Error fetching users: {ex.Message}" );
+                return new List<UserProfile>();
+            }
+        }
+
+        public async Task<bool> CreatePostAsync( UserPost newPost )
+        {
+            try
+            {
+                // Passed _jsonOptions here
+                var response = await _httpClient.PostAsJsonAsync($"{BaseUrl}/UserPosts", newPost, _jsonOptions);
+                return response.IsSuccessStatusCode;
+            }
+            catch ( Exception ex )
+            {
+                Console.WriteLine( $"Error creating post: {ex.Message}" );
                 return false;
             }
-
-            Console.WriteLine( "✅ Update successful!" );
-            return true;
         }
-        catch ( Exception ex )
-        {
-            Console.WriteLine( $"💥 Exception: {ex.Message}" );
-            Console.WriteLine( $"🔍 Stack Trace: {ex.StackTrace}" );
-            return false;
-        }
-    }
 
-    public async Task<bool> DeletePostAsync( UserPost post )
-    {
-        try
+        public async Task<bool> UpdatePostAsync( UserPost post )
         {
-            Console.WriteLine( $"⏳ Attempting to delete post {post.PostId}" );
-
-            if ( string.IsNullOrEmpty( post.PostId ) )
+            try
             {
-                Console.WriteLine( "❌ Delete failed: Post ID is null or empty" );
+                if ( string.IsNullOrEmpty( post?.PostId ) )
+                {
+                    Console.WriteLine( "❌ Update failed: Post ID is null or empty" );
+                    return false;
+                }
+
+                // Passed _jsonOptions here
+                var response = await _httpClient.PutAsJsonAsync($"{BaseUrl}/UserPosts/{post.PostId}", post, _jsonOptions);
+
+                if ( !response.IsSuccessStatusCode )
+                {
+                    // This will print exactly WHY MockAPI rejected your Like!
+                    string errorContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine( $"❌ API ERROR: {errorContent}" );
+                }
+
+                return response.IsSuccessStatusCode;
+            }
+            catch ( Exception ex )
+            {
+                Console.WriteLine( $"💥 Exception updating post: {ex.Message}" );
                 return false;
             }
+        }
 
-            var deleteUrl = $"{BaseUrl}/UserPosts/{post.PostId}";
-            Console.WriteLine( $"🔗 API Endpoint: {deleteUrl}" );
-
-            var response = await _httpClient.DeleteAsync(deleteUrl);
-
-            Console.WriteLine( $"🔄 Response Status: {response.StatusCode}" );
-
-            if ( !response.IsSuccessStatusCode )
+        public async Task<bool> DeletePostAsync( string postId )
+        {
+            try
             {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                Console.WriteLine( $"❌ Error Content: {errorContent}" );
+                if ( string.IsNullOrEmpty( postId ) )
+                {
+                    Console.WriteLine( "❌ Delete failed: Post ID is null or empty" );
+                    return false;
+                }
+
+                var response = await _httpClient.DeleteAsync($"{BaseUrl}/UserPosts/{postId}");
+                return response.IsSuccessStatusCode;
+            }
+            catch ( Exception ex )
+            {
+                Console.WriteLine( $"💥 Exception deleting post: {ex.Message}" );
                 return false;
             }
-
-            Console.WriteLine( "✅ Delete successful!" );
-            return true;
-        }
-        catch ( Exception ex )
-        {
-            Console.WriteLine( $"💥 Exception: {ex.Message}" );
-            Console.WriteLine( $"🔍 Stack Trace: {ex.StackTrace}" );
-            return false;
-        }
-    }
-    public async Task<bool> CreatePostAsync( UserPost newPost )
-    {
-        try
-        {
-            var options = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                WriteIndented = true
-            };
-            var json = JsonSerializer.Serialize(newPost, options);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await _httpClient.PostAsync($"{BaseUrl}/UserPosts", content);
-
-            return response.IsSuccessStatusCode;
-        }
-        catch ( Exception ex )
-        {
-            Console.WriteLine( $"Error creating post: {ex.Message}" );
-            return false;
         }
     }
 }

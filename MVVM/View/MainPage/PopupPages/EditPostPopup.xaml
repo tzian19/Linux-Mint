@@ -21,18 +21,31 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-
-            <Button
+            <Border
                 Grid.Column="0"
-                BackgroundColor="Green"
-                Command="{Binding SaveCommand}"
-                Text="Save" />
-
-            <Button
+                HorizontalOptions="CenterAndExpand"
+                Stroke="{StaticResource Tertiary}"
+                StrokeShape="RoundRectangle 5"
+                VerticalOptions="CenterAndExpand">
+                <Button
+                    BackgroundColor="{StaticResource SecondaryDarkText}"
+                    Command="{Binding SaveCommand}"
+                    Text="Save"
+                    TextColor="{StaticResource PrimaryDark}" />
+            </Border>
+            <Border
                 Grid.Column="1"
-                BackgroundColor="Red"
-                Command="{Binding CancelCommand}"
-                Text="Cancel" />
+                Stroke="{StaticResource Tertiary}"
+                StrokeShape="RoundRectangle 5">
+                <Button
+                    BackgroundColor="{StaticResource Secondary}"
+                    Command="{Binding CancelCommand}"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="Cancel"
+                    TextColor="{StaticResource SecondaryDarkText}"
+                    VerticalOptions="CenterAndExpand" />
+            </Border>
+
         </Grid>
     </VerticalStackLayout>
 </ContentPage>

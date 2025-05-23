@@ -5,13 +5,12 @@
     xmlns:pages="clr-namespace:Linux_Mint.MVVM.View.MainPage"
     xmlns:shapes="clr-namespace:Microsoft.Maui.Controls.Shapes;assembly=Microsoft.Maui.Controls"
     x:Name="FlyoutPageRoot"
-    Title="Registered Users"
     IsGestureEnabled="True">
 
-    <!--  Flyout Menu (Left Panel)  -->
     <FlyoutPage.Flyout>
         <ContentPage Title="Menu" BackgroundColor="Transparent">
-            <!--  Resource styles for buttons and labels  -->
+
+
             <ContentPage.Resources>
                 <Style x:Key="BaseButtonStyle" TargetType="Button">
                     <Setter Property="HorizontalOptions" Value="Fill" />
@@ -28,7 +27,6 @@
                 </Style>
             </ContentPage.Resources>
 
-            <!--  Outer container with rounded right corners  -->
             <Border
                 Margin="0"
                 Padding="0"
@@ -42,7 +40,6 @@
                         <RowDefinition Height=".5*" />
                     </Grid.RowDefinitions>
 
-                    <!--  Top Bar: Title and hide button  -->
                     <Grid
                         Grid.Row="0"
                         Margin="0"
@@ -77,7 +74,6 @@
                             VerticalOptions="End" />
                     </Grid>
 
-                    <!--  Divider lines  -->
                     <VerticalStackLayout
                         Grid.Row="0"
                         Grid.ColumnSpan="2"
@@ -93,7 +89,6 @@
                             HeightRequest="2" />
                     </VerticalStackLayout>
 
-                    <!--  Main Menu Items and Profile section  -->
                     <VerticalStackLayout
                         Grid.Row="1"
                         Margin="10"
@@ -102,10 +97,9 @@
                         Spacing="10"
                         VerticalOptions="Start">
 
-                        <!--  Current Profile card  -->
                         <Border
                             BackgroundColor="Transparent"
-                            StrokeShape="RoundRectangle, 30"
+                            StrokeShape="RoundRectangle, 30 30 30 30"
                             StrokeThickness="0">
                             <Grid
                                 Padding="10"
@@ -119,37 +113,24 @@
                                     <TapGestureRecognizer Command="{Binding ClickProfileTab}" />
                                 </Grid.GestureRecognizers>
 
-                                <!--  Profile image  -->
                                 <Border
                                     Grid.Column="0"
                                     Margin="0"
-                                    Padding="10"
+                                    Padding="2"
                                     BackgroundColor="{StaticResource Quadra}"
-                                    HorizontalOptions="Fill"
                                     Stroke="Transparent"
-                                    StrokeShape="RoundRectangle, 20,0,20,0"
-                                    VerticalOptions="Fill">
-                                    <Frame
+                                    StrokeShape="RoundRectangle, 20,0,20,0">
+                                    <Border
+                                        Margin="0"
                                         Padding="0"
-                                        BackgroundColor="White"
-                                        BorderColor="Transparent"
-                                        CornerRadius="50"
-                                        HeightRequest="100"
-                                        HorizontalOptions="Center"
-                                        IsClippedToBounds="True"
-                                        VerticalOptions="Center"
-                                        WidthRequest="100">
-                                        <Image
-                                            Aspect="AspectFill"
-                                            HeightRequest="100"
-                                            HorizontalOptions="Fill"
-                                            Source="{Binding LoggedInUser.UserAvatar, FallbackValue='default_avatar.png'}"
-                                            VerticalOptions="Fill"
-                                            WidthRequest="100" />
-                                    </Frame>
+                                        BackgroundColor="{StaticResource Quadra}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle, 20,0,20,0">
+                                        <Image Aspect="AspectFit" Source="{Binding LoggedInUser.UserAvatar, FallbackValue='default_avatar.png'}" />
+
+                                    </Border>
                                 </Border>
 
-                                <!--  User information  -->
                                 <Frame
                                     Grid.Column="1"
                                     BackgroundColor="{StaticResource Penta}"
@@ -169,7 +150,6 @@
                             </Grid>
                         </Border>
 
-                        <!--  Menu buttons  -->
                         <Button
                             Command="{Binding ClickProfileTab}"
                             Style="{StaticResource BaseButtonStyle}"
@@ -184,7 +164,6 @@
                             Text="Add New post" />
                     </VerticalStackLayout>
 
-                    <!--  Bottom buttons: Home and Logout  -->
                     <Grid
                         Grid.Row="2"
                         Margin="10,10,10,20"
@@ -215,12 +194,14 @@
         </ContentPage>
     </FlyoutPage.Flyout>
 
-    <!--  Detail Page (Right Side Content Area)  -->
     <FlyoutPage.Detail>
-        <NavigationPage x:Name="DetailNavPage" Loaded="OnLoaded" >
+        <NavigationPage
+            x:Name="DetailNavPage"
+            BarBackgroundColor="{StaticResource Primary}"
+            BarTextColor="{StaticResource Tertiary}"
+            Loaded="OnLoaded">
             <x:Arguments>
-                <!--  Initial content page shown on load  -->
-                <ContentPage Title="Home" BackgroundColor="{StaticResource Primary}" />
+                <ContentPage Title="Home" BackgroundColor="{StaticResource Quadra}" />
             </x:Arguments>
         </NavigationPage>
     </FlyoutPage.Detail>

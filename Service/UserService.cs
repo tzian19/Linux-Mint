@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Net.Http.Json;
+using System.Text.Json; // <-- ADD THIS
 
 using Linux_Mint.MVVM.Model;
 
@@ -8,18 +9,27 @@ namespace Linux_Mint.Service
     public class UserService
     {
         private readonly HttpClient _httpClient;
-        private const string BaseUrl = "https://64f7ddfd824680fd217fb676.mockapi.io/UserProfiles";
+        private readonly JsonSerializerOptions _jsonOptions; // <-- ADD THIS
+
+        private const string BaseUrl = "https://680f29be67c5abddd1940e6d.mockapi.io/UserProfiles";
 
         public UserService()
         {
             _httpClient = new HttpClient();
+
+            // This forces the app to keep your exact Capitalization (PascalCase)
+            _jsonOptions = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = null
+            };
         }
 
         public async Task<ObservableCollection<UserProfile>> GetUsersAsync()
         {
             try
             {
-                var users = await _httpClient.GetFromJsonAsync<ObservableCollection<UserProfile>>(BaseUrl);
+                // Apply options here
+                var users = await _httpClient.GetFromJsonAsync<ObservableCollection<UserProfile>>(BaseUrl, _jsonOptions);
                 return users ?? new ObservableCollection<UserProfile>();
             }
             catch ( Exception ex )
@@ -33,7 +43,8 @@ namespace Linux_Mint.Service
         {
             try
             {
-                return await _httpClient.GetFromJsonAsync<UserProfile>( $"{BaseUrl}/{id}" );
+                // Apply options here
+                return await _httpClient.GetFromJsonAsync<UserProfile>( $"{BaseUrl}/{id}" , _jsonOptions );
             }
             catch ( Exception ex )
             {
@@ -46,7 +57,8 @@ namespace Linux_Mint.Service
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync(BaseUrl, user);
+                // Apply options here
+                var response = await _httpClient.PostAsJsonAsync(BaseUrl, user, _jsonOptions);
                 return response.IsSuccessStatusCode;
             }
             catch ( Exception ex )
@@ -60,12 +72,28 @@ namespace Linux_Mint.Service
         {
             try
             {
-                var response = await _httpClient.PutAsJsonAsync($"{BaseUrl}/{user.UId}", user);
-                return response.IsSuccessStatusCode;
+                if ( user == null || string.IsNullOrEmpty( user.UId ) )
+                    return false;
+
+                string updateUrl = $"{BaseUrl}/{user.UId}";
+
+                // Apply options here
+                var response = await _httpClient.PutAsJsonAsync(updateUrl, user, _jsonOptions);
+
+                if ( response.IsSuccessStatusCode )
+                {
+                    return true;
+                }
+                else
+                {
+                    string errorContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine( $"❌ API ERROR: {errorContent}" );
+                    return false;
+                }
             }
             catch ( Exception ex )
             {
-                Console.WriteLine( $"Error updating user: {ex.Message}" );
+                Console.WriteLine( $"💥 Exception in UpdateUserAsync: {ex.Message}" );
                 return false;
             }
         }

@@ -3,7 +3,7 @@
     x:Class="Linux_Mint.MVVM.View.MainPage.ProfileContents.AboutContentView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    BackgroundColor="{StaticResource Tertiary}">
+    BackgroundColor="Transparent">
 
     <ContentView.Resources>
         <Style x:Key="HeaderLabel" TargetType="Label">
@@ -25,7 +25,11 @@
             <Setter Property="Padding" Value="2" />
         </Style>
     </ContentView.Resources>
-    <VerticalStackLayout>
+    <Border
+        Margin="10"
+        Padding="10"
+        Stroke="{StaticResource Penta}"
+        StrokeShape="RoundRectangle 20">
         <Grid HorizontalOptions="Fill" RowSpacing="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -33,8 +37,65 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+
             <VerticalStackLayout Grid.Row="0" HorizontalOptions="Fill">
-                <Label Style="{StaticResource HeaderLabel}" Text="Primary Details" />
+                <Grid ColumnDefinitions="*, *">
+                    <Label
+                        Grid.Column="0"
+                        Style="{StaticResource HeaderLabel}"
+                        Text="Primary Details" />
+
+                    <Button
+                        Grid.Column="1"
+                        Padding="0"
+                        BackgroundColor="Transparent"
+                        Command="{Binding ToggleEditCommand}"
+                        FontFamily="Fontello"
+                        FontSize="30"
+                        HorizontalOptions="End"
+                        IsVisible="{Binding IsNotEditing}"
+                        Text="&#xe811;"
+                        TextColor="{StaticResource Secondary}" />
+
+                    <HorizontalStackLayout
+                        Grid.Column="1"
+                        Padding="0"
+                        HorizontalOptions="End"
+                        IsVisible="{Binding IsEditing}"
+                        Spacing="5">
+
+                        <Border
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 100"
+                            WidthRequest="35">
+                            <Button
+                                Padding="0"
+                                BackgroundColor="Transparent"
+                                Command="{Binding SaveCommand}"
+                                FontAttributes="Bold"
+                                FontFamily="Fontello"
+                                FontSize="30"
+                                Text="&#xe80A;"
+                                TextColor="{StaticResource Secondary}" />
+                        </Border>
+                        <Border
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 100"
+                            WidthRequest="35">
+                            <Button
+                                Padding="0"
+                                BackgroundColor="Transparent"
+                                Command="{Binding CancelCommand}"
+                                FontAttributes="Bold"
+                                FontFamily="Fontello"
+                                FontSize="30"
+                                HorizontalOptions="Center"
+                                Text="&#xe808;"
+                                TextColor="{StaticResource Secondary}" />
+                        </Border>
+
+                    </HorizontalStackLayout>
+                </Grid>
                 <BoxView
                     Margin="0"
                     BackgroundColor="{StaticResource Penta}"
@@ -48,21 +109,7 @@
                         <ColumnDefinition Width=".7*" />
                         <ColumnDefinition Width=".3*" />
                     </Grid.ColumnDefinitions>
-                    <VerticalStackLayout
-                        Grid.Column="1"
-                        HorizontalOptions="Fill"
-                        Spacing="10">
-                        <Label
-                            FontAttributes="Bold"
-                            Style="{StaticResource DetailLabel}"
-                            Text="ID: " />
-                        <Border HorizontalOptions="Fill" Style="{StaticResource InfoBorder}">
-                            <Label
-                                HorizontalOptions="Center"
-                                Style="{StaticResource DetailLabel}"
-                                Text="{Binding LoggedInUser.UId, StringFormat='{}{0:MMMM dd, yyyy}'}" />
-                        </Border>
-                    </VerticalStackLayout>
+
                     <VerticalStackLayout
                         Grid.Column="0"
                         HorizontalOptions="Fill"
@@ -72,21 +119,57 @@
                             Style="{StaticResource DetailLabel}"
                             Text="Username: " />
                         <Border HorizontalOptions="Fill" Style="{StaticResource InfoBorder}">
-                            <Label
-                                HorizontalOptions="Center"
-                                Style="{StaticResource DetailLabel}"
-                                Text="{Binding LoggedInUser.Username, StringFormat='@{0}'}" />
+                            <Grid HeightRequest="45.25">
+                                <Label
+                                    HorizontalOptions="Center"
+                                    IsVisible="{Binding IsNotEditing}"
+                                    Style="{StaticResource DetailLabel}"
+                                    Text="{Binding LoggedInUser.Username, StringFormat='@{0}'}" />
+                                <Entry
+                                    BackgroundColor="Transparent"
+                                    FontSize="19"
+                                    HorizontalOptions="Center"
+                                    HorizontalTextAlignment="Center"
+                                    IsVisible="{Binding IsEditing}"
+                                    Text="{Binding LoggedInUser.Username}"
+                                    TextColor="White" />
+                            </Grid>
                         </Border>
                     </VerticalStackLayout>
 
+                    <VerticalStackLayout
+                        Grid.Column="1"
+                        HorizontalOptions="Fill"
+                        Spacing="10"
+                        VerticalOptions="Center">
+                        <Label
+                            FontAttributes="Bold"
+                            Style="{StaticResource DetailLabel}"
+                            Text="ID: " />
+                        <Border
+                            Margin="0"
+                            HeightRequest="45"
+                            HorizontalOptions="Fill"
+                            Style="{StaticResource InfoBorder}"
+                            VerticalOptions="Center">
+                            <Label
+                                Padding="0"
+                                HorizontalOptions="Center"
+                                Style="{StaticResource DetailLabel}"
+                                Text="{Binding LoggedInUser.UId}"
+                                VerticalOptions="Center" />
+                        </Border>
+                    </VerticalStackLayout>
                 </Grid>
             </VerticalStackLayout>
+
             <VerticalStackLayout Grid.Row="1" HorizontalOptions="Fill">
                 <Label Style="{StaticResource HeaderLabel}" Text="Basic Info" />
                 <BoxView
                     Margin="0"
                     BackgroundColor="{StaticResource Penta}"
                     HeightRequest="2" />
+
                 <Grid
                     Margin="0,20,0,0"
                     HorizontalOptions="Fill"
@@ -95,6 +178,7 @@
                         <ColumnDefinition Width=".7*" />
                         <ColumnDefinition Width=".3*" />
                     </Grid.ColumnDefinitions>
+
                     <VerticalStackLayout
                         Grid.Column="0"
                         HorizontalOptions="Fill"
@@ -104,12 +188,23 @@
                             Style="{StaticResource DetailLabel}"
                             Text="Birth Date: " />
                         <Border HorizontalOptions="Fill" Style="{StaticResource InfoBorder}">
-                            <Label
-                                HorizontalOptions="Center"
-                                Style="{StaticResource DetailLabel}"
-                                Text="{Binding LoggedInUser.BirthDate, StringFormat='{}{0:MMMM dd, yyyy}'}" />
+                            <Grid HeightRequest="45">
+                                <Label
+                                    HorizontalOptions="Center"
+                                    IsVisible="{Binding IsNotEditing}"
+                                    Style="{StaticResource DetailLabel}"
+                                    Text="{Binding LoggedInUser.BirthDate, StringFormat='{}{0:MMMM dd, yyyy}'}" />
+                                <DatePicker
+                                    BackgroundColor="Transparent"
+                                    Date="{Binding LoggedInUser.BirthDate}"
+                                    FontSize="19"
+                                    HorizontalOptions="Center"
+                                    IsVisible="{Binding IsEditing}"
+                                    TextColor="White" />
+                            </Grid>
                         </Border>
                     </VerticalStackLayout>
+
                     <VerticalStackLayout
                         Grid.Column="1"
                         HorizontalOptions="Fill"
@@ -118,20 +213,20 @@
                             FontAttributes="Bold"
                             Style="{StaticResource DetailLabel}"
                             Text="Age: " />
-                        <Border HorizontalOptions="Fill" Style="{StaticResource InfoBorder}">
+                        <Border
+                            HeightRequest="45"
+                            HorizontalOptions="Fill"
+                            Style="{StaticResource InfoBorder}">
                             <Label
                                 HorizontalOptions="Center"
                                 Style="{StaticResource DetailLabel}"
                                 Text="{Binding LoggedInUser.Age}" />
                         </Border>
                     </VerticalStackLayout>
-
                 </Grid>
-
             </VerticalStackLayout>
 
             <VerticalStackLayout Grid.Row="2">
-
                 <Label Style="{StaticResource HeaderLabel}" Text="Contacts" />
                 <BoxView
                     Margin="0"
@@ -146,13 +241,25 @@
                     Style="{StaticResource DetailLabel}"
                     Text="Email: " />
                 <Border HorizontalOptions="Fill" Style="{StaticResource InfoBorder}">
-                    <Label
-                        HorizontalOptions="Center"
-                        Style="{StaticResource DetailLabel}"
-                        Text="{Binding LoggedInUser.Email}" />
+                    <Grid HeightRequest="45">
+                        <Label
+                            HorizontalOptions="Center"
+                            IsVisible="{Binding IsNotEditing}"
+                            Style="{StaticResource DetailLabel}"
+                            Text="{Binding LoggedInUser.Email}" />
+                        <Entry
+                            BackgroundColor="Transparent"
+                            FontSize="19"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            IsVisible="{Binding IsEditing}"
+                            Text="{Binding LoggedInUser.Email}"
+                            TextColor="White" />
+                    </Grid>
                 </Border>
             </VerticalStackLayout>
 
         </Grid>
-    </VerticalStackLayout>
+    </Border>
+
 </ContentView>

@@ -5,7 +5,6 @@ namespace Linux_Mint.MVVM.Model
 {
     public class UserPost : INotifyPropertyChanged
     {
-
         public bool IsOwnPost => UserProfileId == AppState.LoggedInUser?.UId;
         public bool IsNotOwnPost => UserProfileId != AppState.LoggedInUser?.UId;
 
@@ -14,7 +13,6 @@ namespace Linux_Mint.MVVM.Model
         public string PostText { get; set; }
         public string PostCreated { get; set; }
         public string UserProfileId { get; set; }
-
 
         private List<string> _likedBy = new List<string>();
         public List<string> LikedBy
@@ -26,6 +24,20 @@ namespace Linux_Mint.MVVM.Model
                 {
                     _likedBy = value ?? new List<string>();
                     NotifyLikeChanged();
+                }
+            }
+        }
+
+        private List<string> _hiddenTo = new List<string>();
+        public List<string> HiddenTo
+        {
+            get => _hiddenTo;
+            set
+            {
+                if ( _hiddenTo != value )
+                {
+                    _hiddenTo = value ?? new List<string>();
+                    NotifyHiddenChanged(); // FIX: Swapped this to the correct notifier
                 }
             }
         }
@@ -42,16 +54,21 @@ namespace Linux_Mint.MVVM.Model
                     OnPropertyChanged();
                     OnPropertyChanged( nameof( IsLiked ) );
                     OnPropertyChanged( nameof( LikeIcon ) );
+
+                    // NEW: Tell the UI to check if this specific user hid this post
+                    OnPropertyChanged( nameof( IsHidden ) );
+                    OnPropertyChanged( nameof( IsNotHidden ) );
                 }
             }
         }
 
         public int LikeCount => LikedBy?.Count ?? 0;
-
         public bool IsLiked => LikedBy?.Contains( CurrentUserId ) ?? false;
-
-        // Use emoji if unsure about icon fonts:
         public string LikeIcon => IsLiked ? "❤️" : "🤍";
+
+        // NEW: Helper properties for XAML bindings
+        public bool IsHidden => HiddenTo?.Contains( CurrentUserId ) ?? false;
+        public bool IsNotHidden => !IsHidden;
 
         private UserProfile _userProfile;
         public UserProfile UserProfile
@@ -98,18 +115,16 @@ namespace Linux_Mint.MVVM.Model
             }
         }
 
-
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void OnPropertyChanged( [CallerMemberName] string name = null ) =>
             PropertyChanged?.Invoke( this , new PropertyChangedEventArgs( name ) );
 
+        // --- LIKING LOGIC ---
         public void ToggleLike( string userId )
         {
             if ( string.IsNullOrEmpty( userId ) )
                 return;
-
             if ( LikedBy == null )
                 LikedBy = new List<string>();
 
@@ -127,6 +142,29 @@ namespace Linux_Mint.MVVM.Model
             OnPropertyChanged( nameof( IsLiked ) );
             OnPropertyChanged( nameof( LikeIcon ) );
             OnPropertyChanged( nameof( LikedBy ) );
+        }
+
+        // --- NEW: HIDING LOGIC ---
+        public void ToggleHide( string userId )
+        {
+            if ( string.IsNullOrEmpty( userId ) )
+                return;
+            if ( HiddenTo == null )
+                HiddenTo = new List<string>();
+
+            if ( HiddenTo.Contains( userId ) )
+                HiddenTo.Remove( userId ); // Unhide
+            else
+                HiddenTo.Add( userId ); // Hide
+
+            NotifyHiddenChanged();
+        }
+
+        public void NotifyHiddenChanged()
+        {
+            OnPropertyChanged( nameof( HiddenTo ) );
+            OnPropertyChanged( nameof( IsHidden ) );
+            OnPropertyChanged( nameof( IsNotHidden ) );
         }
     }
 }
