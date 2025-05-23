@@ -45,20 +45,14 @@
                 Direction="Right" />
         </Grid.GestureRecognizers>
 
-        <ScrollView
-            Grid.Row="0"
-            Padding="20,0"
-            IsClippedToBounds="True"
-            VerticalOptions="Fill">
-
-
+        <ScrollView>
             <VerticalStackLayout
-                Padding="0"
+                Padding="20,0"
                 Spacing="20"
                 VerticalOptions="Fill">
 
                 <!--  What's on your mind  -->
-                <Border Style="{StaticResource Post}">
+                <Border StrokeShape="RoundRectangle 50" Style="{StaticResource Post}">
                     <Grid
                         Padding="20"
                         ColumnSpacing="10"
@@ -70,6 +64,7 @@
                         <Grid.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding AddNewPostCommand}" />
                         </Grid.GestureRecognizers>
+
                         <Border
                             Grid.Row="0"
                             Margin="0"
@@ -98,6 +93,7 @@
                                     WidthRequest="55" />
                             </Frame>
                         </Border>
+
                         <Label
                             Grid.Column="1"
                             Style="{StaticResource LabelFormat}"
@@ -106,14 +102,24 @@
                     </Grid>
                 </Border>
 
+                <!--  Loading indicator  -->
+                <ActivityIndicator
+                    HorizontalOptions="Center"
+                    IsRunning="{Binding IsRefreshing}"
+                    IsVisible="{Binding IsRefreshing}"
+                    VerticalOptions="Center"
+                    Color="Gray" />
+
                 <!--  Post Feed  -->
                 <CollectionView
                     BackgroundColor="Transparent"
                     ItemsSource="{Binding Posts}"
                     VerticalOptions="Fill">
+
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="10" />
                     </CollectionView.ItemsLayout>
+
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Border Padding="20" Style="{StaticResource Post}">
@@ -168,9 +174,8 @@
                                             <Label Style="{StaticResource LabelFormat}" Text="{Binding FullName}" />
                                             <Label
                                                 FontSize="18"
-                                                Text="{Binding TimeAgo, StringFormat='{0:MMM d, yyyy}'}"
+                                                Text="{Binding TimeAgo}"
                                                 TextColor="Gray" />
-
                                         </VerticalStackLayout>
 
                                         <Button
@@ -195,21 +200,20 @@
                                             Style="{StaticResource BaseButtonStyle}"
                                             IsVisible="{Binding IsOwnPost}"
                                             Text="&#xe805;"
+                                            Text="&#xF2D1;"
                                             VerticalOptions="Start" />
 
-                                        <Entry
+                                        <Label
                                             Grid.Row="1"
                                             Grid.Column="0"
                                             Grid.ColumnSpan="2"
                                             Margin="0"
                                             HorizontalOptions="Start"
-                                            IsEnabled="False"
                                             Style="{StaticResource PostTextFormat}"
                                             Text="{Binding PostText}"
                                             VerticalOptions="Start" />
 
                                     </Grid>
-
 
                                     <!--  Post Image  -->
                                     <Frame
@@ -223,10 +227,14 @@
                                             Aspect="AspectFill"
                                             HeightRequest="320"
                                             Source="{Binding PostImage}"
-                                            WidthRequest="320" />
+                                            WidthRequest="320">
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding BindingContext.ShowImageCommand, Source={x:Reference PageRoot}}" CommandParameter="{Binding .}" />
+                                            </Image.GestureRecognizers>
+                                        </Image>
                                     </Frame>
 
-                                    <!--  Like & Delete  -->
+                                    <!--  Like & Count  -->
                                     <HorizontalStackLayout
                                         Grid.Row="2"
                                         Spacing="5"
@@ -238,7 +246,7 @@
                                             CommandParameter="{Binding .}"
                                             FontSize="30"
                                             Style="{StaticResource BaseButtonStyle}"
-                                            Text="&#xe800;" />
+                                            Text="{Binding LikeIcon}" />
                                         <Label
                                             Padding="0"
                                             HorizontalOptions="Start"
@@ -251,7 +259,6 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-
             </VerticalStackLayout>
         </ScrollView>
     </Grid>
