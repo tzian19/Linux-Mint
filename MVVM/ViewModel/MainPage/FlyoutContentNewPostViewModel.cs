@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 
 using Linux_Mint.MVVM.Model;
+using Linux_Mint.MVVM.View.MainPage;
 
 namespace Linux_Mint.MVVM.ViewModel
 {
@@ -62,6 +63,8 @@ namespace Linux_Mint.MVVM.ViewModel
                     PostImage = result.FullPath ?? "";
                     ( ( Command ) PostCommand ).ChangeCanExecute();
                 }
+
+
             }
             catch ( Exception ex )
             {
@@ -111,6 +114,8 @@ namespace Linux_Mint.MVVM.ViewModel
 
                     // Optionally navigate back or inform the user
                     await Application.Current.MainPage.DisplayAlert( "Success" , "Post published!" , "OK" );
+
+                    await NavigateToPage( new FlyoutContentTimelineView() );
                 }
                 else
                 {

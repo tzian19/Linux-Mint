@@ -6,6 +6,8 @@ using Linux_Mint.MVVM.Model;
 
 public class PostService
 {
+    private readonly string _baseUserUrl = "https://680f29be67c5abddd1940e6d.mockapi.io/UserProfiles";
+
     protected internal readonly HttpClient _httpClient;
     protected internal string BaseUrl = "https://680f29be67c5abddd1940e6d.mockapi.io";
 
@@ -157,5 +159,21 @@ public class PostService
             Console.WriteLine( $"Error creating post: {ex.Message}" );
             return false;
         }
+
     }
+    public async Task<bool> DeletePostAsync( string userId , string postId )
+    {
+        try
+        {
+            var url = $"{_baseUserUrl}/{userId}/UserPosts/{postId}";
+            var response = await _httpClient.DeleteAsync(url);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+
 }

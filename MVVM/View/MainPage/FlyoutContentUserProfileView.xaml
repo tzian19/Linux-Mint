@@ -114,14 +114,14 @@
                             Text="{Binding LoggedInUser.Username, StringFormat='@{0}'}"
                             TextColor="{StaticResource SecondaryDarkText}"
                             VerticalOptions="Center" />
-                        <Button
-                            CornerRadius="25"
-                            FontSize="20"
-                            HorizontalOptions="Center"
-                            Style="{StaticResource BaseButtonStyle}"
-                            Text="Edit Profile"
-                            VerticalOptions="Center"
-                            WidthRequest="174" />
+                        <!--  <Button (Revisit Project)
+                        CornerRadius="25"
+                        FontSize="20"
+                        HorizontalOptions="Center"
+                        Style="{StaticResource BaseButtonStyle}"
+                        Text="Edit Profile"
+                        VerticalOptions="Center"
+                        WidthRequest="174" /> -->
                     </VerticalStackLayout>
                     <HorizontalStackLayout
                         Grid.Row="2"

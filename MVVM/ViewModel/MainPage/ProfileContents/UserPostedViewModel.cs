@@ -17,6 +17,7 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage.ProfileContents
         public ICommand LikeCommand { get; }
         public ICommand EditPostCommand { get; }
         public ICommand ShowImageCommand { get; }
+        public ICommand DeletePostCommand { get; }
 
         public UserPostedViewModel()
         {
@@ -28,6 +29,7 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage.ProfileContents
 
             RefreshCommand = new Command( async () => await LoadUserPostsAsync() );
             LikeCommand = new Command<UserPost>( async post => await ToggleLikeAsync( post ) );
+            DeletePostCommand = new Command<UserPost>( async post => await DeletePostAsync( post ) );
 
             Task.Run( LoadUserPostsAsync );
         }
@@ -102,6 +104,30 @@ namespace Linux_Mint.MVVM.ViewModel.MainPage.ProfileContents
             var editPage = new EditPostPopup(post);
             await Application.Current.MainPage.Navigation.PushModalAsync( editPage );
         }
+        private async Task DeletePostAsync( UserPost post )
+        {
+            if ( post == null || post.UserProfileId != _currentUserId )
+            {
+                await Application.Current.MainPage.DisplayAlert( "Permission Denied" , "You can only delete your own posts." , "OK" );
+                return;
+            }
+
+            bool confirm = await Application.Current.MainPage.DisplayAlert("Confirm Delete", "Are you sure you want to delete this post?", "Yes", "No");
+            if ( !confirm )
+                return;
+
+            bool deleted = await _postService.DeletePostAsync(post.UserProfileId, post.PostId);
+
+            if ( deleted )
+            {
+                MainThread.BeginInvokeOnMainThread( () => Posts.Remove( post ) );
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert( "Error" , "Failed to delete post." , "OK" );
+            }
+        }
+
     }
 
 }
