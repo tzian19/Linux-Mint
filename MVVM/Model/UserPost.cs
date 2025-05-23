@@ -15,6 +15,7 @@ namespace Linux_Mint.MVVM.Model
         public string PostCreated { get; set; }
         public string UserProfileId { get; set; }
 
+
         private List<string> _likedBy = new List<string>();
         public List<string> LikedBy
         {
@@ -104,12 +105,28 @@ namespace Linux_Mint.MVVM.Model
         public void OnPropertyChanged( [CallerMemberName] string name = null ) =>
             PropertyChanged?.Invoke( this , new PropertyChangedEventArgs( name ) );
 
+        public void ToggleLike( string userId )
+        {
+            if ( string.IsNullOrEmpty( userId ) )
+                return;
+
+            if ( LikedBy == null )
+                LikedBy = new List<string>();
+
+            if ( LikedBy.Contains( userId ) )
+                LikedBy.Remove( userId );
+            else
+                LikedBy.Add( userId );
+
+            NotifyLikeChanged();
+        }
+
         public void NotifyLikeChanged()
         {
-            OnPropertyChanged( nameof( LikedBy ) );
             OnPropertyChanged( nameof( LikeCount ) );
             OnPropertyChanged( nameof( IsLiked ) );
             OnPropertyChanged( nameof( LikeIcon ) );
+            OnPropertyChanged( nameof( LikedBy ) );
         }
     }
 }

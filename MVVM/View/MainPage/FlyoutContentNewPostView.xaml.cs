@@ -1,4 +1,4 @@
-using Linux_Mint.MVVM.ViewModel.MainPage;
+using Linux_Mint.MVVM.ViewModel;
 
 namespace Linux_Mint.MVVM.View.MainPage;
 
@@ -10,7 +10,7 @@ public partial class FlyoutContentNewPostView : ContentPage
         BindingContext = new FlyoutContentNewPostViewModel();
     }
 
-    private void OnRemoveImageClicked(object sender, EventArgs e)
+    private void OnRemoveImageClicked( object sender , EventArgs e )
     {
     }
 }

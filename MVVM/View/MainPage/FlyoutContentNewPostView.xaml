@@ -15,6 +15,7 @@
             </Grid.ColumnDefinitions>
             <Button
                 Grid.Column="1"
+                Command="{Binding PostCommand}"
                 Margin="0,0,0,0"
                 Padding="20,5"
                 BackgroundColor="#46B47F"
@@ -57,8 +58,7 @@
                         HorizontalOptions="Center"
                         Source="{Binding LoggedInUser.UserAvatar, FallbackValue='default_avatar.png'}"
                         VerticalOptions="Center"
-                        WidthRequest="40"
-                        ></Image>
+                        WidthRequest="40" />
                 </Border>
                 <Label
                     Grid.Column="1"
@@ -75,8 +75,8 @@
             FontSize="18"
             HeightRequest="100"
             Placeholder="What’s on your mind?"
-            TextColor="Black"
             Text="{Binding PostTexts}"
+            TextColor="Black"
             VerticalTextAlignment="Start" />
 
 
@@ -84,6 +84,7 @@
         <Button
             Padding="0"
             BackgroundColor="#46B47F"
+            Command="{Binding AddPhotoCommand}"
             CornerRadius="10"
             FontSize="20"
             HeightRequest="50"
@@ -117,13 +118,14 @@
                         Padding="0"
                         BackgroundColor="Transparent"
                         Clicked="OnRemoveImageClicked"
+                        Command="{Binding RemoveImageCommand}"
                         FontSize="18"
                         HeightRequest="30"
                         HorizontalOptions="End"
                         Text="✕"
                         TextColor="White"
                         VerticalOptions="Start"
-                        WidthRequest="30"/>
+                        WidthRequest="30" />
                 </Grid>
             </Border>
         </StackLayout>

@@ -103,7 +103,7 @@
                                 Grid.RowSpan="2"
                                 Grid.Column="2"
                                 BackgroundColor="Transparent"
-                                Command="{Binding BindingContext.EditPostCommand}"
+                                Command="{Binding BindingContext.EditPostCommand, Source={x:Reference PageRoot}}"
                                 CommandParameter="{Binding .}"
                                 Style="{StaticResource BaseButtonStyle}"
                                 Text="&#xe805;"

@@ -90,23 +90,18 @@ namespace Linux_Mint.MVVM.ViewModel
             var users = await _postService.GetAllUsersAsync();
             var posts = await _postService.GetPostsAsync();
 
-            var postList = posts
-                .OrderByDescending(p =>
-                {
-                    DateTime.TryParse(p.PostCreated, out var parsedDate);
-                    return parsedDate;
-                })
-                .ToList();
+            var sortedPosts = posts
+        .OrderByDescending(p =>
+            DateTime.TryParse(p.PostCreated, out var parsedDate) ? parsedDate : DateTime.MinValue)
+        .ToList();
 
             MainThread.BeginInvokeOnMainThread( () =>
             {
                 Posts.Clear();
 
-                foreach ( var post in postList )
+                foreach ( var post in sortedPosts )
                 {
-                    var user = users.FirstOrDefault(u => u.UId == post.UserProfileId);
-                    post.UserProfile = user ?? new UserProfile();
-
+                    post.UserProfile = users.FirstOrDefault( u => u.UId == post.UserProfileId ) ?? new UserProfile();
                     post.CurrentUserId = _currentUserId;
 
                     if ( post.LikedBy == null )
@@ -118,6 +113,7 @@ namespace Linux_Mint.MVVM.ViewModel
                 IsRefreshing = false;
             } );
         }
+
 
         private async void EditPost( UserPost post )
         {

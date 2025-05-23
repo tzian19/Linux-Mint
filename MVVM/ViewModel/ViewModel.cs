@@ -100,5 +100,6 @@ namespace Linux_Mint.MVVM.ViewModel
 
             await Application.Current.MainPage.Navigation.PushModalAsync( new ImagePopupView( post.PostImage ) );
         }
+
     }
 }

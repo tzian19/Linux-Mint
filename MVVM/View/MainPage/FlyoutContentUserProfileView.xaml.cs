@@ -32,9 +32,6 @@ public partial class FlyoutContentUserProfileView : ContentPage
 
     }
 
-    private void ToolbarItem_Clicked2( object sender , EventArgs e )
-    {
-    }
 
     private void ContentContainer_Loaded( object sender , EventArgs e )
     {

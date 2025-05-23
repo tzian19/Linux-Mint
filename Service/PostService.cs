@@ -6,8 +6,8 @@ using Linux_Mint.MVVM.Model;
 
 public class PostService
 {
-    private readonly HttpClient _httpClient;
-    private const string BaseUrl = "https://680f29be67c5abddd1940e6d.mockapi.io";
+    protected internal readonly HttpClient _httpClient;
+    protected internal string BaseUrl = "https://680f29be67c5abddd1940e6d.mockapi.io";
 
     public PostService()
     {
@@ -18,8 +18,12 @@ public class PostService
     {
         try
         {
-            var posts = await _httpClient.GetFromJsonAsync<List<UserPost>>(
-                $"{BaseUrl}/UserPosts");
+            var posts = await _httpClient.GetFromJsonAsync<List<UserPost>>($"{BaseUrl}/UserPosts");
+            foreach ( var post in posts ?? new List<UserPost>() )
+            {
+                if ( post.LikedBy == null )
+                    post.LikedBy = new List<string>();
+            }
 
             return posts ?? new List<UserPost>();
         }
@@ -29,6 +33,7 @@ public class PostService
             return new List<UserPost>();
         }
     }
+
 
     public async Task<List<UserProfile>> GetAllUsersAsync()
     {
@@ -95,39 +100,61 @@ public class PostService
         }
     }
 
-    public async Task<bool> DeletePostAsync(UserPost post)
+    public async Task<bool> DeletePostAsync( UserPost post )
     {
         try
         {
-            Console.WriteLine($"⏳ Attempting to delete post {post.PostId}");
+            Console.WriteLine( $"⏳ Attempting to delete post {post.PostId}" );
 
-            if (string.IsNullOrEmpty(post.PostId))
+            if ( string.IsNullOrEmpty( post.PostId ) )
             {
-                Console.WriteLine("❌ Delete failed: Post ID is null or empty");
+                Console.WriteLine( "❌ Delete failed: Post ID is null or empty" );
                 return false;
             }
 
             var deleteUrl = $"{BaseUrl}/UserPosts/{post.PostId}";
-            Console.WriteLine($"🔗 API Endpoint: {deleteUrl}");
+            Console.WriteLine( $"🔗 API Endpoint: {deleteUrl}" );
 
             var response = await _httpClient.DeleteAsync(deleteUrl);
 
-            Console.WriteLine($"🔄 Response Status: {response.StatusCode}");
+            Console.WriteLine( $"🔄 Response Status: {response.StatusCode}" );
 
-            if (!response.IsSuccessStatusCode)
+            if ( !response.IsSuccessStatusCode )
             {
                 var errorContent = await response.Content.ReadAsStringAsync();
-                Console.WriteLine($"❌ Error Content: {errorContent}");
+                Console.WriteLine( $"❌ Error Content: {errorContent}" );
                 return false;
             }
 
-            Console.WriteLine("✅ Delete successful!");
+            Console.WriteLine( "✅ Delete successful!" );
             return true;
         }
-        catch (Exception ex)
+        catch ( Exception ex )
         {
-            Console.WriteLine($"💥 Exception: {ex.Message}");
-            Console.WriteLine($"🔍 Stack Trace: {ex.StackTrace}");
+            Console.WriteLine( $"💥 Exception: {ex.Message}" );
+            Console.WriteLine( $"🔍 Stack Trace: {ex.StackTrace}" );
+            return false;
+        }
+    }
+    public async Task<bool> CreatePostAsync( UserPost newPost )
+    {
+        try
+        {
+            var options = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true
+            };
+            var json = JsonSerializer.Serialize(newPost, options);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync($"{BaseUrl}/UserPosts", content);
+
+            return response.IsSuccessStatusCode;
+        }
+        catch ( Exception ex )
+        {
+            Console.WriteLine( $"Error creating post: {ex.Message}" );
             return false;
         }
     }
