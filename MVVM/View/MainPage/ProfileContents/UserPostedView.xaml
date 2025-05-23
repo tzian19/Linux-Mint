@@ -132,7 +132,7 @@
                                 FontSize="25"
                                 Style="{StaticResource BaseButtonStyle}"
                                 Text="🗑" />
-                        </HorizontalStackLayout>
+                        </HorizontalStackLayout>    
                     </Grid>
                 </Border>
             </DataTemplate>

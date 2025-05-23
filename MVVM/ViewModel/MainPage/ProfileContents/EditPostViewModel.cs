@@ -61,7 +61,7 @@ namespace Linux_Mint.MVVM.ViewModel
                         "Your post has been updated successfully!",
                         "OK");
 
-                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                   
                 }
                 else
                 {
@@ -70,6 +70,7 @@ namespace Linux_Mint.MVVM.ViewModel
                         "Failed to update post in API",
                         "OK");
                 }
+              
             }
             catch (Exception ex)
             {
@@ -82,6 +83,7 @@ namespace Linux_Mint.MVVM.ViewModel
             {
                 IsBusy = false;
             }
+            await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
         private async Task Cancel()

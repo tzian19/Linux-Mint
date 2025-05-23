@@ -23,7 +23,8 @@
                 HorizontalOptions="End"
                 Text="Post"
                 TextColor="White"
-                VerticalOptions="Center" />
+                VerticalOptions="Center" 
+                Command="{Binding AddPostCommand}"/>
         </Grid>
 
         <!--  Divider  -->
@@ -76,7 +77,7 @@
             HeightRequest="100"
             Placeholder="What’s on your mind?"
             TextColor="Black"
-            Text="{Binding PostTexts}"
+            Text="{Binding PostText}"
             VerticalTextAlignment="Start" />
 
 
@@ -91,7 +92,8 @@
             Text="Add Photo"
             TextColor="White"
             VerticalOptions="End"
-            WidthRequest="300" />
+            WidthRequest="300"
+            Command="{Binding AddPhotoCommand}"/>
 
         <StackLayout Orientation="Horizontal" Spacing="10">
             <Border
@@ -123,7 +125,8 @@
                         Text="✕"
                         TextColor="White"
                         VerticalOptions="Start"
-                        WidthRequest="30"/>
+                        WidthRequest="30"
+                        Command="{Binding AddPostCommand}"/>
                 </Grid>
             </Border>
         </StackLayout>

@@ -130,4 +130,19 @@ public class PostService
             return false;
         }
     }
+
+    public async Task<bool> CreatePostAsync(UserPost post)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync($"{BaseUrl}/UserPosts", post);
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error creating post: {ex.Message}");
+            return false;
+        }
+    
+    }
 }
